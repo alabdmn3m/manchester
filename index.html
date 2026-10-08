@@ -399,6 +399,7 @@ footer .credits li{margin-block:6px;font-size:.8rem}
 .tag3{font-size:.75rem;background:var(--violet);color:#fff;border-radius:999px;padding:2px 10px}
 .top5{margin-top:14px;line-height:2}
 .rules{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+bdi.nw{white-space:nowrap}
 .rg{font-size:1rem;margin:18px 0 10px;color:var(--violet);display:flex;align-items:center;gap:8px}.rg:first-child{margin-top:4px}.rg::after{content:"";flex:1;height:1px;background:var(--line,#e6e1f0)}
 .rule{background:var(--surface-2);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
 .rule span{font-size:.88rem;color:var(--muted)}
@@ -825,7 +826,6 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
         <div class="rule"><b>إشارة المشاة بالزر</b><span>اضغط زر الصندوق وانتظر «الرجل الأخضر». في بعض الإشارات يظهر الضوء على الصندوق بجانبك لا في الجهة المقابلة، وإن بدأ الأخضر يومض فلا تبدأ العبور.</span></div>
         <div class="rule"><b>معبر الخطوط البيضاء (Zebra)</b><span>تعرفه بخطوطه البيضاء والسوداء وعمودين بضوء أصفر وامض. السائق ملزم بالتوقف متى صرت على المعبر، فتأكد أن السيارة توقفت قبل أن تكمل.</span></div>
         <div class="rule"><b>العبور خارج الإشارة</b><span>ليس مخالفة في بريطانيا لكنه على مسؤوليتك. وفي وسط المدينة يسير الترام في الشارع نفسه بصوت خافت، وللدراجات حارات على بعض الأرصفة فلا تقف فيها.</span></div>
-        <div class="rule"><b>الجوال بعيد عن حافة الرصيف</b><span>خطف الجوالات من راكبي الدراجات معروف في وسط المدينة، وسجّلت شرطة مانشستر حالات حديثة. استعمله وظهرك للجدار.</span></div>
       </div>
       <h4 class="rg">المواصلات</h4>
       <div class="rules">
@@ -837,24 +837,22 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
       <h4 class="rg">آداب يتوقعها الناس</h4>
       <div class="rules">
         <div class="rule"><b>احترم الطابور</b><span>يلتزم به الناس في المحلات والمحطات وموقف الباص، وتخطّيه يُعدّ إساءة.</span></div>
-        <div class="rule"><b>اعتذر واشكر كثيرًا</b><span>يكثر الإنجليز من قول <bdi dir="ltr">Sorry</bdi> و<bdi dir="ltr">Please</bdi> و<bdi dir="ltr">Thank you</bdi>، حتى لو كنت أنت من اصطدم بهم، فبادلهم بها. وإمساك الباب لمن خلفك عادة متوقعة.</span></div>
+        <div class="rule"><b>اعتذر واشكر كثيرًا</b><span>يكثر الإنجليز من قول <bdi dir="ltr">Sorry</bdi> و<bdi dir="ltr">Please</bdi> و<bdi dir="ltr" class="nw">Thank you</bdi>، حتى لو كنت أنت من اصطدم بهم، فبادلهم بها. وإمساك الباب لمن خلفك عادة متوقعة.</span></div>
         <div class="rule"><b>إشارة الإصبعين</b><span>رفع السبابة والوسطى وظهر الكف إلى المخاطَب إهانة في بريطانيا. إن أشرت إلى الرقم 2 فاجعل باطن الكف إليه.</span></div>
-        <div class="rule"><b>الهدوء في المواصلات</b><span>الكلام بصوت منخفض والمكالمات قصيرة. وفي القطارات بين المدن عربة هادئة (Quiet Coach) لا تُجرى فيها مكالمات.</span></div>
-        <div class="rule"><b>التصوير</b><span>استأذن قبل تصوير الأشخاص، وتجنب تصوير الأطفال.</span></div>
+        <div class="rule"><b>الهدوء والتصوير</b><span>الكلام بصوت منخفض والمكالمات قصيرة، وفي القطارات بين المدن عربة هادئة <bdi class="nw">(Quiet Coach)</bdi> لا تُجرى فيها مكالمات. واستأذن قبل تصوير الأشخاص، وتجنب تصوير الأطفال.</span></div>
       </div>
       <h4 class="rg">أنظمة وتسوق</h4>
       <div class="rules">
         <div class="rule"><b>لا ترمِ شيئًا في الشارع</b><span>رمي النفايات مخالفة بغرامة فورية أعلنها مجلس المدينة بـ£150.</span></div>
-        <div class="rule"><b>رسوم الخدمة في المطاعم</b><span>تُضاف غالبًا 12.5% إلى الفاتورة، وهي اختيارية ويمكن طلب حذفها. لا تدفع إكرامية مرتين.</span></div>
-        <div class="rule"><b>الدفع بالبطاقة في كل مكان</b><span>اللاتلامسية مقبولة حتى في الباص، والنقد نادرًا ما تحتاجه.</span></div>
+        <div class="rule"><b>البطاقة تكفي، والخدمة اختيارية</b><span>الدفع اللاتلامسي مقبول في كل مكان حتى الباص، والنقد نادرًا ما تحتاجه. وفي المطاعم تُضاف غالبًا رسوم خدمة 12.5%، وهي اختيارية ويمكن طلب حذفها، فلا تدفع إكرامية مرتين.</span></div>
         <div class="rule"><b>المحلات تغلق مبكرًا</b><span>أغلبها نحو 18:00–20:00، والمطاعم والبقالات الصغيرة متأخرة. ويوم الأحد تفتح المتاجر الكبيرة 6 ساعات فقط (أرنديل 11:30–17:30، ترافورد 12:00–18:00)، ووصولنا ومغادرتنا يوم أحد.</span></div>
         <div class="rule"><b>لا استرداد للضريبة</b><span>ألغت بريطانيا استرداد ضريبة القيمة المضافة للسياح منذ 2021، فالسعر المعروض نهائي.</span></div>
       </div>
-      <h4 class="rg">يومك هنا</h4>
+      <h4 class="rg">يومك وسلامتك</h4>
       <div class="rules">
         <div class="rule"><b>خطط مع الضوء</b><span>الغروب نحو 16:03–16:12؛ اجعل الأماكن المكشوفة قبل 15:30، والمتاحف والمولات بعدها.</span></div>
         <div class="rule"><b>المصليات</b><span>في المطار (الصالات 1 و2 و3)، وأرنديل، وترافورد سنتر، وتشيشر أوكس. بين الظهر والعصر نحو ساعتين فقط.</span></div>
-        <div class="rule"><b>بطاقة دخول التدريب</b><span>لكل مشارك بطاقة خاصة، ولا يُسمح بدخول غير المشاركين. والالتزام بالوقت مطلوب.</span></div>
+        <div class="rule"><b>الجوال بعيد عن حافة الرصيف</b><span>خطف الجوالات من راكبي الدراجات معروف في وسط المدينة، وسجّلت شرطة مانشستر حالات حديثة. استعمله وظهرك للجدار.</span></div>
         <div class="rule"><b>الطوارئ</b><span>999 للطوارئ، وNHS 111 للاستشارة الطبية، والمستشفى على بعد 900 متر من الفندق.</span></div>
       </div>
     </div>
