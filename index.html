@@ -467,6 +467,14 @@ bdi.nw{white-space:nowrap}
 .my-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px}
 .my-row{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin-bottom:12px}
 .my-row .pz-l{font-weight:700;font-size:.9rem}
+.trip{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:12px 14px;margin:0 0 14px;display:flex;flex-direction:column;gap:10px}
+.trip-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.trip-h .ico{width:20px;height:20px;color:var(--violet);flex:none}.trip-h b{color:var(--ink)}
+.trip-s{color:var(--muted);font-size:.9375rem;flex:1;min-width:200px}.trip-s b{color:var(--ink);font-weight:700}
+.trip-f{display:flex;flex-direction:column;gap:12px}.trip-f b{font-size:1rem}.trip-f label{display:flex;flex-direction:column;gap:3px;flex:1 1 120px;min-width:0}.trip-f small{color:var(--muted);font-size:.8125rem}
+.trip-f .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}.trip-f select,.trip-f input{border:1px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--ink);padding:7px 9px;font:inherit;font-size:1rem;min-height:40px}
+.trip-err{color:var(--warn);font-weight:700}.trip .btns{display:flex;gap:8px;flex-wrap:wrap}
+.trip button.p{background:var(--violet);color:var(--surface);border-radius:999px;padding:8px 16px;font-weight:700}.trip button.g{border:1px solid var(--line);border-radius:999px;padding:8px 14px}
+.day.away{opacity:.45}
 .my-lock{display:flex;gap:10px;align-items:center;background:var(--surface-2);border:1px dashed var(--line);border-radius:12px;padding:8px 12px;font-size:1rem;color:var(--muted);margin-bottom:12px}
 .my-lock .ico{width:18px;height:18px;flex:none;color:var(--violet)}
 .my-lock b{color:var(--ink)}
@@ -893,6 +901,7 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
 
   <section class="section wrap" aria-labelledby="my-h" id="mine">
     <div class="sec-head"><div><h2 id="my-h">جدولي</h2><p>ابنِ جدولك بنفسك: أضف الأماكن من نوافذها، أو احفظ خطة من مخطط الوقت ثم عدّلها. الأوقات والمسافات والصلاة تُحسب تلقائيًا.</p></div><span class="my-sync" id="mySync"></span></div>
+    <div class="trip" id="trip"></div>
     <div class="seg my-days" id="myDays" role="group" aria-label="أيام جدولي"></div>
     <div class="my-card" id="myDay" aria-live="polite"></div>
     <button class="pz-toggle" id="pzToggle" aria-expanded="false" aria-controls="t5"><svg class="ico" aria-hidden="true"><use href="#i-route"/></svg><span><b>اقترح لي خطة</b><small id="pzTogSub">لليوم المختار، ثم احفظها في جدولك وعدّلها</small></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
@@ -1070,7 +1079,12 @@ const TRIP_DAYS = [
   { d: 19, dow: 4, name: 'الخميس', hi: 9, lo: 3, fajr: '05:37', sunrise: '07:42', dhuhr: '11:54', asr: '13:48', asrH: '14:18', maghrib: '16:06', isha: '18:11', note: '' , prog: { label: 'تدريب', train: ['09:00','17:00'], topic: 'القيادة الأصيلة، وعرض المشاريع، واللقاء المؤسسي', by: 'د. ستيفن بروكس، أ. سارة هاينز', eve: 'عشاء جماعي', dinner: true, free: 17*60 } },
   { d: 20, dow: 5, name: 'الجمعة', hi: 9, lo: 3, fajr: '05:39', sunrise: '07:44', dhuhr: '11:55', asr: '13:47', asrH: '14:17', maghrib: '16:05', isha: '18:10', note: 'بعض مطاعم Rusholme تفتح بعد الظهر يوم الجمعة (حضرموت 13:45، ماي بيشاور 15:00).' , prog: { label: 'تدريب', train: ['09:00','17:00'], topic: 'قيادة المنظومات', by: 'د. جريج يونج', eve: 'التكريم 17:00–17:30', free: 17*60+30 } },
   { d: 21, dow: 6, name: 'السبت', hi: 9, lo: 3, fajr: '05:40', sunrise: '07:45', dhuhr: '11:55', asr: '13:46', asrH: '14:16', maghrib: '16:04', isha: '18:09', note: 'يوم حر كامل بعد انتهاء البرنامج: يناسب رحلة يوم (تشستر أو ليفربول أو يورك) أو يومًا في مانشستر. السبت أكثر الأيام ازدحامًا في المولات وأسواق الميلاد.' , prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
-  { d: 22, dow: 0, name: 'الأحد', hi: 9, lo: 3, fajr: '05:42', sunrise: '07:47', dhuhr: '11:55', asr: '13:45', asrH: '14:14', maghrib: '16:03', isha: '18:08', tag: 'يوم العودة', note: 'يوم العودة: المتاجر الكبيرة 6 ساعات فقط. القطار إلى المطار نحو 20 دقيقة من محطة Piccadilly، كل 10 دقائق، والمحطة على بعد نحو 1.3 كم من الفندق.' , prog: { label: 'يوم العودة', train: null, eve: '', free: 9*60 } }
+  { d: 22, dow: 0, name: 'الأحد', hi: 9, lo: 3, fajr: '05:42', sunrise: '07:47', dhuhr: '11:55', asr: '13:45', asrH: '14:14', maghrib: '16:03', isha: '18:08', tag: 'يوم العودة', note: 'يوم العودة: المتاجر الكبيرة 6 ساعات فقط. القطار إلى المطار نحو 20 دقيقة من محطة Piccadilly، كل 10 دقائق، والمحطة على بعد نحو 1.3 كم من الفندق.' , prog: { label: 'يوم العودة', train: null, eve: '', free: 9*60 } },
+  // أيام إضافية خارج المعسكر: تظهر فقط لمن أدخل في «رحلتي» وصولًا قبل 15 أو مغادرة بعد 22 (مواقيت المسجد المركزي، والعصر عند الجمهور محسوب)
+  { d: 23, dow: 1, name: 'الإثنين', hi: 9, lo: 3, fajr: '05:43', sunrise: '07:49', dhuhr: '11:55', asr: '13:44', asrH: '14:13', maghrib: '16:01', isha: '18:07', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 24, dow: 2, name: 'الثلاثاء', hi: 9, lo: 3, fajr: '05:45', sunrise: '07:51', dhuhr: '11:56', asr: '13:43', asrH: '14:12', maghrib: '16:00', isha: '18:06', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 13, dow: 5, name: 'الجمعة', hi: 10, lo: 4, fajr: '05:28', sunrise: '07:31', dhuhr: '11:53', asr: '13:54', asrH: '14:26', maghrib: '16:15', isha: '18:17', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 14, dow: 6, name: 'السبت', hi: 10, lo: 4, fajr: '05:30', sunrise: '07:33', dhuhr: '11:53', asr: '13:53', asrH: '14:25', maghrib: '16:14', isha: '18:16', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
 ];
 
 const CATS = {
@@ -1748,11 +1762,43 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     return walk <= 25 ? `${fmtKm(d*1.3)} · ${fmtMin(walk)} مشيًا` : `${fmtKm(d*1.3)} · ${routes(p).find(r=>r.best).label.split(' ')[0]} ${fmtMin(routes(p).find(r=>r.best).min)}`;
   }
 
+  /* ── my trip (رحلتي): personal arrival/departure, stored on this device only ── */
+  const ORDER = TRIP_DAYS.map((D,i) => i).sort((a,b) => TRIP_DAYS[a].d - TRIP_DAYS[b].d);
+  const BASEP = TRIP_DAYS.map(D => ({ ...D.prog })), BASETAG = TRIP_DAYS.map(D => D.tag);
+  const VIA = { man: { l: 'مطار مانشستر', arr: 120, dep: 225 }, lon: { l: 'لندن ثم القطار', arr: 270, dep: 390 } };
+  const tm = s => { const [h,m] = String(s).split(':').map(Number); return h*60 + m; };
+  const okT = s => /^\d{2}:\d{2}$/.test(s || '');
+  let TRIP = (() => { const v = store.get('mcr-trip', null); return v && v.a && v.b && okT(v.a.t) && okT(v.b.t) && v.a.d <= v.b.d ? v : null; })();
+  const STAY = () => TRIP ? [TRIP.a.d, TRIP.b.d] : [15, 22];
+  const inStay = i => { const [a,b] = STAY(), d = TRIP_DAYS[i].d; return d >= a && d <= b; };
+  const dayVis = i => { const [a,b] = STAY(), d = TRIP_DAYS[i].d; return d >= Math.min(a, 15) && d <= Math.max(b, 22); };
+  const VIS = () => ORDER.filter(dayVis), STAYD = () => ORDER.filter(inStay);
+  const mapD = (ids, f) => ids.map(i => f(TRIP_DAYS[i], i));
+  const END = P => P.until ?? 22*60 + 30;
+  const canPlan = P => !P.away && !(P.label === 'يوم العودة' && P.until === undefined) && END(P) - P.free >= 60;
+  function applyTrip(){
+    TRIP_DAYS.forEach((D,i) => {
+      let P = { ...BASEP[i] }; D.tag = BASETAG[i];
+      if (TRIP){
+        const d = D.d;
+        if (d < TRIP.a.d || d > TRIP.b.d){ P = { label: 'لست في مانشستر', away: true, train: null, eve: '', free: 24*60 }; D.tag = 'خارج رحلتك'; }
+        else {
+          if (P.arrive || BASEP[i].label === 'يوم العودة'){ P = { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 }; D.tag = ''; }
+          if (D.extra) D.tag = d < 15 ? 'قبل المعسكر' : 'بعد المعسكر';
+          if (d === TRIP.a.d){ const v = VIA[TRIP.a.v] || VIA.man; P.free = Math.min(24*60, Math.max(P.free, tm(TRIP.a.t) + v.arr)); P.mine = `وصولك ${TRIP.a.t} (${v.l})`; if (!P.train) P.label = 'يوم الوصول'; D.tag = 'يوم وصولك'; }
+          if (d === TRIP.b.d){ const v = VIA[TRIP.b.v] || VIA.man; P.until = Math.max(0, tm(TRIP.b.t) - v.dep); P.dep = `رحلتك ${TRIP.b.t} (${v.l})`; if (!P.train) P.label = 'يوم العودة'; D.tag = 'يوم عودتك'; }
+        }
+      }
+      D.prog = P;
+    });
+  }
+  applyTrip();
+
   /* ── countdown & facts ── */
   function setCountdown(now){
-    const start = new Date('2026-11-15T00:00:00+03:00'), end = new Date('2026-11-23T00:00:00+03:00');
+    const [a, b] = STAY(), start = new Date(`2026-11-${a}T00:00:00+03:00`), end = new Date(`2026-11-${b + 1}T00:00:00+03:00`), w = TRIP ? 'رحلتك' : 'الرحلة';
     const days = Math.ceil((start - now) / 864e5);
-    $('#countdown').textContent = now >= end ? 'انتهت الرحلة' : days > 0 ? (days === 1 ? 'باقٍ يوم واحد على الرحلة' : days === 2 ? 'باقٍ يومان على الرحلة' : `باقٍ ${days} ${days <= 10 ? 'أيام' : 'يومًا'} على الرحلة`) : 'نحن في مانشستر الآن';
+    $('#countdown').textContent = now >= end ? 'انتهت الرحلة' : days > 0 ? (days === 1 ? `باقٍ يوم واحد على ${w}` : days === 2 ? `باقٍ يومان على ${w}` : `باقٍ ${days} ${days <= 10 ? 'أيام' : 'يومًا'} على ${w}`) : 'نحن في مانشستر الآن';
   }
   setCountdown(new Date());
 
@@ -1772,26 +1818,31 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   const moonIcon = `<svg class="si" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 16a5 5 0 0 1 10 0" fill="currentColor"/><path d="M3 19h18M12 4v6M9 7l3 3 3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>`;
   const rainIcon = `<svg class="wi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 15a4 4 0 0 1-.6-8A5.5 5.5 0 0 1 17 7.5 3.8 3.8 0 0 1 17.5 15z" fill="currentColor" fill-opacity=".18"/><path d="M8 18l-1 2.5M12 18l-1 2.5M16 18l-1 2.5"/></svg>`;
   function renderDays(){
-    $('#days').innerHTML = TRIP_DAYS.map((D,i) => `<button class="day" aria-pressed="${i===state.sel}" data-i="${i}"><span class="dn">${D.name}</span><span class="dd num">${D.d}</span><span class="t num">${sunIcon}${D.sunrise}</span><span class="t num">${moonIcon}${D.maghrib}</span>${(D.tag||D.prog.label)?`<span class="tag${D.prog.train?' tr':''}">${D.tag||D.prog.label}</span>`:''}</button>`).join('');
+    $('#days').innerHTML = mapD(VIS(), (D,i) => `<button class="day${D.prog.away ? ' away' : ''}" aria-pressed="${i===state.sel}" data-i="${i}"><span class="dn">${D.name}</span><span class="dd num">${D.d}</span><span class="t num">${sunIcon}${D.sunrise}</span><span class="t num">${moonIcon}${D.maghrib}</span>${(D.tag||D.prog.label)?`<span class="tag${D.prog.train?' tr':''}">${D.tag||D.prog.label}</span>`:''}</button>`).join('');
     $('#days').querySelectorAll('.day').forEach(b => b.onclick = () => { state.sel = +b.dataset.i; renderDays(); renderPanel(); });
   }
   const tr2m = D => D.prog.train ? D.prog.train.map(toMin) : null;
   function progBox(D){
     const P = D.prog, tr = P.train;
     let h = `<div class="progbox"><p><b>البرنامج:</b> `;
-    if (P.arrive) h += `${P.arrive}، ولا برنامج غير ذلك؛ خطّط حسب موعد وصولك.`;
+    if (P.away) h += 'لست في مانشستر في هذا اليوم بحسب «رحلتي».';
+    else if (P.mine && !tr) h += `${esc(P.mine)}. وقتك الحر يبدأ نحو ${ltr(hhmm(P.free))} بعد الوصول إلى الفندق${P.until !== undefined ? '، وأخرج من الفندق قبل ' + ltr(hhmm(P.until)) : ''}.`;
+    else if (P.arrive) h += `${P.arrive}، ولا برنامج غير ذلك؛ خطّط حسب موعد وصولك. <button class="lnk" data-trip>أدخل موعد رحلتك</button>`;
     else if (tr) h += `تدريب ${ltr(tr[0] + '–' + tr[1])}${P.dinner || /التكريم/.test(P.eve) ? `، ثم ${esc(P.eve)}` : ''}. <button class="lnk" data-go-prog>التفاصيل</button>`;
     else if (P.label === 'يوم حر') h += 'لا برنامج اليوم؛ اليوم كله لك.';
-    else h += 'يوم العودة.';
+    else if (P.dep) h += `${esc(P.dep)}. اخرج من الفندق قبل ${ltr(hhmm(P.until))}.`;
+    else h += 'يوم العودة. <button class="lnk" data-trip>أدخل موعد رحلتك</button>';
     h += '</p>';
-    if (P.label !== 'يوم العودة') h += `<button class="lnk" data-plan="${TRIP_DAYS.indexOf(D)}">${tr ? `خطّط لوقت فراغك من ${ltr(fmtClose(P.free))}` : 'خطّط ليومك'}</button>`;
+    if (tr && P.mine) h = h.replace('</p>', ` ${esc(P.mine)}، فوقتك الحر من نحو ${ltr(hhmm(P.free))}.</p>`);
+    if (tr && P.dep) h = h.replace('</p>', ` ${esc(P.dep)}، اخرج من الفندق قبل ${ltr(hhmm(P.until))}.</p>`);
+    if (canPlan(P)) h += `<button class="lnk" data-plan="${TRIP_DAYS.indexOf(D)}">${tr ? `خطّط لوقت فراغك من ${ltr(fmtClose(P.free))}` : 'خطّط ليومك'}</button>`;
     return h + '</div>';
   }
   function renderProg(){
     const n = mcrNow();
     const today = n && n.y === 2026 && n.mo === 11 ? n.d : 0;
-    $('#pgList').innerHTML = TRIP_DAYS.map((D,i) => {
-      const P = D.prog, tr = P.train, ret = P.label === 'يوم العودة';
+    $('#pgList').innerHTML = mapD(ORDER.filter(i => !TRIP_DAYS[i].extra), (D,i) => {
+      const P = BASEP[i], tr = P.train, ret = P.label === 'يوم العودة' || !canPlan(D.prog);
       let main;
       if (tr) main = `<div class="pg-t"><span class="tm">${ltr(tr[0] + '–' + tr[1])}</span><span class="pg-l">${esc(P.label)}</span>${P.unsure ? '<span class="pg-u">الوقت يحتاج تأكيد الإدارة</span>' : ''}</div><p><b>${esc(P.topic)}</b> · ${esc(P.by)}</p>`;
       else if (P.arrive) main = `<div class="pg-t"><span>${esc(P.arrive)}</span><span class="pg-l">${esc(P.label)}</span></div><p>لا برنامج قبل الوصول ولا بعده؛ خطّط ليومك حسب موعد رحلتك. التدريب يبدأ صباح الغد.</p>`;
@@ -2018,7 +2069,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const dirUrl = `https://www.google.com/maps/dir/?api=1&origin=${base().lat},${base().lng}&destination=${encodeURIComponent(p.q)}&travelmode=transit`;
     const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.q)}`;
     const fav = state.favs.has(p.id);
-    const week = TRIP_DAYS.map((D,i) => { const h = p.hours[D.dow]; return `<div class="${h===null?'c':''}${i===state.sel?' sel':''}" title="${esc(h||'مغلق')}"><span>${D.name}</span><b class="num">${D.d}</b>${h===null?'مغلق':'مفتوح'}</div>`; }).join('');
+    const week = mapD(VIS(), (D,i) => { const h = p.hours[D.dow]; return `<div class="${h===null?'c':''}${i===state.sel?' sel':''}" title="${esc(h||'مغلق')}"><span>${D.name}</span><b class="num">${D.d}</b>${h===null?'مغلق':'مفتوح'}</div>`; }).join('');
     const uniq = [0,1,2,3,4,5,6].map(dw => [['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'][dw], p.hours[dw]]);
     const routeHtml = rs.map(r => {
       let fare = '';
@@ -2108,7 +2159,8 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
 
 
   /* ── prayer table ── */
-  $('#prayer tbody').innerHTML = TRIP_DAYS.map(D => `<tr class="${D.dow===5?'fri':''}"><td><b>${D.name}</b> ${D.d}</td><td>${D.fajr}</td><td>${D.sunrise}</td><td>${D.dhuhr}</td><td>${D.asr}</td><td><b>${D.asrH}</b></td><td>${D.maghrib}</td><td>${D.isha}</td></tr>`).join('');
+  function renderPrayers(){ $('#prayer tbody').innerHTML = mapD(VIS(), D => `<tr class="${D.dow===5?'fri':''}"><td><b>${D.name}</b> ${D.d}</td><td>${D.fajr}</td><td>${D.sunrise}</td><td>${D.dhuhr}</td><td>${D.asr}</td><td><b>${D.asrH}</b></td><td>${D.maghrib}</td><td>${D.isha}</td></tr>`).join(''); }
+  renderPrayers();
 
   /* ── essentials ── */
 
@@ -2196,7 +2248,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     { k:'full', l:'يوم كامل: الأفضل', s:'السبت 21 · يوم كامل', v:{ day:6, start:9*60, dur:540, int:'mix' } }
   ];
   const preStart = x => Math.max(x.v.start, TRIP_DAYS[x.v.day ?? PZ.day].prog.free);
-  const durOK = () => PZ_DURS.filter(([v], j) => j === 0 || (PZ.nowStart ?? PZ.start) + v <= 22*60 + 30);
+  const durOK = () => PZ_DURS.filter(([v], j) => j === 0 || (PZ.nowStart ?? PZ.start) + v <= END(TRIP_DAYS[PZ.day].prog));
   function fitDur(){ const ok = durOK(); if (!ok.some(([v]) => v === PZ.dur)) PZ.dur = ok[ok.length-1][0]; }
   const VDUR = { h1:60, h2:150, h3:120, h4:40, h8:120, h10:60, h13:40, h14:75, s1:90, s9:40, s2:150, s4:60, s8:45 };
   const CDUR = { history:90, shop:75, food:60, sweet:30 };
@@ -2297,8 +2349,8 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     if (PZ.nowStart === null && PZ.start < fr) PZ.start = fr;
     fitDur();
     const preCur = (PZ_PRE.find(x => PZ.nowStart === null && preStart(x) === PZ.start && x.v.dur === PZ.dur && x.v.int === PZ.int && (x.v.day === undefined || x.v.day === PZ.day)) || {}).k || '';
-    segBtns($('#pzPre'), PZ_PRE.map(x => [x.k, x.l, x.s]), preCur, v => { const x = PZ_PRE.find(y => y.k === v); if (x.v.day !== undefined && PZ.day !== x.v.day){ PZ.day = x.v.day; MY.day = x.v.day; MY.armed = false; renderMine(); } Object.assign(PZ, { start:preStart(x), dur:x.v.dur, int:x.v.int, nowStart:null, seed:0, prev:null }); renderPZ(); });
-    segBtns($('#pzDay'), TRIP_DAYS.map((D,i) => [String(i), `${D.name} ${D.d}`, D.prog.train ? `حر من ${hhmm(D.prog.free)}` : D.prog.label]), String(PZ.day), v => { PZ.day = +v; PZ.start = TRIP_DAYS[PZ.day].prog.free; PZ.nowStart = null; PZ.seed = 0; PZ.prev = null; renderPZ(); });
+    segBtns($('#pzPre'), PZ_PRE.filter(x => x.v.day === undefined || canPlan(TRIP_DAYS[x.v.day].prog)).map(x => [x.k, x.l, x.s]), preCur, v => { const x = PZ_PRE.find(y => y.k === v); if (x.v.day !== undefined && PZ.day !== x.v.day){ PZ.day = x.v.day; MY.day = x.v.day; MY.armed = false; renderMine(); } Object.assign(PZ, { start:preStart(x), dur:x.v.dur, int:x.v.int, nowStart:null, seed:0, prev:null }); renderPZ(); });
+    segBtns($('#pzDay'), mapD(STAYD().filter(i => canPlan(TRIP_DAYS[i].prog) || i === PZ.day), (D,i) => [String(i), `${D.name} ${D.d}`, D.prog.train ? `حر من ${hhmm(D.prog.free)}` : D.prog.label]), String(PZ.day), v => { PZ.day = +v; PZ.start = TRIP_DAYS[PZ.day].prog.free; PZ.nowStart = null; PZ.seed = 0; PZ.prev = null; renderPZ(); });
     const starts = [...new Set([...PZ_STARTS, fr])].filter(m => m >= fr).sort((a,b) => a-b).map(m => [String(m), hhmm(m), m === fr && TRIP_DAYS[PZ.day].prog.train ? 'بعد البرنامج' : '']);
     if (PZ.nowStart !== null) starts.unshift(['now', 'الآن', hhmm(PZ.nowStart)]);
     segBtns($('#pzStart'), starts, PZ.nowStart !== null ? 'now' : String(PZ.start), v => { if (v !== 'now'){ PZ.start = +v; PZ.nowStart = null; } PZ.seed = 0; PZ.prev = null; renderPZ(); });
@@ -2315,7 +2367,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const dark = toMin(P.D.maghrib);
     const nS = P.stops.length;
     const trw = tr2m(P.D), T0 = PZ.nowStart ?? PZ.start;
-    const warn = (trw && T0 < trw[1] && T0 + PZ.dur > trw[0] ? `<div class="pz-warn">${icon('i-alert')}هذا الوقت يتعارض مع التدريب (${ltr(P.D.prog.train[0] + '–' + P.D.prog.train[1])}). وقت فراغك يبدأ ${ltr(fmtClose(P.D.prog.free))}.</div>` : '') + (P.D.prog.label === 'يوم العودة' ? `<div class="pz-warn">${icon('i-plane')}يوم العودة: اترك وقتًا للحقائب والوصول إلى المطار قبل رحلتك بثلاث ساعات.</div>` : '') + (P.D.prog.dinner ? `<div class="pz-warn">${icon('i-plate')}مساء الخميس عشاء جماعي للزمالة ولم يُعلن وقته بعد، فلم نقترح عشاءً. تأكد أن المحطات المسائية لا تتعارض معه.</div>` : '');
+    const warn = (trw && T0 < trw[1] && T0 + PZ.dur > trw[0] ? `<div class="pz-warn">${icon('i-alert')}هذا الوقت يتعارض مع التدريب (${ltr(P.D.prog.train[0] + '–' + P.D.prog.train[1])}). وقت فراغك يبدأ ${ltr(fmtClose(P.D.prog.free))}.</div>` : '') + (P.D.prog.dep ? `<div class="pz-warn">${icon('i-plane')}${esc(P.D.prog.dep)}: اخرج من الفندق قبل ${ltr(hhmm(P.D.prog.until))}${last && last.b + back.min > P.D.prog.until ? '، وهذه الخطة تتجاوزه فقصّرها' : ''}.</div>` : P.D.prog.label === 'يوم العودة' ? `<div class="pz-warn">${icon('i-plane')}يوم العودة: اترك وقتًا للحقائب والوصول إلى المطار قبل رحلتك بثلاث ساعات.</div>` : '') + (P.D.prog.dinner ? `<div class="pz-warn">${icon('i-plate')}مساء الخميس عشاء جماعي للزمالة ولم يُعلن وقته بعد، فلم نقترح عشاءً. تأكد أن المحطات المسائية لا تتعارض معه.</div>` : '');
     let html = warn + `<div class="pz-sum"><span>${nS === 1 ? 'محطة واحدة' : nS === 2 ? 'محطتان' : `<b>${nS}</b> محطات`}</span><span>العودة إلى الفندق نحو <b class="num">${hhmm(last.b + back.min)}</b></span>${walkMin ? `<span>مشي إجمالي نحو <b class="num">${walkMin}</b> د</span>` : ''}<span>الظلام يحل <b class="num">${P.D.maghrib}</b></span></div><ol class="it">`;
     P.ev.forEach(e => {
       if (e.k === 'pray'){ html += `<li><span class="tm num">${e.x}</span><div class="bx pr"><h4>صلاة ${e.n}</h4><p>${e.txt}</p></div></li>`; return; }
@@ -2348,7 +2400,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   /* ── my schedule ── */
   const SCH = (() => { const v = store.get('mcr-sched', null); if (!(v && v.days)) return { v: 1, at: 0, days: {} }; Object.values(v.days).forEach(d => { if (d && Array.isArray(d.items)) d.items = d.items.map(it => ALIAS[it.id] ? { ...it, id: ALIAS[it.id] } : it).filter(it => PLACES.some(p => p.id === it.id)); }); return v; })();
   const MY = { day: null, armed: false };
-  function myDefault(){ const N = mcrNow(); if (N.y === 2026 && N.mo === 11){ const i = TRIP_DAYS.findIndex(D => D.d === N.d); if (i >= 0) return i; } const i = Object.keys(SCH.days).map(Number).sort((a,b) => a-b).find(k => SCH.days[k].items.length); return i ?? 0; }
+  function myDefault(){ const N = mcrNow(), st = STAYD(); if (N.y === 2026 && N.mo === 11){ const i = TRIP_DAYS.findIndex(D => D.d === N.d); if (i >= 0 && st.includes(i)) return i; } const i = st.find(k => SCH.days[k]?.items.length); return i ?? st.find(k => canPlan(TRIP_DAYS[k].prog)) ?? st[0]; }
   const SYNC = { db: null, ref: null, busy: false, again: false, timer: 0 };
   const durOf = p => VDUR[p.id] || (p.far ? (p.cat === 'trip' ? 360 : 180) : CDUR[p.cat] || 60);
   function farLeg(p){
@@ -2422,7 +2474,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     return { D, S, start, rows, back, end, prs };
   }
   function renderDaysBar(){
-    segBtns($('#myDays'), TRIP_DAYS.map((D,i) => { const n = SCH.days[i]?.items.length || 0; return [String(i), `${D.name} ${D.d}${n ? `<b>${n}</b>` : ''}`, D.prog.train ? `حر من ${hhmm(D.prog.free)}` : D.prog.label]; }), String(MY.day), v => { MY.day = +v; MY.armed = false; renderMine(); if (!$('#t5').hidden && PZ.day !== MY.day){ PZ.day = MY.day; PZ.start = TRIP_DAYS[MY.day].prog.free; PZ.nowStart = null; PZ.seed = 0; PZ.prev = null; fitDur(); renderPZ(); } });
+    segBtns($('#myDays'), mapD(STAYD(), (D,i) => { const n = SCH.days[i]?.items.length || 0; return [String(i), `${D.name} ${D.d}${n ? `<b>${n}</b>` : ''}`, D.prog.train ? `حر من ${hhmm(D.prog.free)}` : D.prog.label]; }), String(MY.day), v => { MY.day = +v; MY.armed = false; renderMine(); if (!$('#t5').hidden && PZ.day !== MY.day){ PZ.day = MY.day; PZ.start = TRIP_DAYS[MY.day].prog.free; PZ.nowStart = null; PZ.seed = 0; PZ.prev = null; fitDur(); renderPZ(); } });
   }
   function renderMine(){
     if (MY.day === null) MY.day = myDefault();
@@ -2431,7 +2483,10 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const i = MY.day, C = computeDay(i), D = C.D, P = D.prog;
     let h = '';
     if (P.train) h += `<div class="my-lock">${icon('i-id')}<span><b>برنامج المعسكر ${ltr(P.train[0] + '–' + P.train[1])}</b> · ${esc(P.topic)}${P.dinner ? ' · المساء عشاء جماعي' : /التكريم/.test(P.eve) ? ' · ثم ' + esc(P.eve) : ''}</span></div>`;
-    else if (P.arrive) h += `<div class="my-lock">${icon('i-plane')}<span><b>${esc(P.arrive)}</b> · خطّط حسب موعد وصولك</span></div>`;
+    else if (P.mine) h += `<div class="my-lock">${icon('i-plane')}<span><b>${esc(P.mine)}</b> · وقتك الحر من نحو ${ltr(hhmm(P.free))}</span></div>`;
+    else if (P.arrive) h += `<div class="my-lock">${icon('i-plane')}<span><b>${esc(P.arrive)}</b> · أدخل موعد وصولك في «رحلتي» ليُحسب وقتك</span></div>`;
+    if (P.train && P.mine) h += `<div class="my-lock">${icon('i-plane')}<span><b>${esc(P.mine)}</b> · وقتك الحر من نحو ${ltr(hhmm(P.free))}</span></div>`;
+    if (P.dep) h += `<div class="my-lock">${icon('i-plane')}<span><b>${esc(P.dep)}</b> · اخرج من الفندق قبل ${ltr(hhmm(P.until))}${C.rows.length && C.end > P.until ? '، وجدولك يتجاوزه' : ''}</span></div>`;
     else if (P.label === 'يوم العودة') h += `<div class="my-lock">${icon('i-plane')}<span><b>يوم العودة</b> · اترك وقتًا للحقائب والوصول إلى المطار قبل رحلتك بثلاث ساعات</span></div>`;
     const starts = [...new Set([...PZ_STARTS, P.free, C.start])].filter(m => m >= P.free).sort((a,b) => a-b);
     if (C.rows.length || SCH.days[i]) h += `<div class="my-row"><span class="pz-l">أبدأ من</span><div class="seg" id="myStart"></div></div>`;
@@ -2497,7 +2552,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const has = i => (SCH.days[i]?.items || []).some(x => x.id === p.id);
     box.innerHTML = `<p>اختر اليوم:</p><div class="seg" id="addDaySeg"></div><p class="muted" id="addDayMsg" style="margin:6px 0 0;font-weight:400"></p>`;
     const seg = $('#addDaySeg');
-    seg.innerHTML = TRIP_DAYS.map((D,i) => { const h = p.hours ? p.hours[D.dow] : 1; return `<button data-i="${i}" class="${has(i) ? 'has' : ''}" aria-pressed="${has(i)}" ${h === null && !has(i) ? 'disabled' : ''}>${D.name} ${D.d}<small>${has(i) ? 'في جدولك' : h === null ? 'مغلق' : D.prog.train ? 'من ' + hhmm(D.prog.free) : D.prog.label}</small></button>`; }).join('');
+    seg.innerHTML = mapD(STAYD(), (D,i) => { const h = p.hours ? p.hours[D.dow] : 1; return `<button data-i="${i}" class="${has(i) ? 'has' : ''}" aria-pressed="${has(i)}" ${h === null && !has(i) ? 'disabled' : ''}>${D.name} ${D.d}<small>${has(i) ? 'في جدولك' : h === null ? 'مغلق' : D.prog.train ? 'من ' + hhmm(D.prog.free) : D.prog.label}</small></button>`; }).join('');
     seg.querySelectorAll('button').forEach(b => b.onclick = () => { const i = +b.dataset.i; if (has(i)){ SCH.days[i].items = SCH.days[i].items.filter(x => x.id !== p.id); saveSch(); renderAddDay(p); $('#addDayMsg').textContent = `أُزيل من جدول ${TRIP_DAYS[i].name}.`; } else { addToDay(p.id, i); renderAddDay(p); $('#addDayMsg').innerHTML = `أُضيف إلى جدول ${TRIP_DAYS[i].name}. <button class="lnk" id="goMine">اعرض جدولي</button>`; $('#goMine').onclick = () => { MY.day = i; renderMine(); closeDlg(); goTo('mine'); }; } if (MY.day === i) renderMine(); else renderDaysBar(); });
   }
   function pzSub(){ const st = $('#pzTogSub'); if (!st || MY.day === null) return; const D0 = TRIP_DAYS[MY.day]; const t = PZ.day === MY.day && !$('#t5').hidden ? (PZ.nowStart !== null ? 'من الآن ' + hhmm(PZ.nowStart) : 'من ' + hhmm(PZ.start)) : (D0.prog.train ? 'من ' + hhmm(D0.prog.free) : ''); st.textContent = `ليوم ${D0.name} ${D0.d}${t ? ' ' + t : ''}، ثم احفظها في جدولك وعدّلها`; }
@@ -2506,6 +2561,45 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     if (MY.day !== PZ.day){ MY.day = PZ.day; MY.armed = false; renderMine(); }
     setPz(true); renderPZ(); goTo('pz');
   }
+
+  /* ── رحلتي UI ── */
+  const TF = { open: false, err: '' };
+  const dName = d => { const D = TRIP_DAYS.find(x => x.d === d); return D ? `${D.name} ${d}` : String(d); };
+  const dayOpts = sel => ORDER.map(i => { const D = TRIP_DAYS[i]; return `<option value="${D.d}"${D.d === sel ? ' selected' : ''}>${D.name} ${D.d} نوفمبر</option>`; }).join('');
+  const viaOpts = sel => Object.entries(VIA).map(([k,v]) => `<option value="${k}"${k === sel ? ' selected' : ''}>${v.l}</option>`).join('');
+  function renderTrip(){
+    const el = $('#trip'); if (!el) return;
+    const T = TRIP || { a: { d: 15, t: '', v: 'man' }, b: { d: 22, t: '', v: 'man' } };
+    const sum = TRIP ? `الوصول <b>${dName(TRIP.a.d)} · ${ltr(TRIP.a.t)}</b> (${VIA[TRIP.a.v].l})، والمغادرة <b>${dName(TRIP.b.d)} · ${ltr(TRIP.b.t)}</b> (${VIA[TRIP.b.v].l})`
+      : 'أدخل موعدي وصولك ومغادرتك ليتكيّف معك الدليل: وقتك الحر يوم الوصول، وموعد خروجك من الفندق يوم العودة، والأيام التي تقضيها في مانشستر.';
+    let h = `<div class="trip-h">${icon('i-plane')}<b>رحلتي</b><span class="trip-s">${sum}</span>${TF.open ? '' : `<button class="${TRIP ? 'g' : 'p'}" id="tripEdit">${TRIP ? 'تعديل' : 'أدخل رحلتي'}</button>`}</div>`;
+    if (TF.open) h += `<div class="trip-f"><div><b>الوصول</b><div class="row"><label><small>اليوم</small><select id="taD">${dayOpts(T.a.d)}</select></label><label><small>وقت هبوط الطائرة</small><input id="taT" type="time" value="${T.a.t}"></label><label><small>عبر</small><select id="taV">${viaOpts(T.a.v)}</select></label></div></div>
+      <div><b>المغادرة</b><div class="row"><label><small>اليوم</small><select id="tbD">${dayOpts(T.b.d)}</select></label><label><small>وقت إقلاع الطائرة</small><input id="tbT" type="time" value="${T.b.t}"></label><label><small>من</small><select id="tbV">${viaOpts(T.b.v)}</select></label></div></div></div>
+      <p class="muted" style="margin:0">اكتب وقت هبوط الطائرة ووقت إقلاعها بتوقيت بريطانيا. نحتسب من الهبوط حتى الفندق نحو ساعتين في مانشستر، ونحو 4 ساعات ونصف عبر لندن. ويوم العودة نحتسب 3 ساعات في المطار قبل الإقلاع، ومن يسافر عبر لندن يحجز تذكرة القطار مسبقًا. يُحفظ على جوالك فقط.</p>
+      ${TF.err ? `<p class="trip-err">${TF.err}</p>` : ''}<div class="btns"><button class="p" id="tripSave">احفظ</button><button class="g" id="tripCancel">إلغاء</button>${TRIP ? '<button class="g" id="tripClear">امسح رحلتي</button>' : ''}</div>`;
+    el.innerHTML = h;
+    const on = (id, f) => { const b = $('#' + id); if (b) b.onclick = f; };
+    on('tripEdit', () => { TF.open = true; TF.err = ''; renderTrip(); });
+    on('tripCancel', () => { TF.open = false; TF.err = ''; renderTrip(); });
+    on('tripClear', () => setTrip(null));
+    on('tripSave', () => {
+      const v = { a: { d: +$('#taD').value, t: $('#taT').value, v: $('#taV').value }, b: { d: +$('#tbD').value, t: $('#tbT').value, v: $('#tbV').value } };
+      if (!okT(v.a.t) || !okT(v.b.t)){ TF.err = 'اكتب وقت الهبوط ووقت الإقلاع.'; renderTrip(); return; }
+      if (v.b.d * 1440 + tm(v.b.t) <= v.a.d * 1440 + tm(v.a.t)){ TF.err = 'موعد المغادرة يجب أن يكون بعد موعد الوصول.'; renderTrip(); return; }
+      setTrip(v);
+    });
+  }
+  function normSel(){
+    if (!dayVis(state.sel)) state.sel = VIS()[0];
+    if (MY.day !== null && !inStay(MY.day)) MY.day = null;
+    if (!canPlan(TRIP_DAYS[PZ.day].prog)){ const k = STAYD().find(i => canPlan(TRIP_DAYS[i].prog)); if (k !== undefined){ PZ.day = k; PZ.start = TRIP_DAYS[k].prog.free; PZ.nowStart = null; PZ.seed = 0; PZ.prev = null; } }
+    else if (PZ.start < TRIP_DAYS[PZ.day].prog.free) PZ.start = TRIP_DAYS[PZ.day].prog.free;
+  }
+  function setTrip(v){
+    TRIP = v; store.set('mcr-trip', v); applyTrip(); TF.open = false; TF.err = ''; normSel();
+    fillDayf(); renderDays(); renderPanel(); renderPrayers(); render(); renderPZ(); renderLive(); renderMine(); renderTrip(); bidiFix($('#trip'));
+  }
+  document.addEventListener('click', e => { const b = e.target.closest('[data-trip]'); if (!b) return; TF.open = true; renderTrip(); goTo('mine'); });
 
   /* ── live trip mode ── */
   let DEMO = null;
@@ -2518,8 +2612,8 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     renderProg();
     setCountdown(DEMO ? new Date(Date.UTC(2026, 10, DEMO.d, Math.floor(DEMO.m/60), DEMO.m % 60)) : new Date());
     const N = mcrNow(), el = $('#live');
-    const i = (N.y === 2026 && N.mo === 11) ? TRIP_DAYS.findIndex(D => D.d === N.d) : -1;
-    const before = N.y < 2026 || (N.y === 2026 && (N.mo < 11 || (N.mo === 11 && N.d < 15)));
+    const i0 = (N.y === 2026 && N.mo === 11) ? TRIP_DAYS.findIndex(D => D.d === N.d) : -1, i = i0 >= 0 && inStay(i0) ? i0 : -1;
+    const before = N.y < 2026 || (N.y === 2026 && (N.mo < 11 || (N.mo === 11 && N.d < STAY()[0])));
     if (i < 0){
       el.innerHTML = before ? `<span>أثناء الرحلة يتحول هذا الشريط إلى دليل لحظي: الصلاة القادمة، والمفتوح الآن، وخطة من وقتك الحالي.</span><button id="demoOn">جرّبه الآن (معاينة)</button>` : '';
       const b = $('#demoOn'); if (b) b.onclick = () => { DEMO = { y:2026, mo:11, d:18, m: 14*60+30 }; renderLive(); };
@@ -2528,7 +2622,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const D = TRIP_DAYS[i];
     const prs = [['الفجر',D.fajr],['الظهر',D.dhuhr],['العصر',D.asr],['المغرب',D.maghrib],['العشاء',D.isha]].map(([n,x]) => ({n, x, m: toMin(x)}));
     const nx = prs.find(q => q.m > N.m);
-    const nxt = nx ? `${D.dow === 5 && nx.n === 'الظهر' ? 'الجمعة' : nx.n} <b class="num">${nx.x}</b> بعد ${fmtMin(nx.m - N.m)}` : `الفجر غدًا${TRIP_DAYS[i+1] ? ' <b class="num">' + TRIP_DAYS[i+1].fajr + '</b>' : ''}`;
+    const nxt = nx ? `${D.dow === 5 && nx.n === 'الظهر' ? 'الجمعة' : nx.n} <b class="num">${nx.x}</b> بعد ${fmtMin(nx.m - N.m)}` : (() => { const nd = TRIP_DAYS.find(x => x.d === D.d + 1); return `الفجر غدًا${nd ? ' <b class="num">' + nd.fajr + '</b>' : ''}`; })();
     const ss = toMin(D.maghrib);
     const open = PLACES.filter(p => openAt(p, D.dow, N.m)).length;
     const trw = tr2m(D), inTr = trw && N.m >= trw[0] && N.m < D.prog.free, inTrain = inTr && N.m < trw[1];
@@ -2564,7 +2658,8 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   }
 
   /* ── wire up ── */
-  $('#dayf').innerHTML += TRIP_DAYS.map((D,i) => `<option value="${i}">${D.name} ${D.d} نوفمبر</option>`).join('');
+  function fillDayf(){ const s = $('#dayf'), cur = s.value; s.innerHTML = '<option value="">كل الأيام</option>' + mapD(STAYD(), (D,i) => `<option value="${i}">${D.name} ${D.d} نوفمبر</option>`).join(''); s.value = [...s.options].some(o => o.value === cur) ? cur : ''; if (s.value !== cur) state.day = ''; }
+  fillDayf();
   $('#q').oninput = e => { state.q = e.target.value.trim(); render(); };
   $('#sort').onchange = e => { state.sort = e.target.value; render(); };
   $('#dayf').onchange = e => { state.day = e.target.value; render(); };
@@ -2589,7 +2684,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   $('#mapBtn').onclick = () => { const ex = $('#explore'); const closed = ex.classList.toggle('map-closed'); $('#mapBtn').setAttribute('aria-expanded', !closed); $('#mapBtn span').textContent = closed ? 'اعرض الخريطة' : 'أخفِ الخريطة'; };
   $('#mvCenter').onclick = () => setView('center'); $('#mvWide').onclick = () => setView('wide');
   bidiFix(document.querySelector('.page'));
-  renderDays(); renderPanel(); renderBase(); renderCats(); render();
+  normSel(); renderTrip(); renderDays(); renderPanel(); renderBase(); renderCats(); render();
   renderAbout(); renderPZ(); renderLive(); saveSchCount(); wireNav(); setInterval(() => { if (!DEMO) renderLive(); }, 60000);
   { const lv = (location.hash.match(/live=(\d+)-(\d+):(\d+)/) || []); if (lv.length) { DEMO = { y:2026, mo:11, d:+lv[1], m: +lv[2]*60 + +lv[3] }; renderLive(); } }
   renderMine(); initSync();
