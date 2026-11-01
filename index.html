@@ -472,7 +472,7 @@ bdi.nw{white-space:nowrap}
 .trip-s{color:var(--muted);font-size:.9375rem;flex:1;min-width:200px}.trip-s b{color:var(--ink);font-weight:700}
 .trip-f{display:flex;flex-direction:column;gap:12px}.trip-f b{font-size:1rem}.trip-f label{display:flex;flex-direction:column;gap:3px;flex:1 1 120px;min-width:0}.trip-f small{color:var(--muted);font-size:.8125rem}
 .trip-f .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}.trip-f select,.trip-f input{border:1px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--ink);padding:7px 9px;font:inherit;font-size:1rem;min-height:40px}
-.trip-err{color:var(--warn);font-weight:700}.trip .btns{display:flex;gap:8px;flex-wrap:wrap}
+.trip-err{color:var(--warn);font-weight:700}.trip-err .ico{width:18px;height:18px;vertical-align:-3px}.trip .btns{display:flex;gap:8px;flex-wrap:wrap}
 .trip button.p{background:var(--violet);color:var(--surface);border-radius:999px;padding:8px 16px;font-weight:700}.trip button.g{border:1px solid var(--line);border-radius:999px;padding:8px 14px}
 .day.away{opacity:.45}
 .my-lock{display:flex;gap:10px;align-items:center;background:var(--surface-2);border:1px dashed var(--line);border-radius:12px;padding:8px 12px;font-size:1rem;color:var(--muted);margin-bottom:12px}
@@ -711,6 +711,7 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
 @media (max-width:720px){
   .hero-top{grid-template-columns:1fr}
   .bee{position:absolute;top:-6px;inset-inline-end:0;width:84px;opacity:.95}
+  .hero-top .eyebrow{padding-inline-end:92px}
   .wx-panel{grid-template-columns:1fr}
   .base{grid-template-columns:1fr}
   .grid{grid-template-columns:1fr}
@@ -2620,12 +2621,24 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   const tLab = s => s ? ltr(s) : 'الوقت غير محدد';
   const dayOpts = sel => ORDER.map(i => { const D = TRIP_DAYS[i]; return `<option value="${D.n}"${D.n === sel ? ' selected' : ''}>${D.name} ${D.d} ${MON(D)}</option>`; }).join('');
   const viaOpts = sel => Object.entries(VIA).map(([k,v]) => `<option value="${k}"${k === sel ? ' selected' : ''}>${v.l}</option>`).join('');
+  const hm = m => String(Math.floor(m/60)).padStart(2,'0') + ':' + String(m%60).padStart(2,'0');
+  function tripWarn(T){
+    const w = [];
+    if (T.a.d > 15) w.push('وصولك بعد بداية المعسكر، والبرنامج يطلب الوصول يوم الأحد 15 نوفمبر قبل 16:00. نسّق مع إدارة الزمالة.');
+    else if (T.a.d === 15 && T.a.t && tm(T.a.t) + VIA[T.a.v].arr > 960) w.push(`تصل إلى الفندق نحو ${ltr(hm(tm(T.a.t) + VIA[T.a.v].arr))} يوم الأحد 15، والبرنامج يطلب الوصول قبل 16:00. نسّق مع إدارة الزمالة.`);
+    if (T.b.d < 20) w.push('مغادرتك قبل نهاية البرنامج، والبرنامج يطلب ألا تُحجز المغادرة قبل الجمعة 20 نوفمبر 17:30. نسّق مع إدارة الزمالة.');
+    else if (T.b.d === 20) {
+      if (!T.b.t) w.push('البرنامج ينتهي الجمعة 20 الساعة 17:30، فاحجز رحلة تسمح لك بالخروج من الفندق بعد ذلك.');
+      else if (tm(T.b.t) - VIA[T.b.v].dep < 1050) w.push(`تحتاج إلى الخروج من الفندق نحو ${ltr(hm(Math.max(0, tm(T.b.t) - VIA[T.b.v].dep)))} يوم الجمعة 20، والبرنامج ينتهي 17:30. نسّق مع إدارة الزمالة.`);
+    }
+    return w.map(x => `<p class="trip-err" style="margin:0">${icon('i-alert')} ${x}</p>`).join('');
+  }
   function renderTrip(){
     const el = $('#trip'); if (!el) return;
     const T = TRIP || { a: { d: 15, t: '', v: 'man' }, b: { d: 22, t: '', v: 'man' } };
     const sum = TRIP ? `الوصول <b>${dName(TRIP.a.d)} · ${tLab(TRIP.a.t)}</b> (${VIA[TRIP.a.v].l})، والمغادرة <b>${dName(TRIP.b.d)} · ${tLab(TRIP.b.t)}</b> (${VIA[TRIP.b.v].l})`
       : 'أدخل موعدي وصولك ومغادرتك ليتكيّف معك الدليل: وقتك الحر يوم الوصول، وموعد خروجك من الفندق يوم العودة، والأيام التي تقضيها في مانشستر.';
-    let h = `<div class="trip-h">${icon('i-plane')}<b>رحلتي</b><span class="trip-s">${sum}</span>${TF.open ? '' : `<button class="${TRIP ? 'g' : 'p'}" id="tripEdit">${TRIP ? 'تعديل' : 'أدخل رحلتي'}</button>`}${!TF.open && TRIP ? '<button class="g" id="tripLink">رابط رحلتي</button>' : ''}</div>${!TF.open && TRIP ? `<p class="muted" id="tripMsg" style="margin:0">${TF.note || (!TRIP.a.t || !TRIP.b.t ? 'أضف وقت الهبوط والإقلاع حين تعرفه ليكون الحساب أدق. ' : '') + 'محفوظة على هذا الجهاز وفي هذا المتصفح. لتفتحها من متصفح أو جهاز آخر استعمل «رابط رحلتي».'}</p>` : ''}`;
+    let h = `<div class="trip-h">${icon('i-plane')}<b>رحلتي</b><span class="trip-s">${sum}</span>${TF.open ? '' : `<button class="${TRIP ? 'g' : 'p'}" id="tripEdit">${TRIP ? 'تعديل' : 'أدخل رحلتك'}</button>`}${!TF.open && TRIP ? '<button class="g" id="tripLink">رابط رحلتي</button>' : ''}</div>${!TF.open && TRIP ? `<p class="muted" id="tripMsg" style="margin:0">${TF.note || (!TRIP.a.t || !TRIP.b.t ? 'أضف وقت الهبوط والإقلاع حين تعرفه ليكون الحساب أدق. ' : '') + 'محفوظة على هذا الجهاز وفي هذا المتصفح. لتفتحها من متصفح أو جهاز آخر استعمل «رابط رحلتي».'}</p>` : ''}${!TF.open && TRIP ? tripWarn(TRIP) : ''}`;
     if (TF.open) h += `<div class="trip-f"><div><b>الوصول</b><div class="row"><label><small>اليوم</small><select id="taD">${dayOpts(T.a.d)}</select></label><label><small>وقت هبوط الطائرة</small><input id="taT" type="time" value="${T.a.t}"></label><label><small>عبر</small><select id="taV">${viaOpts(T.a.v)}</select></label></div></div>
       <div><b>المغادرة</b><div class="row"><label><small>اليوم</small><select id="tbD">${dayOpts(T.b.d)}</select></label><label><small>وقت إقلاع الطائرة</small><input id="tbT" type="time" value="${T.b.t}"></label><label><small>من</small><select id="tbV">${viaOpts(T.b.v)}</select></label></div></div></div>
       <p class="muted" style="margin:0">اكتب وقت هبوط الطائرة ووقت إقلاعها بتوقيت بريطانيا، وإن لم تعرفه بعد فاتركه فارغًا وأضفه لاحقًا. نحتسب من الهبوط حتى الفندق نحو ساعتين في مانشستر، ونحو 4 ساعات ونصف عبر لندن. ويوم العودة نحتسب 3 ساعات في المطار قبل الإقلاع، ومن يسافر عبر لندن يحجز تذكرة القطار مسبقًا. يُحفظ على جوالك فقط.</p>
