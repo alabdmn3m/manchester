@@ -1228,14 +1228,14 @@ const PLACES = [
     tram: { stop: 'Exchange Quay ثم 2–3 دقائق مشيًا', fare: T2 },
     url: 'https://ordsallhall.com', q: 'Ordsall Hall M5 3AN' },
 
-  { id: 'h12', byProg: true, cat: 'history', ar: 'مركز التراث الإسلامي البريطاني', en: 'British Muslim Heritage Centre', lat: 53.44912, lng: -2.26434,
+  { id: 'h12', byProg: true, noplan: true, cat: 'history', ar: 'مركز التراث الإسلامي البريطاني', en: 'British Muslim Heritage Centre', lat: 53.44912, lng: -2.26434,
     rating: 4.7, reviews: 492, price: { free: true },
     hours: H(Array(7).fill('09:00–17:00')),
     desc: 'مبنى قوطي مهيب من 1840–1843 (مصنّف تراثيًا من الدرجة II*)، كان كلية دينية ثم اشتراه المركز سنة 2005 ليكون منارة للتراث الإسلامي في بريطانيا. فيه مصلى وصلوات يومية وخطبة جمعة، ومعارض عن الحضارة الإسلامية، وحدائق واسعة.',
     praise: ['عمارة تاريخية جميلة وحدائق هادئة', 'معروضات رقمية عن العلم في الحضارة الإسلامية', 'مرافق نظيفة واستقبال ودود'],
     cons: ['بعيد عن المركز نسبيًا (Whalley Range)', 'المعرض صغير، والمبنى يُستأجر أحيانًا للمناسبات'],
     visit: '45–90 دقيقة',
-    alert: 'لم يُعلن الموقع مواعيد الزيارة ورسومها؛ المواعيد من خرائط Google. اتصل قبل الذهاب: 0161 881 8062.',
+    alert: 'لا يستقبل المركز الزوار إلا في يومه المفتوح آخر أحد من كل شهر من 14:00 إلى 17:00 (التالي الأحد 29 نوفمبر)، أو بموعد مسبق. اتصل قبل الذهاب: 0161 881 8062. ولهذا لا يقترحه المخطِّط تلقائيًا.',
     prayer: 'صلوات يومية وخطبة جمعة في المركز.',
     url: 'https://bmhc.org.uk', q: 'British Muslim Heritage Centre College Rd M16 8BP' },
 
@@ -1298,7 +1298,7 @@ const PLACES = [
     url: 'https://manchesterarndale.com', q: 'Manchester Arndale M4 3AQ' },
 
   { id: 's9', byProg: true, cat: 'shop', ar: 'برايمارك (الفرع الرئيس)', en: 'Primark, Market Street', lat: 53.48188, lng: -2.23915,
-    rating: 4.2, reviews: 18778, price: { level: '£', text: 'أسعار منخفضة' },
+    rating: 4.2, reviews: 18857, price: { level: '£', text: 'أسعار منخفضة' },
     hours: H(['10:30–17:00', '08:00–21:00', '08:00–21:00', '08:00–21:00', '08:00–21:00', '08:00–21:00', '08:00–20:00']),
     desc: 'من أكبر فروع Primark في بريطانيا، على شارع Market بجوار أرنديل: ملابس وأحذية ومستلزمات منزلية بأسعار منخفضة. أنفع ما فيه لنا: من وصل بلا ملابس شتوية كافية يشتري معطفًا وقفازات ووشاحًا بسعر زهيد في يومه الأول.',
     praise: ['تنوع هائل وأسعار منخفضة', 'متجر كبير ومنظم', 'مفتوح حتى 21:00 أيام الأسبوع'],
@@ -1996,7 +1996,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
       && (!state.favOnly || state.favs.has(p.id))
       && (state.day === '' || (p.hours && p.hours[TRIP_DAYS[+state.day].dow] !== null))
       && (!state.eve || evePass(p))
-      && (!state.openNow || openAt(p, state.openNow.dow, state.openNow.m)));
+      && (!state.openNow || (!p.noplan && openAt(p, state.openNow.dow, state.openNow.m))));
     const dist = p => { if (p.far) return 1e5 + hav(base(), p); const d = hav(base(), p), w = d*1.3/4.8*60; return w <= 25 ? w : (routes(p).find(r => r.best) || { min: w }).min; };
     if (state.sort === 'near') list.sort((a,b) => dist(a) - dist(b));
     if (state.sort === 'rating') list.sort((a,b) => (b.rating||0) - (a.rating||0) || (b.reviews||0) - (a.reviews||0));
@@ -2367,7 +2367,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
       const pick = wantMeal => {
         let best = null, bs = Infinity;
         for (const p of pool){
-          if (used.has(p.id)) continue;
+          if (used.has(p.id) || p.noplan) continue;
           if (p.cat === 'food' && (!sl || done[sl] || !['v','s','g','l','r'].includes(p.hl))) continue;
           if (p.cat === 'food' && !wantMeal && PZ.int !== 'food') continue;
           if (p.cat === 'sweet' && (sweet >= 1 || !ate() || p.hl === 'u' || p.hl === 'k')) continue;
