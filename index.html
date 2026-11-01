@@ -475,7 +475,8 @@ bdi.nw{white-space:nowrap}
 .trip-err{color:var(--warn);font-weight:700}.trip-err .ico{width:18px;height:18px;vertical-align:-3px}.trip .btns{display:flex;gap:8px;flex-wrap:wrap}
 .trip button.p{background:var(--violet);color:var(--surface);border-radius:999px;padding:8px 16px;font-weight:700}.trip button.g{border:1px solid var(--line);border-radius:999px;padding:8px 14px}
 .day.away{opacity:.45}
-.my-lock{display:flex;gap:10px;align-items:center;background:var(--surface-2);border:1px dashed var(--line);border-radius:12px;padding:8px 12px;font-size:1rem;color:var(--muted);margin-bottom:12px}
+.seg button.camp{box-shadow:inset 0 3px 0 var(--gold)}.my-range{margin:0 0 8px;font-size:.9375rem}
+.my-lock{display:flex;gap:10px;align-items:center;background:var(--surface-2);border:1px solid var(--line);border-inline-start:3px solid var(--violet);border-radius:12px;padding:8px 12px;font-size:1rem;color:var(--muted);margin-bottom:12px}
 .my-lock .ico{width:18px;height:18px;flex:none;color:var(--violet)}
 .my-lock b{color:var(--ink)}
 .my-empty{text-align:center;padding:14px 8px;color:var(--muted);font-size:1rem}
@@ -1859,6 +1860,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
           if (d === TRIP.b.d){ const v = VIA[TRIP.b.v] || VIA.man; P.until = Math.max(0, tm(bT()) - v.dep); P.dep = TRIP.b.t ? `رحلتك ${TRIP.b.t} (${v.l})` : `رحلتك (${v.l})، والوقت غير محدد فافترضنا المساء`; if (!P.train) P.label = 'يوم العودة'; D.tag = 'يوم عودتك'; }
         }
       }
+      if (!TRIP && P.arrive) P.free = 16*60;
       D.prog = P;
     });
   }
@@ -2547,7 +2549,15 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     return { D, S, start, rows, back, end, prs };
   }
   function renderDaysBar(){
-    segBtns($('#myDays'), mapD(STAYD(), (D,i) => { const n = SCH.days[i]?.items.length || 0; return [String(i), `${dLab(D)}${n ? `<b>${n}</b>` : ''}`, D.prog.train ? `حر من ${hhmm(D.prog.free)}` : D.prog.label]; }), String(MY.day), v => { MY.day = +v; MY.armed = false; renderMine(); if (!$('#t5').hidden && PZ.day !== MY.day){ PZ.day = MY.day; PZ.start = TRIP_DAYS[MY.day].prog.free; PZ.nowStart = null; PZ.seed = 0; PZ.prev = null; fitDur(); renderPZ(); } });
+    segBtns($('#myDays'), mapD(STAYD(), (D,i) => { const n = SCH.days[i]?.items.length || 0; return [String(i), `${dLab(D)}${n ? `<b>${n}</b>` : ''}`, (D.prog.train || D.prog.arrive || D.prog.mine) ? `حر من ${hhmm(D.prog.free)}` : D.prog.dep ? `حتى ${hhmm(D.prog.until)}` : D.prog.label]; }), String(MY.day), v => { MY.day = +v; MY.armed = false; renderMine(); if (!$('#t5').hidden && PZ.day !== MY.day){ PZ.day = MY.day; PZ.start = TRIP_DAYS[MY.day].prog.free; PZ.nowStart = null; PZ.seed = 0; PZ.prev = null; fitDur(); renderPZ(); } }); markStay();
+  }
+  function markStay(){
+    const el = $('#myDays'), ids = STAYD(), ext = ids.some(i => TRIP_DAYS[i].extra);
+    el.querySelectorAll('button').forEach(b => b.classList.toggle('camp', ext && !TRIP_DAYS[+b.dataset.v].extra));
+    let r = $('#myRange'); if (!r){ r = document.createElement('p'); r.id = 'myRange'; r.className = 'muted my-range'; el.before(r); }
+    r.hidden = !ext; if (!ext) return;
+    const n = ids.length, f = TRIP_DAYS[ids[0]], l = TRIP_DAYS[ids[n-1]];
+    r.textContent = `إقامتك ${n} ${n <= 10 ? 'أيام' : 'يومًا'}، من ${dLab(f)} إلى ${dLab(l)}. أيام المعسكر مميزة بخط ذهبي${n > 12 ? '، واسحب الشريط لبقية الأيام' : ''}.`;
   }
   function renderMine(){
     if (MY.day === null) MY.day = myDefault();
@@ -2557,7 +2567,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     let h = '';
     if (P.train) h += `<div class="my-lock">${icon('i-id')}<span><b>برنامج المعسكر ${ltr(P.train[0] + '–' + P.train[1])}</b> · ${esc(P.topic)}${P.dinner ? ' · المساء عشاء جماعي' : /التكريم/.test(P.eve) ? ' · ثم ' + esc(P.eve) : ''}</span></div>`;
     else if (P.mine) h += `<div class="my-lock">${icon('i-plane')}<span><b>${esc(P.mine)}</b> · وقتك الحر من نحو ${ltr(hhmm(P.free))}</span></div>`;
-    else if (P.arrive) h += `<div class="my-lock">${icon('i-plane')}<span><b>${esc(P.arrive)}</b> · أدخل موعد وصولك في «رحلتي» ليُحسب وقتك</span></div>`;
+    else if (P.arrive) h += `<div class="my-lock">${icon('i-plane')}<span><b>الوصول قبل 16:00 بحسب البرنامج</b> · وقتك الحر من نحو ${ltr(hhmm(P.free))} <button class="lnk" data-trip>أدخل رحلتك لحساب أدق</button></span></div>`;
     if (P.train && P.mine) h += `<div class="my-lock">${icon('i-plane')}<span><b>${esc(P.mine)}</b> · وقتك الحر من نحو ${ltr(hhmm(P.free))}</span></div>`;
     if (P.dep) h += `<div class="my-lock">${icon('i-plane')}<span><b>${esc(P.dep)}</b> · اخرج من الفندق قبل ${ltr(hhmm(P.until))}${C.rows.length && C.end > P.until ? '، وجدولك يتجاوزه' : ''}</span></div>`;
     else if (P.label === 'يوم العودة') h += `<div class="my-lock">${icon('i-plane')}<span><b>يوم العودة</b> · اترك وقتًا للحقائب والوصول إلى المطار قبل رحلتك بثلاث ساعات</span></div>`;
