@@ -112,7 +112,7 @@ footer .sign p{margin:0;max-width:62ch;line-height:1.75}
 .wx-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
 .wx-head h2{font-size:1.45rem;color:var(--hero-ink)}
 .wx-head p{font-size:.875rem;color:var(--hero-muted)}
-.days{display:grid;grid-template-columns:repeat(8,minmax(92px,1fr));gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.days{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(92px,1fr);gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
 .day{background:var(--hero-2);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);padding:10px 8px 12px;text-align:center;color:var(--hero-ink);transition:transform .15s,background .15s,border-color .15s;display:flex;flex-direction:column;align-items:center;gap:2px}
 .day:hover{transform:translateY(-2px);border-color:rgba(242,183,5,.5)}
 .day[aria-pressed="true"]{background:var(--gold);color:var(--on-gold);border-color:var(--gold)}
@@ -654,6 +654,7 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
 .pz-row{display:grid;grid-template-columns:90px 1fr;gap:10px;align-items:center}
 .pz-l{font-weight:700;font-size:.9rem}
 .seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg.many{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;padding-bottom:6px}
 .seg button{flex:none;border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:6px 12px;font-size:.88rem;cursor:pointer;color:var(--ink);display:flex;flex-direction:column;align-items:center;line-height:1.3}
 .seg button small{font-size:.8125rem;color:var(--muted)}
 .seg button[aria-pressed="true"]{background:var(--violet);border-color:var(--violet);color:#fff}
@@ -944,6 +945,7 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
         <summary><svg class="ico" aria-hidden="true"><use href="#i-dome"/></svg><span id="pr-h">جدول الصلاة للأسبوع واتجاه القبلة</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
         <div class="prbox">
           <p class="muted prnote">من جدول المسجد المركزي في مانشستر الرسمي لنوفمبر 2026: الفجر والعشاء على درجة 18، والعصر الحنفي كما في الجدول. العصر عند الجمهور محسوب. قد تُظهر تطبيقات الجوال العشاء أبكر بنحو نصف ساعة إن كانت مضبوطة على طريقة أم القرى. الجماعة في المسجد المركزي: الظهر 13:00، والعصر 14:45 (و14:30 من 20 نوفمبر)، والعشاء 19:00.</p>
+    <p class="muted prnote" id="prCalc" hidden>* أيام ديسمبر محسوبة بطريقة المسجد نفسها (درجة 18 والعصر الحنفي)، لأن جدوله لديسمبر لم يُنشر بعد.</p>
     <div class="tbl-wrap"><table class="num" id="prayer"><thead><tr><th>اليوم</th><th>الفجر</th><th>الشروق</th><th>الظهر</th><th>العصر (الجمهور)</th><th>العصر (حنفي)</th><th>المغرب</th><th>العشاء</th></tr></thead><tbody></tbody></table></div>
     <div class="qibla">
       <svg viewBox="0 0 100 100" role="img" aria-label="اتجاه القبلة 118 درجة من الشمال">
@@ -1091,6 +1093,40 @@ const TRIP_DAYS = [
   { d: 24, dow: 2, name: 'الثلاثاء', hi: 9, lo: 3, fajr: '05:45', sunrise: '07:51', dhuhr: '11:56', asr: '13:43', asrH: '14:12', maghrib: '16:00', isha: '18:06', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
   { d: 13, dow: 5, name: 'الجمعة', hi: 10, lo: 4, fajr: '05:28', sunrise: '07:31', dhuhr: '11:53', asr: '13:54', asrH: '14:26', maghrib: '16:15', isha: '18:17', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
   { d: 14, dow: 6, name: 'السبت', hi: 10, lo: 4, fajr: '05:30', sunrise: '07:33', dhuhr: '11:53', asr: '13:53', asrH: '14:25', maghrib: '16:14', isha: '18:16', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  // نوفمبر من جدول المسجد المركزي الرسمي، وديسمبر محسوب بطريقته (درجة 18، والعصر الحنفي)، والعصر عند الجمهور محسوب
+  { d: 1, mo: 11, dow: 0, name: 'الأحد', hi: 10, lo: 4, fajr: '05:09', sunrise: '07:08', dhuhr: '11:53', asr: '14:11', asrH: '14:46', maghrib: '16:36', isha: '18:35', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 2, mo: 11, dow: 1, name: 'الإثنين', hi: 10, lo: 4, fajr: '05:11', sunrise: '07:10', dhuhr: '11:53', asr: '14:10', asrH: '14:44', maghrib: '16:34', isha: '18:33', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 3, mo: 11, dow: 2, name: 'الثلاثاء', hi: 10, lo: 4, fajr: '05:12', sunrise: '07:12', dhuhr: '11:53', asr: '14:08', asrH: '14:42', maghrib: '16:33', isha: '18:32', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 4, mo: 11, dow: 3, name: 'الأربعاء', hi: 10, lo: 4, fajr: '05:14', sunrise: '07:14', dhuhr: '11:53', asr: '14:06', asrH: '14:40', maghrib: '16:31', isha: '18:30', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 5, mo: 11, dow: 4, name: 'الخميس', hi: 10, lo: 4, fajr: '05:16', sunrise: '07:16', dhuhr: '11:53', asr: '14:05', asrH: '14:39', maghrib: '16:29', isha: '18:29', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 6, mo: 11, dow: 5, name: 'الجمعة', hi: 10, lo: 4, fajr: '05:17', sunrise: '07:18', dhuhr: '11:53', asr: '14:04', asrH: '14:37', maghrib: '16:27', isha: '18:27', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 7, mo: 11, dow: 6, name: 'السبت', hi: 10, lo: 4, fajr: '05:19', sunrise: '07:19', dhuhr: '11:53', asr: '14:02', asrH: '14:35', maghrib: '16:25', isha: '18:26', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 8, mo: 11, dow: 0, name: 'الأحد', hi: 10, lo: 4, fajr: '05:21', sunrise: '07:21', dhuhr: '11:53', asr: '14:01', asrH: '14:34', maghrib: '16:23', isha: '18:24', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 9, mo: 11, dow: 1, name: 'الإثنين', hi: 10, lo: 4, fajr: '05:22', sunrise: '07:23', dhuhr: '11:53', asr: '14:00', asrH: '14:32', maghrib: '16:22', isha: '18:23', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 10, mo: 11, dow: 2, name: 'الثلاثاء', hi: 10, lo: 4, fajr: '05:24', sunrise: '07:25', dhuhr: '11:53', asr: '13:58', asrH: '14:31', maghrib: '16:20', isha: '18:21', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 11, mo: 11, dow: 3, name: 'الأربعاء', hi: 10, lo: 4, fajr: '05:25', sunrise: '07:27', dhuhr: '11:53', asr: '13:57', asrH: '14:29', maghrib: '16:18', isha: '18:20', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 12, mo: 11, dow: 4, name: 'الخميس', hi: 10, lo: 4, fajr: '05:27', sunrise: '07:29', dhuhr: '11:53', asr: '13:56', asrH: '14:27', maghrib: '16:17', isha: '18:19', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 25, mo: 11, dow: 3, name: 'الأربعاء', hi: 10, lo: 4, fajr: '05:46', sunrise: '07:52', dhuhr: '11:56', asr: '13:43', asrH: '14:11', maghrib: '15:59', isha: '18:06', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 26, mo: 11, dow: 4, name: 'الخميس', hi: 10, lo: 4, fajr: '05:47', sunrise: '07:54', dhuhr: '11:56', asr: '13:42', asrH: '14:10', maghrib: '15:58', isha: '18:05', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 27, mo: 11, dow: 5, name: 'الجمعة', hi: 10, lo: 4, fajr: '05:49', sunrise: '07:56', dhuhr: '11:57', asr: '13:42', asrH: '14:10', maghrib: '15:57', isha: '18:04', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 28, mo: 11, dow: 6, name: 'السبت', hi: 10, lo: 4, fajr: '05:50', sunrise: '07:57', dhuhr: '11:57', asr: '13:41', asrH: '14:09', maghrib: '15:56', isha: '18:04', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 29, mo: 11, dow: 0, name: 'الأحد', hi: 10, lo: 4, fajr: '05:51', sunrise: '07:59', dhuhr: '11:57', asr: '13:40', asrH: '14:08', maghrib: '15:55', isha: '18:03', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 30, mo: 11, dow: 1, name: 'الإثنين', hi: 10, lo: 4, fajr: '05:52', sunrise: '08:00', dhuhr: '11:57', asr: '13:40', asrH: '14:07', maghrib: '15:55', isha: '18:02', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 1, mo: 12, dow: 2, name: 'الثلاثاء', hi: 8, lo: 3, fajr: '05:54', sunrise: '08:02', dhuhr: '11:58', asr: '13:39', asrH: '14:06', maghrib: '15:54', isha: '18:02', extra: true, calc: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 2, mo: 12, dow: 3, name: 'الأربعاء', hi: 8, lo: 3, fajr: '05:55', sunrise: '08:03', dhuhr: '11:58', asr: '13:39', asrH: '14:06', maghrib: '15:53', isha: '18:02', extra: true, calc: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 3, mo: 12, dow: 4, name: 'الخميس', hi: 8, lo: 3, fajr: '05:56', sunrise: '08:05', dhuhr: '11:58', asr: '13:38', asrH: '14:05', maghrib: '15:53', isha: '18:01', extra: true, calc: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 4, mo: 12, dow: 5, name: 'الجمعة', hi: 8, lo: 3, fajr: '05:57', sunrise: '08:06', dhuhr: '11:59', asr: '13:38', asrH: '14:04', maghrib: '15:52', isha: '18:01', extra: true, calc: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 5, mo: 12, dow: 6, name: 'السبت', hi: 8, lo: 3, fajr: '05:58', sunrise: '08:08', dhuhr: '12:00', asr: '13:38', asrH: '14:04', maghrib: '15:52', isha: '18:01', extra: true, calc: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 6, mo: 12, dow: 0, name: 'الأحد', hi: 8, lo: 3, fajr: '05:59', sunrise: '08:09', dhuhr: '12:00', asr: '13:38', asrH: '14:04', maghrib: '15:51', isha: '18:00', extra: true, calc: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 7, mo: 12, dow: 1, name: 'الإثنين', hi: 8, lo: 3, fajr: '06:00', sunrise: '08:10', dhuhr: '12:00', asr: '13:38', asrH: '14:03', maghrib: '15:51', isha: '18:00', extra: true, calc: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 8, mo: 12, dow: 2, name: 'الثلاثاء', hi: 8, lo: 3, fajr: '06:02', sunrise: '08:12', dhuhr: '12:01', asr: '13:37', asrH: '14:03', maghrib: '15:50', isha: '18:00', extra: true, calc: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 9, mo: 12, dow: 3, name: 'الأربعاء', hi: 8, lo: 3, fajr: '06:02', sunrise: '08:12', dhuhr: '12:01', asr: '13:37', asrH: '14:02', maghrib: '15:50', isha: '18:00', extra: true, calc: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 10, mo: 12, dow: 4, name: 'الخميس', hi: 8, lo: 3, fajr: '06:03', sunrise: '08:14', dhuhr: '12:02', asr: '13:37', asrH: '14:02', maghrib: '15:50', isha: '18:00', extra: true, calc: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 11, mo: 12, dow: 5, name: 'الجمعة', hi: 8, lo: 3, fajr: '06:04', sunrise: '08:15', dhuhr: '12:02', asr: '13:37', asrH: '14:02', maghrib: '15:50', isha: '18:00', extra: true, calc: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 12, mo: 12, dow: 6, name: 'السبت', hi: 8, lo: 3, fajr: '06:05', sunrise: '08:16', dhuhr: '12:02', asr: '13:37', asrH: '14:02', maghrib: '15:50', isha: '18:00', extra: true, calc: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 13, mo: 12, dow: 0, name: 'الأحد', hi: 8, lo: 3, fajr: '06:06', sunrise: '08:17', dhuhr: '12:03', asr: '13:37', asrH: '14:02', maghrib: '15:50', isha: '18:00', extra: true, calc: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 14, mo: 12, dow: 1, name: 'الإثنين', hi: 8, lo: 3, fajr: '06:07', sunrise: '08:18', dhuhr: '12:04', asr: '13:37', asrH: '14:02', maghrib: '15:50', isha: '18:00', extra: true, calc: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
+  { d: 15, mo: 12, dow: 2, name: 'الثلاثاء', hi: 8, lo: 3, fajr: '06:08', sunrise: '08:19', dhuhr: '12:04', asr: '13:38', asrH: '14:02', maghrib: '15:50', isha: '18:01', extra: true, calc: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
 ];
 
 const CATS = {
@@ -1769,15 +1805,22 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   }
 
   /* ── my trip (رحلتي): personal arrival/departure, stored on this device only ── */
-  const ORDER = TRIP_DAYS.map((D,i) => i).sort((a,b) => TRIP_DAYS[a].d - TRIP_DAYS[b].d);
+  TRIP_DAYS.forEach(D => { D.mo = D.mo || 11; D.n = D.mo === 12 ? 30 + D.d : D.d; });
+  const MON = D => D.mo === 12 ? 'ديسمبر' : 'نوفمبر';
+  const dLab = D => `${D.name} ${D.d}${D.mo === 12 ? ' ديسمبر' : ''}`;
+  const ordOf = N => N.y === 2026 && N.mo === 11 ? N.d : N.y === 2026 && N.mo === 12 ? 30 + N.d : (N.y < 2026 || (N.y === 2026 && N.mo < 11)) ? -1 : 99;
+  const dateOfN = n => new Date(Date.UTC(2026, 10, n, -3));
+  const ORDER = TRIP_DAYS.map((D,i) => i).sort((a,b) => TRIP_DAYS[a].n - TRIP_DAYS[b].n);
   const BASEP = TRIP_DAYS.map(D => ({ ...D.prog })), BASETAG = TRIP_DAYS.map(D => D.tag);
   const VIA = { man: { l: 'مطار مانشستر', arr: 120, dep: 225 }, lon: { l: 'لندن ثم القطار', arr: 270, dep: 390 } };
   const tm = s => { const [h,m] = String(s).split(':').map(Number); return h*60 + m; };
   const okT = s => /^\d{2}:\d{2}$/.test(s || '');
-  let TRIP = (() => { const v = store.get('mcr-trip', null); return v && v.a && v.b && okT(v.a.t) && okT(v.b.t) && v.a.d <= v.b.d ? v : null; })();
+  const okN = n => Number.isInteger(n) && n >= 1 && n <= 45;
+  const aT = () => TRIP.a.t || '12:00', bT = () => TRIP.b.t || '20:00';
+  let TRIP = (() => { const v = store.get('mcr-trip', null); return v && v.a && v.b && okN(v.a.d) && okN(v.b.d) && (!v.a.t || okT(v.a.t)) && (!v.b.t || okT(v.b.t)) && v.a.d <= v.b.d ? v : null; })();
   const STAY = () => TRIP ? [TRIP.a.d, TRIP.b.d] : [15, 22];
-  const inStay = i => { const [a,b] = STAY(), d = TRIP_DAYS[i].d; return d >= a && d <= b; };
-  const dayVis = i => { const [a,b] = STAY(), d = TRIP_DAYS[i].d; return d >= Math.min(a, 15) && d <= Math.max(b, 22); };
+  const inStay = i => { const [a,b] = STAY(), d = TRIP_DAYS[i].n; return d >= a && d <= b; };
+  const dayVis = i => { const [a,b] = STAY(), d = TRIP_DAYS[i].n; return d >= Math.min(a, 15) && d <= Math.max(b, 22); };
   const VIS = () => ORDER.filter(dayVis), STAYD = () => ORDER.filter(inStay);
   const mapD = (ids, f) => ids.map(i => f(TRIP_DAYS[i], i));
   const END = P => P.until ?? 22*60 + 30;
@@ -1786,13 +1829,13 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     TRIP_DAYS.forEach((D,i) => {
       let P = { ...BASEP[i] }; D.tag = BASETAG[i];
       if (TRIP){
-        const d = D.d;
+        const d = D.n;
         if (d < TRIP.a.d || d > TRIP.b.d){ P = { label: 'لست في مانشستر', away: true, train: null, eve: '', free: 24*60 }; D.tag = 'خارج رحلتك'; }
         else {
           if (P.arrive || BASEP[i].label === 'يوم العودة'){ P = { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 }; D.tag = ''; }
           if (D.extra) D.tag = d < 15 ? 'قبل المعسكر' : 'بعد المعسكر';
-          if (d === TRIP.a.d){ const v = VIA[TRIP.a.v] || VIA.man; P.free = Math.min(24*60, Math.max(P.free, tm(TRIP.a.t) + v.arr)); P.mine = `وصولك ${TRIP.a.t} (${v.l})`; if (!P.train) P.label = 'يوم الوصول'; D.tag = 'يوم وصولك'; }
-          if (d === TRIP.b.d){ const v = VIA[TRIP.b.v] || VIA.man; P.until = Math.max(0, tm(TRIP.b.t) - v.dep); P.dep = `رحلتك ${TRIP.b.t} (${v.l})`; if (!P.train) P.label = 'يوم العودة'; D.tag = 'يوم عودتك'; }
+          if (d === TRIP.a.d){ const v = VIA[TRIP.a.v] || VIA.man; P.free = Math.min(24*60, Math.max(P.free, tm(aT()) + v.arr)); P.mine = TRIP.a.t ? `وصولك ${TRIP.a.t} (${v.l})` : `وصولك (${v.l})، والوقت غير محدد فافترضنا الظهر`; if (!P.train) P.label = 'يوم الوصول'; D.tag = 'يوم وصولك'; }
+          if (d === TRIP.b.d){ const v = VIA[TRIP.b.v] || VIA.man; P.until = Math.max(0, tm(bT()) - v.dep); P.dep = TRIP.b.t ? `رحلتك ${TRIP.b.t} (${v.l})` : `رحلتك (${v.l})، والوقت غير محدد فافترضنا المساء`; if (!P.train) P.label = 'يوم العودة'; D.tag = 'يوم عودتك'; }
         }
       }
       D.prog = P;
@@ -1802,7 +1845,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
 
   /* ── countdown & facts ── */
   function setCountdown(now){
-    const [a, b] = STAY(), start = new Date(`2026-11-${a}T00:00:00+03:00`), end = new Date(`2026-11-${b + 1}T00:00:00+03:00`), w = TRIP ? 'رحلتك' : 'الرحلة';
+    const [a, b] = STAY(), start = dateOfN(a), end = dateOfN(b + 1), w = TRIP ? 'رحلتك' : 'الرحلة';
     const days = Math.ceil((start - now) / 864e5);
     $('#countdown').textContent = now >= end ? 'انتهت الرحلة' : days > 0 ? (days === 1 ? `باقٍ يوم واحد على ${w}` : days === 2 ? `باقٍ يومان على ${w}` : `باقٍ ${days} ${days <= 10 ? 'أيام' : 'يومًا'} على ${w}`) : 'نحن في مانشستر الآن';
   }
@@ -1823,9 +1866,11 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   const sunIcon = `<svg class="si" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 16a5 5 0 0 1 10 0" fill="currentColor"/><path d="M3 19h18M12 10V4M9 7l3-3 3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>`;
   const moonIcon = `<svg class="si" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 16a5 5 0 0 1 10 0" fill="currentColor"/><path d="M3 19h18M12 4v6M9 7l3 3 3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>`;
   const rainIcon = `<svg class="wi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 15a4 4 0 0 1-.6-8A5.5 5.5 0 0 1 17 7.5 3.8 3.8 0 0 1 17.5 15z" fill="currentColor" fill-opacity=".18"/><path d="M8 18l-1 2.5M12 18l-1 2.5M16 18l-1 2.5"/></svg>`;
+  function centerSel(box, sel){ if (!box || !sel) return; requestAnimationFrame(() => { const b = box.getBoundingClientRect(), s = sel.getBoundingClientRect(); if (box.scrollWidth > box.clientWidth) box.scrollLeft += s.left - b.left - (b.width - s.width) / 2; }); }
   function renderDays(){
-    $('#days').innerHTML = mapD(VIS(), (D,i) => `<button class="day${D.prog.away ? ' away' : ''}" aria-pressed="${i===state.sel}" data-i="${i}"><span class="dn">${D.name}</span><span class="dd num">${D.d}</span><span class="t num">${sunIcon}${D.sunrise}</span><span class="t num">${moonIcon}${D.maghrib}</span>${(D.tag||D.prog.label)?`<span class="tag${D.prog.train?' tr':''}">${D.tag||D.prog.label}</span>`:''}</button>`).join('');
+    $('#days').innerHTML = mapD(VIS(), (D,i) => `<button class="day${D.prog.away ? ' away' : ''}" aria-pressed="${i===state.sel}" data-i="${i}"><span class="dn">${D.name}</span><span class="dd num">${D.d}${D.mo === 12 ? '<small> ديسمبر</small>' : ''}</span><span class="t num">${sunIcon}${D.sunrise}</span><span class="t num">${moonIcon}${D.maghrib}</span>${(D.tag||D.prog.label)?`<span class="tag${D.prog.train?' tr':''}">${D.tag||D.prog.label}</span>`:''}</button>`).join('');
     $('#days').querySelectorAll('.day').forEach(b => b.onclick = () => { state.sel = +b.dataset.i; renderDays(); renderPanel(); });
+    centerSel($('#days'), $('#days [aria-pressed="true"]'));
   }
   const tr2m = D => D.prog.train ? D.prog.train.map(toMin) : null;
   function progBox(D){
@@ -1846,7 +1891,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   }
   function renderProg(){
     const n = mcrNow();
-    const today = n && n.y === 2026 && n.mo === 11 ? n.d : 0;
+    const today = n ? ordOf(n) : 0;
     $('#pgList').innerHTML = mapD(ORDER.filter(i => !TRIP_DAYS[i].extra), (D,i) => {
       const P = BASEP[i], tr = P.train, ret = P.label === 'يوم العودة' || !canPlan(D.prog);
       let main;
@@ -1859,7 +1904,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
       main = main.replace('</div><p>', mini + '</div><p>');
       if (eve) main = main.replace(/<\/p>$/, `<span class="pg-eve-m"> · المساء: ${esc(P.eve)}</span></p>`);
       const btn = ret ? '' : `<button class="btn" data-plan="${i}">${icon('i-route')}<span>${tr ? `وقتك الحر من ${ltr(fmtClose(P.free))}${P.dinner ? ' حتى العشاء' : ''}` : 'خطّط ليومك'}</span></button>`;
-      return `<li class="pg-r${tr ? '' : ' off'}${D.d === today ? ' now' : ''}"><div class="pg-d"><b>${D.name}</b><span class="num">${D.d}</span></div><div class="pg-b">${main}</div><div class="pg-e">${eve ? `<div>${eve}</div>` : ''}${btn}</div></li>`;
+      return `<li class="pg-r${tr ? '' : ' off'}${D.n === today ? ' now' : ''}"><div class="pg-d"><b>${D.name}</b><span class="num">${D.d}</span></div><div class="pg-b">${main}</div><div class="pg-e">${eve ? `<div>${eve}</div>` : ''}${btn}</div></li>`;
     }).join('');
     bidiFix($('#pgList'));
     $('#pgList').querySelectorAll('[data-plan]').forEach(b => b.onclick = () => planDay(+b.dataset.plan));
@@ -1871,7 +1916,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const closed = PLACES.filter(p => !p.far && p.hours && p.hours[D.dow] === null);
     $('#wxPanel').innerHTML = `
       <div>
-        <h3>${D.name} <span class="num">${D.d}</span> نوفمبر${D.tag ? ' · ' + D.tag : ''}</h3>
+        <h3>${D.name} <span class="num">${D.d}</span> ${MON(D)}${D.tag ? ' · ' + D.tag : ''}</h3>
         <div class="stat-row">
           <div class="stat"><b class="num">${D.sunrise}</b><span>الشروق</span></div>
           <div class="stat"><b class="num">${D.maghrib}</b><span>الغروب</span></div>
@@ -2075,7 +2120,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const dirUrl = `https://www.google.com/maps/dir/?api=1&origin=${base().lat},${base().lng}&destination=${encodeURIComponent(p.q)}&travelmode=transit`;
     const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.q)}`;
     const fav = state.favs.has(p.id);
-    const week = mapD(VIS(), (D,i) => { const h = p.hours[D.dow]; return `<div class="${h===null?'c':''}${i===state.sel?' sel':''}" title="${esc(h||'مغلق')}"><span>${D.name}</span><b class="num">${D.d}</b>${h===null?'مغلق':'مفتوح'}</div>`; }).join('');
+    const week = mapD(VIS().length > 12 ? ORDER.filter(i => TRIP_DAYS[i].n >= 15 && TRIP_DAYS[i].n <= 22) : VIS(), (D,i) => { const h = p.hours[D.dow]; return `<div class="${h===null?'c':''}${i===state.sel?' sel':''}" title="${esc(h||'مغلق')}"><span>${D.name}</span><b class="num">${D.d}</b>${h===null?'مغلق':'مفتوح'}</div>`; }).join('');
     const uniq = [0,1,2,3,4,5,6].map(dw => [['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'][dw], p.hours[dw]]);
     const routeHtml = rs.map(r => {
       let fare = '';
@@ -2165,7 +2210,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
 
 
   /* ── prayer table ── */
-  function renderPrayers(){ $('#prayer tbody').innerHTML = mapD(VIS(), D => `<tr class="${D.dow===5?'fri':''}"><td><b>${D.name}</b> ${D.d}</td><td>${D.fajr}</td><td>${D.sunrise}</td><td>${D.dhuhr}</td><td>${D.asr}</td><td><b>${D.asrH}</b></td><td>${D.maghrib}</td><td>${D.isha}</td></tr>`).join(''); }
+  function renderPrayers(){ $('#prayer tbody').innerHTML = mapD(VIS(), D => `<tr class="${D.dow===5?'fri':''}"><td><b>${D.name}</b> ${D.d}${D.mo === 12 ? ' ديسمبر' : ''}${D.calc ? '*' : ''}</td><td>${D.fajr}</td><td>${D.sunrise}</td><td>${D.dhuhr}</td><td>${D.asr}</td><td><b>${D.asrH}</b></td><td>${D.maghrib}</td><td>${D.isha}</td></tr>`).join(''); const cn = $('#prCalc'); if (cn) cn.hidden = !VIS().some(i => TRIP_DAYS[i].calc); }
   renderPrayers();
 
   /* ── essentials ── */
@@ -2347,6 +2392,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   }
   function segBtns(el, items, cur, on){
     el.innerHTML = items.map(([v,l,s]) => `<button aria-pressed="${v===cur}" data-v="${v}">${l}${s ? `<small>${s}</small>` : ''}</button>`).join('');
+    el.classList.toggle('many', items.length > 12); if (items.length > 12) centerSel(el, el.querySelector('[aria-pressed="true"]'));
     el.querySelectorAll('button').forEach(b => b.onclick = () => on(b.dataset.v));
   }
   function renderPZ(){
@@ -2356,7 +2402,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     fitDur();
     const preCur = (PZ_PRE.find(x => PZ.nowStart === null && preStart(x) === PZ.start && x.v.dur === PZ.dur && x.v.int === PZ.int && (x.v.day === undefined || x.v.day === PZ.day)) || {}).k || '';
     segBtns($('#pzPre'), PZ_PRE.filter(x => x.v.day === undefined || canPlan(TRIP_DAYS[x.v.day].prog)).map(x => [x.k, x.l, x.s]), preCur, v => { const x = PZ_PRE.find(y => y.k === v); if (x.v.day !== undefined && PZ.day !== x.v.day){ PZ.day = x.v.day; MY.day = x.v.day; MY.armed = false; renderMine(); } Object.assign(PZ, { start:preStart(x), dur:x.v.dur, int:x.v.int, nowStart:null, seed:0, prev:null }); renderPZ(); });
-    segBtns($('#pzDay'), mapD(STAYD().filter(i => canPlan(TRIP_DAYS[i].prog) || i === PZ.day), (D,i) => [String(i), `${D.name} ${D.d}`, D.prog.train ? `حر من ${hhmm(D.prog.free)}` : D.prog.label]), String(PZ.day), v => { PZ.day = +v; PZ.start = TRIP_DAYS[PZ.day].prog.free; PZ.nowStart = null; PZ.seed = 0; PZ.prev = null; renderPZ(); });
+    segBtns($('#pzDay'), mapD(STAYD().filter(i => canPlan(TRIP_DAYS[i].prog) || i === PZ.day), (D,i) => [String(i), dLab(D), D.prog.train ? `حر من ${hhmm(D.prog.free)}` : D.prog.label]), String(PZ.day), v => { PZ.day = +v; PZ.start = TRIP_DAYS[PZ.day].prog.free; PZ.nowStart = null; PZ.seed = 0; PZ.prev = null; renderPZ(); });
     const starts = [...new Set([...PZ_STARTS, fr])].filter(m => m >= fr).sort((a,b) => a-b).map(m => [String(m), hhmm(m), m === fr && TRIP_DAYS[PZ.day].prog.train ? 'بعد البرنامج' : '']);
     if (PZ.nowStart !== null) starts.unshift(['now', 'الآن', hhmm(PZ.nowStart)]);
     segBtns($('#pzStart'), starts, PZ.nowStart !== null ? 'now' : String(PZ.start), v => { if (v !== 'now'){ PZ.start = +v; PZ.nowStart = null; } PZ.seed = 0; PZ.prev = null; renderPZ(); });
@@ -2391,7 +2437,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     out.innerHTML = html; bidiFix(out);
     out.querySelectorAll('[data-open]').forEach(b => b.onclick = () => openPlace(b.dataset.open));
     const tl = P.ev.map(e => e.k === 'pray' ? `${e.x}  صلاة ${e.n}` : `${hhmm(e.a)}–${hhmm(e.b)}  ${e.p.ar}${e.fri ? ' (صلاة الجمعة)' : e.meal ? ' (وجبة)' : ''}`);
-    const msg = `خطة ${P.D.name} ${P.D.d} نوفمبر في مانشستر\n${tl.join('\n')}\nالعودة إلى الفندق نحو ${hhmm(last.b + back.min)}\n\nالمسار في خرائط جوجل:\n${gm}`;
+    const msg = `خطة ${P.D.name} ${P.D.d} ${MON(P.D)} في مانشستر\n${tl.join('\n')}\nالعودة إلى الفندق نحو ${hhmm(last.b + back.min)}\n\nالمسار في خرائط جوجل:\n${gm}`;
     $('#pzWa').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
     $('#pzCopy').onclick = async () => {
       const b = $('#pzCopy');
@@ -2406,7 +2452,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   /* ── my schedule ── */
   const SCH = (() => { const v = store.get('mcr-sched', null); if (!(v && v.days)) return { v: 1, at: 0, days: {} }; Object.values(v.days).forEach(d => { if (d && Array.isArray(d.items)) d.items = d.items.map(it => ALIAS[it.id] ? { ...it, id: ALIAS[it.id] } : it).filter(it => PLACES.some(p => p.id === it.id)); }); return v; })();
   const MY = { day: null, armed: false };
-  function myDefault(){ const N = mcrNow(), st = STAYD(); if (N.y === 2026 && N.mo === 11){ const i = TRIP_DAYS.findIndex(D => D.d === N.d); if (i >= 0 && st.includes(i)) return i; } const i = st.find(k => SCH.days[k]?.items.length); return i ?? st.find(k => canPlan(TRIP_DAYS[k].prog)) ?? st[0]; }
+  function myDefault(){ const N = mcrNow(), st = STAYD(); { const i = TRIP_DAYS.findIndex(D => D.n === ordOf(N)); if (i >= 0 && st.includes(i)) return i; } const i = st.find(k => SCH.days[k]?.items.length); return i ?? st.find(k => canPlan(TRIP_DAYS[k].prog)) ?? st[0]; }
   const SYNC = { db: null, ref: null, busy: false, again: false, timer: 0 };
   const durOf = p => VDUR[p.id] || (p.far ? (p.cat === 'trip' ? 360 : 180) : CDUR[p.cat] || 60);
   function farLeg(p){
@@ -2480,7 +2526,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     return { D, S, start, rows, back, end, prs };
   }
   function renderDaysBar(){
-    segBtns($('#myDays'), mapD(STAYD(), (D,i) => { const n = SCH.days[i]?.items.length || 0; return [String(i), `${D.name} ${D.d}${n ? `<b>${n}</b>` : ''}`, D.prog.train ? `حر من ${hhmm(D.prog.free)}` : D.prog.label]; }), String(MY.day), v => { MY.day = +v; MY.armed = false; renderMine(); if (!$('#t5').hidden && PZ.day !== MY.day){ PZ.day = MY.day; PZ.start = TRIP_DAYS[MY.day].prog.free; PZ.nowStart = null; PZ.seed = 0; PZ.prev = null; fitDur(); renderPZ(); } });
+    segBtns($('#myDays'), mapD(STAYD(), (D,i) => { const n = SCH.days[i]?.items.length || 0; return [String(i), `${dLab(D)}${n ? `<b>${n}</b>` : ''}`, D.prog.train ? `حر من ${hhmm(D.prog.free)}` : D.prog.label]; }), String(MY.day), v => { MY.day = +v; MY.armed = false; renderMine(); if (!$('#t5').hidden && PZ.day !== MY.day){ PZ.day = MY.day; PZ.start = TRIP_DAYS[MY.day].prog.free; PZ.nowStart = null; PZ.seed = 0; PZ.prev = null; fitDur(); renderPZ(); } });
   }
   function renderMine(){
     if (MY.day === null) MY.day = myDefault();
@@ -2521,8 +2567,8 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
       const qs = C.rows.map(r => encodeURIComponent(r.p.q || r.p.en));
       const gm = `https://www.google.com/maps/dir/?api=1&origin=${HOTEL.lat},${HOTEL.lng}&destination=${HOTEL.lat},${HOTEL.lng}&waypoints=${qs.join('%7C')}`;
       const lines = C.rows.map(r => `${hhmm(r.a)}–${hhmm(r.b)}  ${r.p.ar} (${r.p.en})`);
-      const msg = `جدولي ${D.name} ${D.d} نوفمبر في مانشستر\n${lines.join('\n')}\nالعودة إلى الفندق نحو ${hhmm(C.end)}\n\nالمسار في خرائط جوجل:\n${gm}`;
-      const z = m => `202611${String(D.d).padStart(2,'0')}T${String(Math.floor(m/60) % 24).padStart(2,'0')}${String(m % 60).padStart(2,'0')}00Z`;
+      const msg = `جدولي ${D.name} ${D.d} ${MON(D)} في مانشستر\n${lines.join('\n')}\nالعودة إلى الفندق نحو ${hhmm(C.end)}\n\nالمسار في خرائط جوجل:\n${gm}`;
+      const z = m => `2026${D.mo}${String(D.d).padStart(2,'0')}T${String(Math.floor(m/60) % 24).padStart(2,'0')}${String(m % 60).padStart(2,'0')}00Z`;
       const cal = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('جدولي في مانشستر · ' + D.name + ' ' + D.d)}&dates=${z(C.rows[0].a - C.rows[0].l.min)}/${z(Math.min(C.end, 23*60+59))}&details=${encodeURIComponent(lines.join('\n') + '\n\n' + gm)}&location=${encodeURIComponent('Manchester')}&ctz=Europe/London`;
       h += `<div class="pz-act"><a class="pri" href="${gm}" target="_blank" rel="noopener">المسار في خرائط جوجل</a><a id="myWa" href="https://wa.me/?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">أرسل بالواتساب</a><a href="${cal}" target="_blank" rel="noopener">أضفه إلى تقويم جوجل</a><button id="myCopy">انسخ الجدول</button>${N > 2 ? '<button id="mySort">رتّبها لي بأقصر مسار</button>' : ''}<button id="myClr" class="clr${MY.armed ? ' arm' : ''}">${MY.armed ? 'اضغط مرة أخرى لمسح اليوم' : 'امسح جدول اليوم'}</button></div>
         <p class="pz-note">الأوقات تقديرية: التنقل محسوب من المسافة، والمواعيد من المصادر الرسمية وقد تتغير.</p>`;
@@ -2558,10 +2604,10 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const has = i => (SCH.days[i]?.items || []).some(x => x.id === p.id);
     box.innerHTML = `<p>اختر اليوم:</p><div class="seg" id="addDaySeg"></div><p class="muted" id="addDayMsg" style="margin:6px 0 0;font-weight:400"></p>`;
     const seg = $('#addDaySeg');
-    seg.innerHTML = mapD(STAYD(), (D,i) => { const h = p.hours ? p.hours[D.dow] : 1; return `<button data-i="${i}" class="${has(i) ? 'has' : ''}" aria-pressed="${has(i)}" ${h === null && !has(i) ? 'disabled' : ''}>${D.name} ${D.d}<small>${has(i) ? 'في جدولك' : h === null ? 'مغلق' : D.prog.train ? 'من ' + hhmm(D.prog.free) : D.prog.label}</small></button>`; }).join('');
+    seg.innerHTML = mapD(STAYD(), (D,i) => { const h = p.hours ? p.hours[D.dow] : 1; return `<button data-i="${i}" class="${has(i) ? 'has' : ''}" aria-pressed="${has(i)}" ${h === null && !has(i) ? 'disabled' : ''}>${dLab(D)}<small>${has(i) ? 'في جدولك' : h === null ? 'مغلق' : D.prog.train ? 'من ' + hhmm(D.prog.free) : D.prog.label}</small></button>`; }).join(''); seg.classList.toggle('many', STAYD().length > 12);
     seg.querySelectorAll('button').forEach(b => b.onclick = () => { const i = +b.dataset.i; if (has(i)){ SCH.days[i].items = SCH.days[i].items.filter(x => x.id !== p.id); saveSch(); renderAddDay(p); $('#addDayMsg').textContent = `أُزيل من جدول ${TRIP_DAYS[i].name}.`; } else { addToDay(p.id, i); renderAddDay(p); $('#addDayMsg').innerHTML = `أُضيف إلى جدول ${TRIP_DAYS[i].name}. <button class="lnk" id="goMine">اعرض جدولي</button>`; $('#goMine').onclick = () => { MY.day = i; renderMine(); closeDlg(); goTo('mine'); }; } if (MY.day === i) renderMine(); else renderDaysBar(); });
   }
-  function pzSub(){ const st = $('#pzTogSub'); if (!st || MY.day === null) return; const D0 = TRIP_DAYS[MY.day]; const t = PZ.day === MY.day && !$('#t5').hidden ? (PZ.nowStart !== null ? 'من الآن ' + hhmm(PZ.nowStart) : 'من ' + hhmm(PZ.start)) : (D0.prog.train ? 'من ' + hhmm(D0.prog.free) : ''); st.textContent = `ليوم ${D0.name} ${D0.d}${t ? ' ' + t : ''}، ثم احفظها في جدولك وعدّلها`; }
+  function pzSub(){ const st = $('#pzTogSub'); if (!st || MY.day === null) return; const D0 = TRIP_DAYS[MY.day]; const t = PZ.day === MY.day && !$('#t5').hidden ? (PZ.nowStart !== null ? 'من الآن ' + hhmm(PZ.nowStart) : 'من ' + hhmm(PZ.start)) : (D0.prog.train ? 'من ' + hhmm(D0.prog.free) : ''); st.textContent = `ليوم ${dLab(D0)}${t ? ' ' + t : ''}، ثم احفظها في جدولك وعدّلها`; }
   function setPz(open){ $('#t5').hidden = !open; $('#pzToggle').setAttribute('aria-expanded', open); }
   function openPlanner(){
     if (MY.day !== PZ.day){ MY.day = PZ.day; MY.armed = false; renderMine(); }
@@ -2570,18 +2616,19 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
 
   /* ── رحلتي UI ── */
   const TF = { open: false, err: '', note: '' };
-  const dName = d => { const D = TRIP_DAYS.find(x => x.d === d); return D ? `${D.name} ${d}` : String(d); };
-  const dayOpts = sel => ORDER.map(i => { const D = TRIP_DAYS[i]; return `<option value="${D.d}"${D.d === sel ? ' selected' : ''}>${D.name} ${D.d} نوفمبر</option>`; }).join('');
+  const dName = n => { const D = TRIP_DAYS.find(x => x.n === n); return D ? dLab(D) : String(n); };
+  const tLab = s => s ? ltr(s) : 'الوقت غير محدد';
+  const dayOpts = sel => ORDER.map(i => { const D = TRIP_DAYS[i]; return `<option value="${D.n}"${D.n === sel ? ' selected' : ''}>${D.name} ${D.d} ${MON(D)}</option>`; }).join('');
   const viaOpts = sel => Object.entries(VIA).map(([k,v]) => `<option value="${k}"${k === sel ? ' selected' : ''}>${v.l}</option>`).join('');
   function renderTrip(){
     const el = $('#trip'); if (!el) return;
     const T = TRIP || { a: { d: 15, t: '', v: 'man' }, b: { d: 22, t: '', v: 'man' } };
-    const sum = TRIP ? `الوصول <b>${dName(TRIP.a.d)} · ${ltr(TRIP.a.t)}</b> (${VIA[TRIP.a.v].l})، والمغادرة <b>${dName(TRIP.b.d)} · ${ltr(TRIP.b.t)}</b> (${VIA[TRIP.b.v].l})`
+    const sum = TRIP ? `الوصول <b>${dName(TRIP.a.d)} · ${tLab(TRIP.a.t)}</b> (${VIA[TRIP.a.v].l})، والمغادرة <b>${dName(TRIP.b.d)} · ${tLab(TRIP.b.t)}</b> (${VIA[TRIP.b.v].l})`
       : 'أدخل موعدي وصولك ومغادرتك ليتكيّف معك الدليل: وقتك الحر يوم الوصول، وموعد خروجك من الفندق يوم العودة، والأيام التي تقضيها في مانشستر.';
-    let h = `<div class="trip-h">${icon('i-plane')}<b>رحلتي</b><span class="trip-s">${sum}</span>${TF.open ? '' : `<button class="${TRIP ? 'g' : 'p'}" id="tripEdit">${TRIP ? 'تعديل' : 'أدخل رحلتي'}</button>`}${!TF.open && TRIP ? '<button class="g" id="tripLink">رابط رحلتي</button>' : ''}</div>${!TF.open && TRIP ? `<p class="muted" id="tripMsg" style="margin:0">${TF.note || 'محفوظة على هذا الجهاز وفي هذا المتصفح. لتفتحها من متصفح أو جهاز آخر استعمل «رابط رحلتي».'}</p>` : ''}`;
+    let h = `<div class="trip-h">${icon('i-plane')}<b>رحلتي</b><span class="trip-s">${sum}</span>${TF.open ? '' : `<button class="${TRIP ? 'g' : 'p'}" id="tripEdit">${TRIP ? 'تعديل' : 'أدخل رحلتي'}</button>`}${!TF.open && TRIP ? '<button class="g" id="tripLink">رابط رحلتي</button>' : ''}</div>${!TF.open && TRIP ? `<p class="muted" id="tripMsg" style="margin:0">${TF.note || (!TRIP.a.t || !TRIP.b.t ? 'أضف وقت الهبوط والإقلاع حين تعرفه ليكون الحساب أدق. ' : '') + 'محفوظة على هذا الجهاز وفي هذا المتصفح. لتفتحها من متصفح أو جهاز آخر استعمل «رابط رحلتي».'}</p>` : ''}`;
     if (TF.open) h += `<div class="trip-f"><div><b>الوصول</b><div class="row"><label><small>اليوم</small><select id="taD">${dayOpts(T.a.d)}</select></label><label><small>وقت هبوط الطائرة</small><input id="taT" type="time" value="${T.a.t}"></label><label><small>عبر</small><select id="taV">${viaOpts(T.a.v)}</select></label></div></div>
       <div><b>المغادرة</b><div class="row"><label><small>اليوم</small><select id="tbD">${dayOpts(T.b.d)}</select></label><label><small>وقت إقلاع الطائرة</small><input id="tbT" type="time" value="${T.b.t}"></label><label><small>من</small><select id="tbV">${viaOpts(T.b.v)}</select></label></div></div></div>
-      <p class="muted" style="margin:0">اكتب وقت هبوط الطائرة ووقت إقلاعها بتوقيت بريطانيا. نحتسب من الهبوط حتى الفندق نحو ساعتين في مانشستر، ونحو 4 ساعات ونصف عبر لندن. ويوم العودة نحتسب 3 ساعات في المطار قبل الإقلاع، ومن يسافر عبر لندن يحجز تذكرة القطار مسبقًا. يُحفظ على جوالك فقط.</p>
+      <p class="muted" style="margin:0">اكتب وقت هبوط الطائرة ووقت إقلاعها بتوقيت بريطانيا، وإن لم تعرفه بعد فاتركه فارغًا وأضفه لاحقًا. نحتسب من الهبوط حتى الفندق نحو ساعتين في مانشستر، ونحو 4 ساعات ونصف عبر لندن. ويوم العودة نحتسب 3 ساعات في المطار قبل الإقلاع، ومن يسافر عبر لندن يحجز تذكرة القطار مسبقًا. يُحفظ على جوالك فقط.</p>
       ${TF.err ? `<p class="trip-err">${TF.err}</p>` : ''}<div class="btns"><button class="p" id="tripSave">احفظ</button><button class="g" id="tripCancel">إلغاء</button>${TRIP ? '<button class="g" id="tripClear">امسح رحلتي</button>' : ''}</div>`;
     el.innerHTML = h;
     const on = (id, f) => { const b = $('#' + id); if (b) b.onclick = f; };
@@ -2591,18 +2638,18 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     on('tripLink', shareTrip);
     on('tripSave', () => {
       const v = { a: { d: +$('#taD').value, t: $('#taT').value, v: $('#taV').value }, b: { d: +$('#tbD').value, t: $('#tbT').value, v: $('#tbV').value } };
-      if (!okT(v.a.t) || !okT(v.b.t)){ TF.err = 'اكتب وقت الهبوط ووقت الإقلاع.'; renderTrip(); return; }
-      if (v.b.d * 1440 + tm(v.b.t) <= v.a.d * 1440 + tm(v.a.t)){ TF.err = 'موعد المغادرة يجب أن يكون بعد موعد الوصول.'; renderTrip(); return; }
+      if (v.b.d * 1440 + tm(v.b.t || '20:00') <= v.a.d * 1440 + tm(v.a.t || '12:00') || v.b.d < v.a.d){ TF.err = 'موعد المغادرة يجب أن يكون بعد موعد الوصول.'; renderTrip(); return; }
       setTrip(v);
     });
   }
-  const tripCode = v => `${v.a.d}-${v.a.t.replace(':','')}-${v.a.v}.${v.b.d}-${v.b.t.replace(':','')}-${v.b.v}`;
+  const tc = s => s ? s.replace(':','') : 'x';
+  const tripCode = v => `${v.a.d}-${tc(v.a.t)}-${v.a.v}.${v.b.d}-${tc(v.b.t)}-${v.b.v}`;
   function tripFromHash(){
-    const m = location.hash.match(/trip=(\d{1,2})-(\d{4})-(man|lon)\.(\d{1,2})-(\d{4})-(man|lon)/); if (!m) return null;
-    const t4 = s => s.slice(0,2) + ':' + s.slice(2);
+    const m = location.hash.match(/trip=(\d{1,2})-(\d{4}|x)-(man|lon)\.(\d{1,2})-(\d{4}|x)-(man|lon)/); if (!m) return null;
+    const t4 = s => s === 'x' ? '' : s.slice(0,2) + ':' + s.slice(2);
     const v = { a: { d: +m[1], t: t4(m[2]), v: m[3] }, b: { d: +m[4], t: t4(m[5]), v: m[6] } };
-    const ok = x => x.d >= 13 && x.d <= 24 && okT(x.t) && tm(x.t) < 1440;
-    return ok(v.a) && ok(v.b) && v.b.d * 1440 + tm(v.b.t) > v.a.d * 1440 + tm(v.a.t) ? v : null;
+    const ok = x => okN(x.d) && (!x.t || (okT(x.t) && tm(x.t) < 1440));
+    return ok(v.a) && ok(v.b) && v.b.d * 1440 + tm(v.b.t || '20:00') > v.a.d * 1440 + tm(v.a.t || '12:00') ? v : null;
   }
   const tripURL = () => (/github\.io$/.test(location.hostname) ? location.origin + location.pathname : 'https://alabdmn3m.github.io/manchester/') + '#trip=' + tripCode(TRIP);
   async function shareTrip(){
@@ -2613,7 +2660,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   }
   function renderTripHero(){
     const el = $('#tripHero'); if (!el) return;
-    el.innerHTML = TRIP ? `${icon('i-plane')}<span>رحلتك: من <b>${dName(TRIP.a.d)} · ${ltr(TRIP.a.t)}</b> إلى <b>${dName(TRIP.b.d)} · ${ltr(TRIP.b.t)}</b></span><button class="ghost" data-trip>تعديل</button>`
+    el.innerHTML = TRIP ? `${icon('i-plane')}<span>رحلتك: من <b>${dName(TRIP.a.d)} · ${tLab(TRIP.a.t)}</b> إلى <b>${dName(TRIP.b.d)} · ${tLab(TRIP.b.t)}</b></span><button class="ghost" data-trip>تعديل</button>`
       : `${icon('i-plane')}<span>أدخل موعدَي وصولك ومغادرتك ليتكيّف معك الدليل: وقتك الحر، والأيام، والعدّ التنازلي.</span><button data-trip>أدخل رحلتك</button>`;
   }
   function normSel(){
@@ -2640,8 +2687,8 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     renderProg();
     setCountdown(DEMO ? new Date(Date.UTC(2026, 10, DEMO.d, Math.floor(DEMO.m/60), DEMO.m % 60)) : new Date());
     const N = mcrNow(), el = $('#live');
-    const i0 = (N.y === 2026 && N.mo === 11) ? TRIP_DAYS.findIndex(D => D.d === N.d) : -1, i = i0 >= 0 && inStay(i0) ? i0 : -1;
-    const before = N.y < 2026 || (N.y === 2026 && (N.mo < 11 || (N.mo === 11 && N.d < STAY()[0])));
+    const i0 = TRIP_DAYS.findIndex(D => D.n === ordOf(N)), i = i0 >= 0 && inStay(i0) ? i0 : -1;
+    const before = ordOf(N) < STAY()[0];
     if (i < 0){
       el.innerHTML = before ? `<span>أثناء الرحلة يتحول هذا الشريط إلى دليل لحظي: الصلاة القادمة، والمفتوح الآن، وخطة من وقتك الحالي.</span><button id="demoOn">جرّبه الآن (معاينة)</button>` : '';
       const b = $('#demoOn'); if (b) b.onclick = () => { DEMO = { y:2026, mo:11, d:18, m: 14*60+30 }; renderLive(); };
@@ -2650,13 +2697,13 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const D = TRIP_DAYS[i];
     const prs = [['الفجر',D.fajr],['الظهر',D.dhuhr],['العصر',D.asr],['المغرب',D.maghrib],['العشاء',D.isha]].map(([n,x]) => ({n, x, m: toMin(x)}));
     const nx = prs.find(q => q.m > N.m);
-    const nxt = nx ? `${D.dow === 5 && nx.n === 'الظهر' ? 'الجمعة' : nx.n} <b class="num">${nx.x}</b> بعد ${fmtMin(nx.m - N.m)}` : (() => { const nd = TRIP_DAYS.find(x => x.d === D.d + 1); return `الفجر غدًا${nd ? ' <b class="num">' + nd.fajr + '</b>' : ''}`; })();
+    const nxt = nx ? `${D.dow === 5 && nx.n === 'الظهر' ? 'الجمعة' : nx.n} <b class="num">${nx.x}</b> بعد ${fmtMin(nx.m - N.m)}` : (() => { const nd = TRIP_DAYS.find(x => x.n === D.n + 1); return `الفجر غدًا${nd ? ' <b class="num">' + nd.fajr + '</b>' : ''}`; })();
     const ss = toMin(D.maghrib);
     const open = PLACES.filter(p => openAt(p, D.dow, N.m)).length;
     const trw = tr2m(D), inTr = trw && N.m >= trw[0] && N.m < D.prog.free, inTrain = inTr && N.m < trw[1];
     const progTxt = inTr ? (inTrain ? `في التدريب حتى <b class="num">${D.prog.train[1]}</b>` : `في ${esc(D.prog.eve.replace(/\s*\d.*$/, ''))} حتى <b class="num">${hhmm(D.prog.free)}</b>`) : (D.prog.dinner && N.m >= toMin(D.prog.train[1]) && N.m < 22*60 ? 'الليلة: عشاء جماعي للزمالة' : '');
-    el.innerHTML = `<span class="pulse" aria-hidden="true"></span><span>${D.name} ${D.d} · الآن في مانشستر <b class="num">${hhmm(N.m)}</b></span><span>الصلاة القادمة: ${nxt}</span>${progTxt ? `<span>${progTxt}</span>` : ''}<span>${N.m < ss ? `الغروب بعد <b class="num">${fmtMin(ss - N.m)}</b>` : 'حلّ الظلام'}</span>
-      ${open ? `<button id="liveOpen">المفتوح الآن (${open})</button>` : '<span>أغلب الأماكن مغلقة الآن</span>'}${(SCH.days[i]?.items.length) ? `<button id="liveMine">جدولي اليوم (${SCH.days[i].items.length})</button>` : ''}${N.m < 21*60 ? `<button id="livePlan">${inTr ? 'خطّط لما بعد البرنامج' : 'خطّط من الآن'}</button>` : ''}${DEMO ? `<span class="demo">معاينة: ${D.name} ${D.d} نوفمبر</span><button class="ghost" id="demoOff">إنهاء المعاينة</button>` : ''}`;
+    el.innerHTML = `<span class="pulse" aria-hidden="true"></span><span>${dLab(D)} · الآن في مانشستر <b class="num">${hhmm(N.m)}</b></span><span>الصلاة القادمة: ${nxt}</span>${progTxt ? `<span>${progTxt}</span>` : ''}<span>${N.m < ss ? `الغروب بعد <b class="num">${fmtMin(ss - N.m)}</b>` : 'حلّ الظلام'}</span>
+      ${open ? `<button id="liveOpen">المفتوح الآن (${open})</button>` : '<span>أغلب الأماكن مغلقة الآن</span>'}${(SCH.days[i]?.items.length) ? `<button id="liveMine">جدولي اليوم (${SCH.days[i].items.length})</button>` : ''}${N.m < 21*60 ? `<button id="livePlan">${inTr ? 'خطّط لما بعد البرنامج' : 'خطّط من الآن'}</button>` : ''}${DEMO ? `<span class="demo">معاينة: ${D.name} ${D.d} ${MON(D)}</span><button class="ghost" id="demoOff">إنهاء المعاينة</button>` : ''}`;
     const lo = $('#liveOpen'); if (lo) lo.onclick = () => { state.openNow = { dow: D.dow, m: N.m }; state.day = ''; $('#dayf').value = ''; state.cat = 'all'; renderCats(); render(); document.getElementById('ex-h').parentElement.parentElement.scrollIntoView({behavior:'smooth'}); };
     const lm = $('#liveMine'); if (lm) lm.onclick = () => { MY.day = i; renderMine(); goTo('mine'); };
     const lp = $('#livePlan'); if (lp) lp.onclick = () => { PZ.day = i; PZ.nowStart = inTr ? D.prog.free : Math.ceil((N.m + 5) / 15) * 15; PZ.seed = 0; openPlanner(); };
@@ -2686,7 +2733,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   }
 
   /* ── wire up ── */
-  function fillDayf(){ const s = $('#dayf'), cur = s.value; s.innerHTML = '<option value="">كل الأيام</option>' + mapD(STAYD(), (D,i) => `<option value="${i}">${D.name} ${D.d} نوفمبر</option>`).join(''); s.value = [...s.options].some(o => o.value === cur) ? cur : ''; if (s.value !== cur) state.day = ''; }
+  function fillDayf(){ const s = $('#dayf'), cur = s.value; s.innerHTML = '<option value="">كل الأيام</option>' + mapD(STAYD(), (D,i) => `<option value="${i}">${D.name} ${D.d} ${MON(D)}</option>`).join(''); s.value = [...s.options].some(o => o.value === cur) ? cur : ''; if (s.value !== cur) state.day = ''; }
   fillDayf();
   $('#q').oninput = e => { state.q = e.target.value.trim(); render(); };
   $('#sort').onchange = e => { state.sort = e.target.value; render(); };
@@ -2713,7 +2760,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   $('#mvCenter').onclick = () => setView('center'); $('#mvWide').onclick = () => setView('wide');
   bidiFix(document.querySelector('.page'));
   { const h = tripFromHash(); if (h){ TRIP = h; store.set('mcr-trip', h); applyTrip(); TF.note = 'حُمّلت رحلتك من الرابط وحُفظت على هذا الجهاز.'; history.replaceState(null, '', location.pathname + location.search); } }
-  setCountdown(new Date()); normSel(); renderTrip(); renderTripHero(); renderDays(); renderPanel(); renderBase(); renderCats(); render();
+  setCountdown(new Date()); normSel(); renderPrayers(); fillDayf(); renderTrip(); renderTripHero(); renderDays(); renderPanel(); renderBase(); renderCats(); render();
   renderAbout(); renderPZ(); renderLive(); saveSchCount(); wireNav(); setInterval(() => { if (!DEMO) renderLive(); }, 60000);
   { const lv = (location.hash.match(/live=(\d+)-(\d+):(\d+)/) || []); if (lv.length) { DEMO = { y:2026, mo:11, d:+lv[1], m: +lv[2]*60 + +lv[3] }; renderLive(); } }
   renderMine(); initSync();
