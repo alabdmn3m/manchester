@@ -7,9 +7,9 @@
 <meta name="description" content="دليل تفاعلي للمشاركين في الزمالة السعودية البريطانية: برنامج المعسكر وجدولي والأماكن والصلاة في مانشستر.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="دليل مانشستر · الزمالة السعودية البريطانية">
-<meta property="og:description" content="برنامج المعسكر، وجدولك الشخصي، و48 مكانًا مختارًا، ومواقيت الصلاة والقبلة · 15–22 نوفمبر 2026">
-<meta property="og:image" content="https://alabdmn3m.github.io/manchester/og.jpg">
-<meta property="og:image:secure_url" content="https://alabdmn3m.github.io/manchester/og.jpg">
+<meta property="og:description" content="برنامج المعسكر، وجدولك الشخصي، و48 مكانًا مختارًا، ومواقيت الصلاة والقبلة، ويتكيّف مع موعد رحلتك · المعسكر القيادي، نوفمبر 2026">
+<meta property="og:image" content="https://alabdmn3m.github.io/manchester/og.jpg?v=2">
+<meta property="og:image:secure_url" content="https://alabdmn3m.github.io/manchester/og.jpg?v=2">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:site_name" content="دليل مانشستر للزمالة">
 <meta property="og:image:width" content="1200">
@@ -683,6 +683,11 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
 .pz-note{font-size:.875rem;color:var(--muted);margin-top:10px}
 /* live */
 .live:empty{display:none}
+.htrip{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:10px 14px;color:var(--hero-ink)}
+.htrip .ico{width:18px;height:18px;color:var(--gold);flex:none}.htrip b{color:var(--gold)}.htrip span{flex:1;min-width:200px}
+.htrip button{border:0;background:var(--gold);color:var(--on-gold);border-radius:999px;padding:6px 14px;font-weight:700;cursor:pointer}
+.htrip button.ghost{background:transparent;color:var(--hero-ink);border:1px solid rgba(255,255,255,.35)}
+.trip-ok{color:var(--ok,#1a7f4b);font-weight:700}
 .grp.onow{display:flex;justify-content:space-between;align-items:center;background:var(--ok-bg);color:var(--ok);border-radius:12px;padding:8px 14px;font-weight:700}
 .live{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;background:rgba(242,183,5,.14);border:1px solid rgba(242,183,5,.5);border-radius:14px;padding:10px 14px;color:var(--hero-ink)}
 .live .pulse{width:10px;height:10px;border-radius:50%;background:#3ddc84;box-shadow:0 0 0 0 rgba(61,220,132,.6);animation:pl 1.8s infinite}
@@ -762,7 +767,7 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
     <div class="hero-top">
       <div>
         <div class="eyebrow"><b>الزمالة السعودية البريطانية في قيادة العمل التنموي</b><span>المعسكر القيادي</span></div>
-        <h1 class="title">مانشستر<small>دليلنا لأسبوع في مدينة النحلة العاملة، من <span class="num">15</span> إلى <span class="num">22</span> نوفمبر <span class="num">2026</span></small></h1>
+        <h1 class="title">مانشستر<small>دليلنا في مدينة النحلة العاملة. المعسكر من <span class="num">15</span> إلى <span class="num">22</span> نوفمبر <span class="num">2026</span>، وموعد رحلتك تختاره أدناه.</small></h1>
         <a class="byline" href="#sign" aria-label="إعداد: عبدالرحمن العبدالمنعم"><span class="lgtile" aria-hidden="true"><svg viewBox="318 297 444 413"><use href="#lg-art"/></svg></span><span class="by-t"><small>إعداد</small><b>عبدالرحمن العبدالمنعم</b></span></a>
       </div>
       <svg class="bee" viewBox="0 0 200 200" role="img" aria-label="نحلة مانشستر العاملة، رمز المدينة">
@@ -783,6 +788,7 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
       <span class="fact">التوقيت: متأخر عن الرياض <strong class="num">3</strong> ساعات</span>
       <span class="fact">بين السكن والتدريب: <strong>دقيقة مشيًا</strong></span>
     </div>
+    <div class="htrip" id="tripHero"></div>
     <div class="live" id="live" aria-live="polite"></div>
 
   </div>
@@ -2563,7 +2569,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   }
 
   /* ── رحلتي UI ── */
-  const TF = { open: false, err: '' };
+  const TF = { open: false, err: '', note: '' };
   const dName = d => { const D = TRIP_DAYS.find(x => x.d === d); return D ? `${D.name} ${d}` : String(d); };
   const dayOpts = sel => ORDER.map(i => { const D = TRIP_DAYS[i]; return `<option value="${D.d}"${D.d === sel ? ' selected' : ''}>${D.name} ${D.d} نوفمبر</option>`; }).join('');
   const viaOpts = sel => Object.entries(VIA).map(([k,v]) => `<option value="${k}"${k === sel ? ' selected' : ''}>${v.l}</option>`).join('');
@@ -2572,7 +2578,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const T = TRIP || { a: { d: 15, t: '', v: 'man' }, b: { d: 22, t: '', v: 'man' } };
     const sum = TRIP ? `الوصول <b>${dName(TRIP.a.d)} · ${ltr(TRIP.a.t)}</b> (${VIA[TRIP.a.v].l})، والمغادرة <b>${dName(TRIP.b.d)} · ${ltr(TRIP.b.t)}</b> (${VIA[TRIP.b.v].l})`
       : 'أدخل موعدي وصولك ومغادرتك ليتكيّف معك الدليل: وقتك الحر يوم الوصول، وموعد خروجك من الفندق يوم العودة، والأيام التي تقضيها في مانشستر.';
-    let h = `<div class="trip-h">${icon('i-plane')}<b>رحلتي</b><span class="trip-s">${sum}</span>${TF.open ? '' : `<button class="${TRIP ? 'g' : 'p'}" id="tripEdit">${TRIP ? 'تعديل' : 'أدخل رحلتي'}</button>`}</div>`;
+    let h = `<div class="trip-h">${icon('i-plane')}<b>رحلتي</b><span class="trip-s">${sum}</span>${TF.open ? '' : `<button class="${TRIP ? 'g' : 'p'}" id="tripEdit">${TRIP ? 'تعديل' : 'أدخل رحلتي'}</button>`}${!TF.open && TRIP ? '<button class="g" id="tripLink">رابط رحلتي</button>' : ''}</div>${!TF.open && TRIP ? `<p class="muted" id="tripMsg" style="margin:0">${TF.note || 'محفوظة على هذا الجهاز وفي هذا المتصفح. لتفتحها من متصفح أو جهاز آخر استعمل «رابط رحلتي».'}</p>` : ''}`;
     if (TF.open) h += `<div class="trip-f"><div><b>الوصول</b><div class="row"><label><small>اليوم</small><select id="taD">${dayOpts(T.a.d)}</select></label><label><small>وقت هبوط الطائرة</small><input id="taT" type="time" value="${T.a.t}"></label><label><small>عبر</small><select id="taV">${viaOpts(T.a.v)}</select></label></div></div>
       <div><b>المغادرة</b><div class="row"><label><small>اليوم</small><select id="tbD">${dayOpts(T.b.d)}</select></label><label><small>وقت إقلاع الطائرة</small><input id="tbT" type="time" value="${T.b.t}"></label><label><small>من</small><select id="tbV">${viaOpts(T.b.v)}</select></label></div></div></div>
       <p class="muted" style="margin:0">اكتب وقت هبوط الطائرة ووقت إقلاعها بتوقيت بريطانيا. نحتسب من الهبوط حتى الفندق نحو ساعتين في مانشستر، ونحو 4 ساعات ونصف عبر لندن. ويوم العودة نحتسب 3 ساعات في المطار قبل الإقلاع، ومن يسافر عبر لندن يحجز تذكرة القطار مسبقًا. يُحفظ على جوالك فقط.</p>
@@ -2582,12 +2588,33 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     on('tripEdit', () => { TF.open = true; TF.err = ''; renderTrip(); });
     on('tripCancel', () => { TF.open = false; TF.err = ''; renderTrip(); });
     on('tripClear', () => setTrip(null));
+    on('tripLink', shareTrip);
     on('tripSave', () => {
       const v = { a: { d: +$('#taD').value, t: $('#taT').value, v: $('#taV').value }, b: { d: +$('#tbD').value, t: $('#tbT').value, v: $('#tbV').value } };
       if (!okT(v.a.t) || !okT(v.b.t)){ TF.err = 'اكتب وقت الهبوط ووقت الإقلاع.'; renderTrip(); return; }
       if (v.b.d * 1440 + tm(v.b.t) <= v.a.d * 1440 + tm(v.a.t)){ TF.err = 'موعد المغادرة يجب أن يكون بعد موعد الوصول.'; renderTrip(); return; }
       setTrip(v);
     });
+  }
+  const tripCode = v => `${v.a.d}-${v.a.t.replace(':','')}-${v.a.v}.${v.b.d}-${v.b.t.replace(':','')}-${v.b.v}`;
+  function tripFromHash(){
+    const m = location.hash.match(/trip=(\d{1,2})-(\d{4})-(man|lon)\.(\d{1,2})-(\d{4})-(man|lon)/); if (!m) return null;
+    const t4 = s => s.slice(0,2) + ':' + s.slice(2);
+    const v = { a: { d: +m[1], t: t4(m[2]), v: m[3] }, b: { d: +m[4], t: t4(m[5]), v: m[6] } };
+    const ok = x => x.d >= 13 && x.d <= 24 && okT(x.t) && tm(x.t) < 1440;
+    return ok(v.a) && ok(v.b) && v.b.d * 1440 + tm(v.b.t) > v.a.d * 1440 + tm(v.a.t) ? v : null;
+  }
+  const tripURL = () => (/github\.io$/.test(location.hostname) ? location.origin + location.pathname : 'https://alabdmn3m.github.io/manchester/') + '#trip=' + tripCode(TRIP);
+  async function shareTrip(){
+    const url = tripURL(), msg = $('#tripMsg');
+    try { if (navigator.share){ await navigator.share({ title: 'رحلتي في دليل مانشستر', url }); return; } } catch(e){ if (e && e.name === 'AbortError') return; }
+    try { await navigator.clipboard.writeText(url); if (msg) msg.textContent = 'نُسخ رابط رحلتك. احفظه في المفضلة أو أرسله لنفسك، وافتحه من أي متصفح أو جهاز.'; }
+    catch(e){ if (msg) msg.innerHTML = `انسخ هذا الرابط واحفظه: <bdi dir="ltr" style="word-break:break-all">${esc(url)}</bdi>`; }
+  }
+  function renderTripHero(){
+    const el = $('#tripHero'); if (!el) return;
+    el.innerHTML = TRIP ? `${icon('i-plane')}<span>رحلتك: من <b>${dName(TRIP.a.d)} · ${ltr(TRIP.a.t)}</b> إلى <b>${dName(TRIP.b.d)} · ${ltr(TRIP.b.t)}</b></span><button class="ghost" data-trip>تعديل</button>`
+      : `${icon('i-plane')}<span>أدخل موعدَي وصولك ومغادرتك ليتكيّف معك الدليل: وقتك الحر، والأيام، والعدّ التنازلي.</span><button data-trip>أدخل رحلتك</button>`;
   }
   function normSel(){
     if (!dayVis(state.sel)) state.sel = VIS()[0];
@@ -2596,7 +2623,8 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     else if (PZ.start < TRIP_DAYS[PZ.day].prog.free) PZ.start = TRIP_DAYS[PZ.day].prog.free;
   }
   function setTrip(v){
-    TRIP = v; store.set('mcr-trip', v); applyTrip(); TF.open = false; TF.err = ''; normSel();
+    TRIP = v; store.set('mcr-trip', v); applyTrip(); TF.open = false; TF.err = ''; normSel(); renderTripHero(); setCountdown(new Date());
+    if (/trip=/.test(location.hash)) history.replaceState(null, '', location.pathname + location.search);
     fillDayf(); renderDays(); renderPanel(); renderPrayers(); render(); renderPZ(); renderLive(); renderMine(); renderTrip(); bidiFix($('#trip'));
   }
   document.addEventListener('click', e => { const b = e.target.closest('[data-trip]'); if (!b) return; TF.open = true; renderTrip(); goTo('mine'); });
@@ -2684,7 +2712,8 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   $('#mapBtn').onclick = () => { const ex = $('#explore'); const closed = ex.classList.toggle('map-closed'); $('#mapBtn').setAttribute('aria-expanded', !closed); $('#mapBtn span').textContent = closed ? 'اعرض الخريطة' : 'أخفِ الخريطة'; };
   $('#mvCenter').onclick = () => setView('center'); $('#mvWide').onclick = () => setView('wide');
   bidiFix(document.querySelector('.page'));
-  normSel(); renderTrip(); renderDays(); renderPanel(); renderBase(); renderCats(); render();
+  { const h = tripFromHash(); if (h){ TRIP = h; store.set('mcr-trip', h); applyTrip(); TF.note = 'حُمّلت رحلتك من الرابط وحُفظت على هذا الجهاز.'; history.replaceState(null, '', location.pathname + location.search); } }
+  setCountdown(new Date()); normSel(); renderTrip(); renderTripHero(); renderDays(); renderPanel(); renderBase(); renderCats(); render();
   renderAbout(); renderPZ(); renderLive(); saveSchCount(); wireNav(); setInterval(() => { if (!DEMO) renderLive(); }, 60000);
   { const lv = (location.hash.match(/live=(\d+)-(\d+):(\d+)/) || []); if (lv.length) { DEMO = { y:2026, mo:11, d:+lv[1], m: +lv[2]*60 + +lv[3] }; renderLive(); } }
   renderMine(); initSync();
