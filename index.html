@@ -390,7 +390,7 @@ footer .credits li{margin-block:6px;font-size:.875rem}
 .stabs button[aria-expanded="true"] .chev{transform:rotate(180deg);opacity:1}
 .stabs button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){.stabs button .chev{transition:none}}
-@media (max-width:720px){.stabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.stabs button{justify-content:center;flex-direction:column;gap:4px;padding:10px 6px;white-space:normal;line-height:1.3;font-size:.875rem;border-radius:14px;text-align:center}.stabs button .chev{margin:0}.stabs .new{display:none}}
+@media (max-width:720px){.stabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.stabs button{justify-content:center;flex-direction:column;gap:4px;padding:10px 6px;white-space:normal;line-height:1.3;font-size:.875rem;border-radius:14px;text-align:center}.stabs button .chev{margin:0}.stabs .new{display:none}}
 .stabs button .n{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--surface-2);font-size:.875rem}
 .stabs button[aria-expanded="true"]{background:var(--violet);border-color:var(--violet);color:#fff}
 .stabs button[aria-expanded="true"] .n{background:var(--gold);color:var(--on-gold)}
@@ -819,11 +819,12 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
   </section>
 
   <section class="section wrap start" aria-labelledby="st-h" id="start">
-    <div class="sec-head"><div><h2 id="st-h">دليلك العملي</h2><p>بعد أن عرفت المدينة، هذا ما تحتاجه للتعامل معها: ما تجهّزه قبل السفر، وأول 24 ساعة بعد الوصول، وأنظمة المدينة وعاداتها. اضغط أي بند لفتحه، ومرة أخرى لإغلاقه.</p></div></div>
+    <div class="sec-head"><div><h2 id="st-h">دليلك العملي</h2><p>بعد أن عرفت المدينة، هذا ما تحتاجه للتعامل معها: ما تجهّزه قبل السفر، وأول 24 ساعة بعد الوصول، وأنظمة المدينة وعاداتها، وما يلزمك في الفندق والحمّام. اضغط أي بند لفتحه، ومرة أخرى لإغلاقه.</p></div></div>
     <div class="stabs" aria-label="دليلك العملي">
       <button aria-expanded="false" aria-controls="t4" data-t="t4"><span class="n">1</span>قبل السفر<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
       <button aria-expanded="false" aria-controls="t1" data-t="t1"><span class="n">2</span>أول 24 ساعة<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
       <button aria-expanded="false" aria-controls="t3" data-t="t3"><span class="n">3</span>أنظمة وعادات<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button aria-expanded="false" aria-controls="t6" data-t="t6"><span class="n">4</span>الفندق والحمّام<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
     </div>
 
     <div class="spanel" id="t1" role="region" aria-label="أول 24 ساعة" hidden>
@@ -883,6 +884,20 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
       </div>
     </div>
 
+    <div class="spanel" id="t6" role="region" aria-label="الفندق والحمّام" hidden>
+      <h4 class="rg">الأفياش والشحن</h4>
+      <div class="rules">
+        <div class="rule"><b>الفيش ثلاثي مثل السعودية</b><span>القابس البريطاني (Type G) بثلاث أرجل و230 فولت، فشواحنك السعودية تعمل مباشرة. أما الشاحن ذو الرِّجلين (الأوروبي أو الأمريكي) فيحتاج محوّلًا، تجده في المطار أو الصيدليات مثل Boots.</span></div>
+        <div class="rule"><b>شغّل مفتاح الفيش</b><span>لكل فيش مفتاح صغير بجانبه. إن لم يشحن جهازك فغالبًا المفتاح مطفأ.</span></div>
+        <div class="rule"><b>لا أفياش عادية في الحمّام</b><span>يمنعها النظام هناك، وقد تجد فيشًا صغيرًا ذا رِجلين مكتوبًا عليه «Shavers only»، وهو لماكينة الحلاقة وفرشاة الأسنان فقط، لا للشواحن.</span></div>
+        <div class="rule"><b>خذ توصيلة أو شاحنًا متعدد المنافذ</b><span>أفياش الغرف قليلة غالبًا، فتوصيلة سعودية واحدة تكفيك لكل أجهزتك.</span></div>
+      </div>
+      <h4 class="rg">الحمّام</h4>
+      <div class="rules">
+        <div class="rule"><b>الشطّاف غير موجود غالبًا</b><span>حتى في الفنادق، فخذ معك شطّافًا متنقلًا (قارورة صغيرة تُطوى) أو استعمل قارورة ماء.</span></div>
+      </div>
+    </div>
+
     <div class="spanel" id="t4" role="region" aria-label="قبل السفر" hidden>
       <ul class="check">
         <li><span class="when">الآن</span><div><b>احجز جولة مكتبة تشيثامز</b> إن أردتها؛ الحجز يُفتح قبل 6 أسابيع والمقاعد محدودة.</div></li>
@@ -895,7 +910,7 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
         <li><span class="when">قبل السفر</span><div><b>شريحة إلكترونية (eSIM)</b> لبريطانيا، أو اشترِ شريحة في المطار.</div></li>
         <li><span class="when">قبل السفر</span><div><b>معطف مقاوم للماء وحذاء لا يتسرب منه الماء</b>؛ نوفمبر بارد ورطب.</div></li>
         <li><span class="when">قبل السفر</span><div><b>حمّل التطبيقات:</b> Bee Network للباص والترام، وTrainline للقطارات، وUber أو Bolt للسيارات، وCitymapper للتنقل.</div></li>
-        <li><span class="when">للعلم</span><div><b>القابس Type G</b> ثلاثي الأرجل و230 فولت، مثل السعودية، فلا تحتاج محوّلًا.</div></li>
+        <li><span class="when">قبل السفر</span><div><b>شطّاف متنقل</b>، فالشطّاف غير موجود غالبًا حتى في الفنادق. وخذ توصيلة كهرباء، والفيش البريطاني ثلاثي مثل السعودية؛ التفاصيل في «الفندق والحمّام».</div></li>
         <li><span class="when">مطلع نوفمبر</span><div><b>نحدّث الصفحة</b> بتوقعات الطقس الفعلية ومواعيد صلاة الجمعة المعلنة.</div></li>
       </ul>
     </div>
