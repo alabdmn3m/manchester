@@ -837,11 +837,11 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
             <li><b>قطار إلى Manchester Oxford Road</b> ثم نحو 800 متر مشيًا، إن كانت حقائبك خفيفة.</li>
           </ul>
           لسائق التاكسي: <button class="lnk" data-show-base="hotel">اعرض له عنوان الفندق بالإنجليزية</button>.</div></li>
-        <li><div><b>المغرب نحو 16:12 يوم الأحد.</b> الأرجح أن تصلّيه في الفندق: القبلة 118° من الشمال (نحو الجنوب الشرقي)، وجدول الصلاة للأسبوع في قسم <button class="lnk" data-goprayer>الطقس والصلاة</button>.</div></li>
-        <li><div><b>المؤن.</b> بقالة Go Local Extra على بعد 70 مترًا من الفندق، تفتح حتى منتصف الليل بحسب دليل غير رسمي، وCo-op على Booth St W حتى 23:00. المتاجر الكبيرة تغلق مبكرًا يوم الأحد.</div></li>
+        <li><div><b id="arrMg">المغرب نحو 16:12 يوم الأحد.</b> الأرجح أن تصلّيه في الفندق: القبلة 118° من الشمال (نحو الجنوب الشرقي)، وجدول الصلاة لأيام رحلتك في قسم <button class="lnk" data-goprayer>الطقس والصلاة</button>.</div></li>
+        <li><div><b>المؤن.</b> بقالة Go Local Extra على بعد 70 مترًا من الفندق، تفتح حتى منتصف الليل بحسب دليل غير رسمي، وCo-op على Booth St W حتى 23:00.<span id="arrSun"> المتاجر الكبيرة تغلق مبكرًا يوم الأحد.</span></div></li>
         <li><div><b>أول عشاء.</b> قريب: <button class="lnk" data-open="f2">ميت ووركس</button> أو <button class="lnk" data-open="f1">إتشي محمد</button>، وكلاهما بلا كحول ونحو 10 دقائق مشيًا. أو باص قصير إلى <button class="lnk" data-open="f4">جفرا</button> في Rusholme (مفتوح حتى 23:00).</div></li>
-        <li><div><b>إن كان معطفك خفيفًا</b> فاشترِ واحدًا صباح الإثنين من <button class="lnk" data-open="s9">برايمارك</button> بسعر زهيد، يفتح 08:00.</div></li>
-        <li><div><b>يوم العودة (الأحد 22).</b> المطار نحو 20 دقيقة بالقطار من Oxford Road أو Piccadilly، ووجودك في المطار قبل الرحلة الدولية بثلاث ساعات هو الأحوط.</div></li>
+        <li><div><b>إن كان معطفك خفيفًا</b> فاشترِ واحدًا <span id="arrCoat">صباح الإثنين</span> من <button class="lnk" data-open="s9">برايمارك</button> بسعر زهيد<span id="arrCoatT">، يفتح 08:00</span>.</div></li>
+        <li><div><b>يوم العودة (<span id="retDay">الأحد 22</span>).</b> المطار نحو 20 دقيقة بالقطار من Oxford Road أو Piccadilly، ووجودك في المطار قبل الرحلة الدولية بثلاث ساعات هو الأحوط.</div></li>
       </ol>
     </div>
 
@@ -956,7 +956,7 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
       </div>
       <div class="wx-panel" id="wxPanel" aria-live="polite"></div>
       <details class="prdet" id="prdet">
-        <summary><svg class="ico" aria-hidden="true"><use href="#i-dome"/></svg><span id="pr-h">جدول الصلاة للأسبوع واتجاه القبلة</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <summary><svg class="ico" aria-hidden="true"><use href="#i-dome"/></svg><span id="pr-h">جدول الصلاة لأيام رحلتك واتجاه القبلة</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
         <div class="prbox">
           <p class="muted prnote">من جدول المسجد المركزي في مانشستر الرسمي لنوفمبر 2026: الفجر والعشاء على درجة 18، والعصر الحنفي كما في الجدول. العصر عند الجمهور محسوب. قد تُظهر تطبيقات الجوال العشاء أبكر بنحو نصف ساعة إن كانت مضبوطة على طريقة أم القرى. الجماعة في المسجد المركزي: الظهر 13:00، والعصر 14:45 (و14:30 من 20 نوفمبر)، والعشاء 19:00.</p>
     <p class="muted prnote" id="prCalc" hidden>* أيام ديسمبر محسوبة بطريقة المسجد نفسها (درجة 18 والعصر الحنفي)، لأن جدوله لديسمبر لم يُنشر بعد.</p>
@@ -1101,7 +1101,7 @@ const TRIP_DAYS = [
   { d: 19, dow: 4, name: 'الخميس', hi: 9, lo: 3, fc: { hi: 8, lo: -1, w: 'بارد، وقد يمطر', rain: 0 }, fajr: '05:37', sunrise: '07:42', dhuhr: '11:54', asr: '13:48', asrH: '14:18', maghrib: '16:06', isha: '18:11', note: '' , prog: { label: 'تدريب', train: ['08:15','17:00'], topic: 'عروض مشاريع «تحدي القيادة التطبيقي»، والحوكمة الرشيدة، والقيادة الأصيلة · الصورة الجماعية 12:30', by: 'د. ستيفن بروكس، أ. سارة هاينز', eve: 'عشاء جماعي', dinner: true, free: 17*60 } },
   { d: 20, dow: 5, name: 'الجمعة', hi: 9, lo: 3, fc: { hi: 9, lo: 0, w: 'غائم جزئيًا', rain: 0 }, fajr: '05:39', sunrise: '07:44', dhuhr: '11:55', asr: '13:47', asrH: '14:17', maghrib: '16:05', isha: '18:10', note: 'بعض مطاعم Rusholme تفتح بعد الظهر يوم الجمعة (حضرموت 13:45، ماي بيشاور 15:00).' , prog: { label: 'تدريب', train: ['09:00','17:00'], topic: 'التفكير النظمي والقيادة التكيفية، ثم حفل الختام 15:45–17:00', by: 'أ. غريغ يونغ', eve: 'مفتوح', free: 17*60 } },
   { d: 21, dow: 6, name: 'السبت', hi: 9, lo: 3, fajr: '05:40', sunrise: '07:45', dhuhr: '11:55', asr: '13:46', asrH: '14:16', maghrib: '16:04', isha: '18:09', note: 'يوم حر كامل بعد انتهاء البرنامج: يناسب رحلة يوم (تشستر أو ليفربول أو يورك) أو يومًا في مانشستر. السبت أكثر الأيام ازدحامًا في المولات وأسواق الميلاد.' , prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
-  { d: 22, dow: 0, name: 'الأحد', hi: 9, lo: 3, fajr: '05:42', sunrise: '07:47', dhuhr: '11:55', asr: '13:45', asrH: '14:14', maghrib: '16:03', isha: '18:08', tag: 'يوم العودة', note: 'يوم العودة: المتاجر الكبيرة 6 ساعات فقط. القطار إلى المطار نحو 20 دقيقة من محطة Piccadilly، كل 10 دقائق، والمحطة على بعد نحو 1.3 كم من الفندق.' , prog: { label: 'يوم العودة', train: null, eve: '', free: 9*60 } },
+  { d: 22, dow: 0, name: 'الأحد', hi: 9, lo: 3, fajr: '05:42', sunrise: '07:47', dhuhr: '11:55', asr: '13:45', asrH: '14:14', maghrib: '16:03', isha: '18:08', tag: 'يوم العودة', note: 'الأحد: المتاجر الكبيرة 6 ساعات فقط (أرنديل 11:30–17:30). القطار إلى المطار نحو 20 دقيقة من محطة Piccadilly، كل 10 دقائق، والمحطة على بعد نحو 1.3 كم من الفندق.' , prog: { label: 'يوم العودة', train: null, eve: '', free: 9*60 } },
   // أيام إضافية خارج المعسكر: تظهر فقط لمن أدخل في «رحلتي» وصولًا قبل 15 أو مغادرة بعد 22 (مواقيت المسجد المركزي، والعصر عند الجمهور محسوب)
   { d: 23, dow: 1, name: 'الإثنين', hi: 9, lo: 3, fajr: '05:43', sunrise: '07:49', dhuhr: '11:55', asr: '13:44', asrH: '14:13', maghrib: '16:01', isha: '18:07', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
   { d: 24, dow: 2, name: 'الثلاثاء', hi: 9, lo: 3, fajr: '05:45', sunrise: '07:51', dhuhr: '11:56', asr: '13:43', asrH: '14:12', maghrib: '16:00', isha: '18:06', extra: true, note: '', prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
@@ -1201,7 +1201,7 @@ const PLACES = [
     praise: ['عمارة جميلة وتفاصيل مذهّبة', 'قاعة القبة ذات أجواء تاريخية', 'في قلب المدينة، وفيها مقهى ودورات مياه'],
     cons: ['مزدحمة بالطلاب والمقاعد قليلة', 'الهدوء إلزامي في الداخل'],
     visit: '45 دقيقة للمكتبة والساحة معًا',
-    alert: 'المكتبة مغلقة يومي الأحد (15 و22 نوفمبر)، والساحة متاحة دائمًا.',
+    alert: 'المكتبة مغلقة كل أحد، والساحة متاحة دائمًا.',
     note: 'تستضيف ساحة ألبرت أحد مواقع سوق الميلاد، ويزدحم مساءً؛ المرور نهارًا أنسب.',
     tram: { stop: 'St Peter’s Square', fare: T1 },
     url: 'https://www.manchester.gov.uk/centrallibrary', q: 'Manchester Central Library M2 5PD' },
@@ -1213,7 +1213,7 @@ const PLACES = [
     praise: ['أجواء أصيلة من العصور الوسطى', 'المرشدون المتطوعون ممتازون وواضحو النطق', 'تاريخ استثنائي، والرسوم تدعم المكتبة'],
     cons: ['ليست مجانية وتحتاج حجزًا مسبقًا', 'الجولة نحو ساعة، وقد يراها بعضهم طويلة'],
     visit: '60–75 دقيقة (مدة الجولة) · المواعيد الصباحية أفضل',
-    alert: 'احجز الآن: المواعيد تُفتح قبل 6 أسابيع تقريبًا، فمواعيد 15–22 نوفمبر تُفتح بين 4 و11 أكتوبر؛ راجع صفحة الحجز الآن. الجولات لمن هم 8 سنوات فأكثر، ولا يُسمح بالدخول لمن يتأخر أكثر من 15 دقيقة.',
+    alert: 'احجز مبكرًا: المواعيد تُفتح قبل 6 أسابيع تقريبًا وتنفد سريعًا؛ راجع صفحة الحجز. الجولات لمن هم 8 سنوات فأكثر، ولا يُسمح بالدخول لمن يتأخر أكثر من 15 دقيقة.',
     tram: { stop: 'Victoria', fare: T1 },
     url: 'https://library.chethams.com', q: 'Chetham\'s Library M3 1SB' },
 
@@ -1353,7 +1353,7 @@ const PLACES = [
     rating: 4.6, reviews: 661, price: { level: '££–£££', text: 'مشغولات يدوية' },
     hours: H([null, '10:00–17:30', '10:00–17:30', '10:00–17:30', '10:00–17:30', '10:00–17:30', '10:00–17:30']),
     desc: 'سوق سمك فيكتوري (1873) في حي Northern Quarter، صار استوديوهات ومتاجر لحرفيين: مجوهرات فضية وخزف وجلديات ولوحات. مكان مثالي لهدايا يدوية فريدة.',
-    alert: 'مغلق يوم الأحد (يفتح الأحد الثاني من كل شهر فقط)، فهو مغلق 15 و22 نوفمبر.',
+    alert: 'مغلق يوم الأحد إلا الأحد الثاني من كل شهر (8 نوفمبر و13 ديسمبر).',
     praise: ['هدايا يدوية فريدة', 'الحرفيون ودودون ويمكن الحديث معهم', 'مبنى تاريخي جميل'],
     cons: ['صغير وخياراته محدودة مقارنة بالمولات'],
     visit: '45 دقيقة',
@@ -1928,9 +1928,14 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const n = mcrNow();
     const today = n ? ordOf(n) : 0;
     $('#pgList').innerHTML = mapD(ORDER.filter(i => !TRIP_DAYS[i].extra), (D,i) => {
-      const P = BASEP[i], tr = P.train, ret = P.label === 'يوم العودة' || !canPlan(D.prog);
+      const P = BASEP[i], tr = P.train, Q = D.prog;
+      const late = TRIP && TRIP.b.d > 22 && D.n === 22, early = TRIP && TRIP.a.d < 15 && P.arrive;
+      const ret = (P.label === 'يوم العودة' && !late) || !canPlan(Q);
       let main;
-      if (tr) main = `<div class="pg-t"><span class="tm">${ltr(tr[0] + '–' + tr[1])}</span><span class="pg-l">${esc(P.label)}</span>${P.unsure ? '<span class="pg-u">الوقت يحتاج تأكيد الإدارة</span>' : ''}</div><p><b>${esc(P.topic)}</b> · ${esc(P.by)}</p>`;
+      if (Q.away) main = `<div class="pg-t"><span>${D.n < TRIP.a.d ? 'قبل وصولك' : 'بعد مغادرتك'}</span><span class="pg-l">خارج رحلتك</span></div><p>لست في مانشستر في هذا اليوم بحسب «رحلتي».</p>`;
+      else if (early) main = `<div class="pg-t"><span>الحضور في موعد أقصاه 16:00</span><span class="pg-l">بداية المعسكر</span></div><p>يبدأ سكن البرنامج في الفندق، والتدريب صباح الغد.</p>`;
+      else if (late) main = `<div class="pg-t"><span>نهاية سكن البرنامج</span><span class="pg-l">نهاية المعسكر</span></div><p>رحلتك ${esc(dLab(TRIP_DAYS.find(X => X.n === TRIP.b.d) || D))}؛ هذا يوم حر لك.</p>`;
+      else if (tr) main = `<div class="pg-t"><span class="tm">${ltr(tr[0] + '–' + tr[1])}</span><span class="pg-l">${esc(P.label)}</span>${P.unsure ? '<span class="pg-u">الوقت يحتاج تأكيد الإدارة</span>' : ''}</div><p><b>${esc(P.topic)}</b> · ${esc(P.by)}</p>`;
       else if (P.arrive) main = `<div class="pg-t"><span>${esc(P.arrive)}</span><span class="pg-l">${esc(P.label)}</span></div><p>لا برنامج قبل الوصول ولا بعده؛ خطّط ليومك حسب موعد رحلتك. التدريب يبدأ صباح الغد.</p>`;
       else if (ret) main = `<div class="pg-t"><span>مغادرة الفندق</span><span class="pg-l">${esc(P.label)}</span></div><p>كن في المطار قبل رحلتك بثلاث ساعات.</p>`;
       else main = `<div class="pg-t"><span>لا برنامج</span><span class="pg-l">${esc(P.label)}</span></div><p>رحلة يوم خارج المدينة، أو يوم في مانشستر.</p>`;
@@ -1939,7 +1944,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
       main = main.replace('</div><p>', mini + '</div><p>');
       if (eve) main = main.replace(/<\/p>$/, `<span class="pg-eve-m"> · المساء: ${esc(P.eve)}</span></p>`);
       const btn = ret ? '' : `<button class="btn" data-plan="${i}">${icon('i-route')}<span>${tr ? `وقتك الحر من ${ltr(fmtClose(P.free))}${P.dinner ? ' حتى العشاء' : ''}` : 'خطّط ليومك'}</span></button>`;
-      return `<li class="pg-r${tr ? '' : ' off'}${D.n === today ? ' now' : ''}"><div class="pg-d"><b>${D.name}</b><span class="num">${D.d}</span></div><div class="pg-b">${main}</div><div class="pg-e">${eve ? `<div>${eve}</div>` : ''}${btn}</div></li>`;
+      return `<li class="pg-r${tr && !Q.away ? '' : ' off'}${D.n === today ? ' now' : ''}"><div class="pg-d"><b>${D.name}</b><span class="num">${D.d}</span></div><div class="pg-b">${main}</div><div class="pg-e">${eve ? `<div>${eve}</div>` : ''}${btn}</div></li>`;
     }).join('');
     bidiFix($('#pgList'));
     $('#pgList').querySelectorAll('[data-plan]').forEach(b => b.onclick = () => planDay(+b.dataset.plan));
@@ -1958,7 +1963,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
           <div class="stat"><b class="num">${Math.floor(dl/60)}:${String(dl%60).padStart(2,'0')}</b><span>ساعات النهار</span></div>
           ${D.fc ? `<div class="stat"><b class="num" dir="ltr">${D.fc.hi}°</b><span>العظمى المتوقعة</span></div><div class="stat"><b class="num" dir="ltr">${D.fc.lo}°</b><span>الصغرى المتوقعة</span></div>` : ''}
         </div>
-        ${D.fc ? `<p class="muted" style="margin:6px 0 0">التوقع: ${esc(D.fc.w)}${D.fc.rain >= 1 ? ` · مطر نحو ${D.fc.rain} مم` : ''}. المصدر: الأرصاد البريطانية والنرويجية، 11 و12 نوفمبر. التوقعات بعد 3 أيام تتغير؛ راجع تطبيق الأرصاد البريطانية قبل الخروج.</p>` : !D.extra ? `<p class="muted" style="margin:6px 0 0">توقع هذا اليوم لم يصدر بعد؛ المعتاد بين 4° و11° مع احتمال مطر.</p>` : ''}
+        ${D.fc ? `<p class="muted" style="margin:6px 0 0">التوقع: ${esc(D.fc.w)}${D.fc.rain >= 1 ? ` · مطر نحو ${D.fc.rain} مم` : ''}. المصدر: الأرصاد البريطانية والنرويجية، 11 و12 نوفمبر. التوقعات بعد 3 أيام تتغير؛ راجع تطبيق الأرصاد البريطانية قبل الخروج.</p>` : `<p class="muted" style="margin:6px 0 0">لا توقع لهذا اليوم بعد؛ المعتاد بين ${D.lo}° و${D.hi}° مع احتمال مطر.</p>`}
         ${dayLine(D)}
         <div class="wear num" style="margin-top:4px">${[['الفجر',D.fajr],['الشروق',D.sunrise],['الظهر',D.dhuhr],['العصر',D.asr],['العصر الحنفي',D.asrH],['المغرب',D.maghrib],['العشاء',D.isha]].map(([n,t])=>`<span class="chip">${n} <b>${t}</b></span>`).join('')}</div>
 
@@ -2571,7 +2576,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     let r = $('#myRange'); if (!r){ r = document.createElement('p'); r.id = 'myRange'; r.className = 'muted my-range'; el.before(r); }
     r.hidden = !ext; if (!ext) return;
     const n = ids.length, f = TRIP_DAYS[ids[0]], l = TRIP_DAYS[ids[n-1]];
-    r.textContent = `إقامتك ${n} ${n <= 10 ? 'أيام' : 'يومًا'}، من ${dLab(f)} إلى ${dLab(l)}. أيام المعسكر مميزة بخط ذهبي${n > 12 ? '، واسحب الشريط لبقية الأيام' : ''}.`;
+    r.textContent = `إقامتك ${n} ${n <= 10 ? 'أيام' : 'يومًا'}، من ${dLab(f)} إلى ${dLab(l)}. أيام المعسكر مميزة بخط ذهبي${n > 12 ? '، واسحب الشريط لبقية الأيام' : ''}. المسافات في الدليل محسوبة من فندق البرنامج، فإن سكنت قبل المعسكر أو بعده في مكان آخر فاحسبها من سكنك.`;
   }
   function renderMine(){
     if (MY.day === null) MY.day = myDefault();
@@ -2715,7 +2720,18 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     try { await navigator.clipboard.writeText(url); if (msg) msg.textContent = 'نُسخ رابط رحلتك. احفظه في المفضلة أو أرسله لنفسك، وافتحه من أي متصفح أو جهاز.'; }
     catch(e){ if (msg) msg.innerHTML = `انسخ هذا الرابط واحفظه: <bdi dir="ltr" style="word-break:break-all">${esc(url)}</bdi>`; }
   }
+  function renderTripText(){
+    const A = TRIP ? TRIP_DAYS.find(X => X.n === TRIP.a.d) : TRIP_DAYS.find(X => X.n === 15 && !X.extra);
+    const B = TRIP ? TRIP_DAYS.find(X => X.n === TRIP.b.d) : TRIP_DAYS.find(X => X.n === 22 && !X.extra);
+    const N = A && TRIP_DAYS.find(X => X.n === A.n + 1);
+    const set = (id, t) => { const e = document.getElementById(id); if (e) e.textContent = t; };
+    if (A) set('arrMg', `المغرب نحو ${A.maghrib} يوم ${A.name}${TRIP ? ' ' + A.d : ''}.`);
+    const sun = document.getElementById('arrSun'); if (sun) sun.hidden = !!A && A.dow !== 0;
+    if (N){ set('arrCoat', `صباح ${N.name}${TRIP ? ' ' + N.d : ''}`); set('arrCoatT', N.dow === 0 ? '، ويفتح متأخرًا يوم الأحد' : '، يفتح 08:00'); }
+    if (B) set('retDay', dLab(B));
+  }
   function renderTripHero(){
+    renderTripText();
     const el = $('#tripHero'); if (!el) return;
     el.innerHTML = TRIP ? `${icon('i-plane')}<span>رحلتك: من <b>${dName(TRIP.a.d)} · ${tLab(TRIP.a.t)}</b> إلى <b>${dName(TRIP.b.d)} · ${tLab(TRIP.b.t)}</b></span><button class="ghost" data-trip>تعديل</button>`
       : `${icon('i-plane')}<span>أدخل موعدَي وصولك ومغادرتك ليتكيّف معك الدليل: وقتك الحر، والأيام، والعدّ التنازلي.</span><button data-trip>أدخل رحلتك</button>`;
