@@ -7,7 +7,7 @@
 <meta name="description" content="دليل تفاعلي للمشاركين في الزمالة السعودية البريطانية: برنامج المعسكر وجدولي والأماكن والصلاة في مانشستر.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="دليل مانشستر · الزمالة السعودية البريطانية">
-<meta property="og:description" content="برنامج المعسكر، وجدولك الشخصي، و48 مكانًا مختارًا، ومواقيت الصلاة والقبلة، ويتكيّف مع موعد رحلتك · المعسكر القيادي، نوفمبر 2026">
+<meta property="og:description" content="برنامج المعسكر، وجدولك الشخصي، و50 مكانًا مختارًا، ومواقيت الصلاة والقبلة، ويتكيّف مع موعد رحلتك · المعسكر القيادي، نوفمبر 2026">
 <meta property="og:image" content="https://alabdmn3m.github.io/manchester/og.jpg?v=2">
 <meta property="og:image:secure_url" content="https://alabdmn3m.github.io/manchester/og.jpg?v=2">
 <meta property="og:image:type" content="image/jpeg">
@@ -390,7 +390,7 @@ footer .credits li{margin-block:6px;font-size:.875rem}
 .stabs button[aria-expanded="true"] .chev{transform:rotate(180deg);opacity:1}
 .stabs button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){.stabs button .chev{transition:none}}
-@media (max-width:720px){.stabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.stabs button{justify-content:center;flex-direction:column;gap:4px;padding:10px 6px;white-space:normal;line-height:1.3;font-size:.875rem;border-radius:14px;text-align:center}.stabs button .chev{margin:0}.stabs .new{display:none}}
+@media (max-width:720px){.stabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.stabs.no4{grid-template-columns:repeat(3,minmax(0,1fr))}.stabs button{justify-content:center;flex-direction:column;gap:4px;padding:10px 6px;white-space:normal;line-height:1.3;font-size:.875rem;border-radius:14px;text-align:center}.stabs button .chev{margin:0}.stabs .new{display:none}}
 .stabs button .n{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--surface-2);font-size:.875rem}
 .stabs button[aria-expanded="true"]{background:var(--violet);border-color:var(--violet);color:#fff}
 .stabs button[aria-expanded="true"] .n{background:var(--gold);color:var(--on-gold)}
@@ -819,7 +819,7 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
   </section>
 
   <section class="section wrap start" aria-labelledby="st-h" id="start">
-    <div class="sec-head"><div><h2 id="st-h">دليلك العملي</h2><p>بعد أن عرفت المدينة، هذا ما تحتاجه للتعامل معها: ما تجهّزه قبل السفر، وأول 24 ساعة بعد الوصول، وأنظمة المدينة وعاداتها، وما يلزمك في الفندق والحمّام. اضغط أي بند لفتحه، ومرة أخرى لإغلاقه.</p></div></div>
+    <div class="sec-head"><div><h2 id="st-h">دليلك العملي</h2><p>بعد أن عرفت المدينة، هذا ما تحتاجه للتعامل معها: <span id="preTxt">ما تجهّزه قبل السفر، و</span>أول 24 ساعة بعد الوصول، وأنظمة المدينة وعاداتها، وما يلزمك في الفندق والحمّام. اضغط أي بند لفتحه، ومرة أخرى لإغلاقه.</p></div></div>
     <div class="stabs" aria-label="دليلك العملي">
       <button aria-expanded="false" aria-controls="t4" data-t="t4"><span class="n">1</span>قبل السفر<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
       <button aria-expanded="false" aria-controls="t1" data-t="t1"><span class="n">2</span>أول 24 ساعة<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
@@ -900,9 +900,9 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
 
     <div class="spanel" id="t4" role="region" aria-label="قبل السفر" hidden>
       <ul class="check">
-        <li><span class="when">عاجل</span><div><b>تصريح السفر الإلكتروني ETA:</b> إن لم يصدر بعد فقدّمه اليوم من gov.uk أو تطبيق UK ETA بـ£20؛ يشترط البرنامج صدوره قبل الرحلة بـ48 ساعة على الأقل. واحفظ على جوالك نسخة من خطاب البرنامج الرسمي.</div></li>
-        <li><span class="when">قبل 14 نوفمبر</span><div><b>المشاهدات</b> المطلوبة من البرنامج.</div></li>
-        <li><span class="when">قبل الوصول</span><div><b>القراءات القبلية</b> المطلوبة من البرنامج.</div></li>
+        <li data-by="arr"><span class="when">قبل الإقلاع</span><div><b>تأكد أن تصريح السفر ETA صدر</b> ومرتبط بالجواز الذي ستسافر به، فرسالة الموافقة تصلك على بريدك. إن لم يصدر بعد فتابعه فورًا من gov.uk أو تطبيق UK ETA. واحفظ على جوالك نسخة من خطاب البرنامج الرسمي.</div></li>
+        <li data-by="14"><span class="when">قبل 14 نوفمبر</span><div><b>المشاهدات</b> المطلوبة من البرنامج.</div></li>
+        <li data-by="arr"><span class="when">قبل الوصول</span><div><b>القراءات القبلية</b> المطلوبة من البرنامج.</div></li>
         <li><span class="when">في الحقيبة</span><div><b>بدلة رسمية كاملة</b> لأيام التدريب، فالصورة الجماعية الخميس 12:30.</div></li>
         <li><span class="when">في الحقيبة</span><div><b>معطف شتوي واحد مقاوم للماء بقبعة (هود)، يغطي البدلة، وحذاء لا يتسرب منه الماء</b>؛ المطر غالبًا رذاذ خفيف والبرد أشد أثرًا، فلا تحتاج معطف مطر منفصلًا. لكن التوقعات تشير إلى مطر غزير الثلاثاء 17، وبرد يقارب الصفر ليلًا أغلب الأسبوع، فخذ مظلة صغيرة متينة وقفازين ووشاحًا.</div></li>
         <li><span class="when">في الحقيبة</span><div><b>شطّاف متنقل وتوصيلة كهرباء</b>؛ الشطّاف غير موجود غالبًا حتى في الفنادق، والفيش البريطاني ثلاثي مثل السعودية. التفاصيل في «الفندق والحمّام».</div></li>
@@ -2756,8 +2756,17 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const f = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone:'Europe/London', year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hourCycle:'h23' }).formatToParts(new Date()).map(x => [x.type, x.value]));
     return { y:+f.year, mo:+f.month, d:+f.day, m: +f.hour*60 + +f.minute };
   }
+  function renderPre(N){
+    const n = ordOf(N), a = TRIP ? TRIP.a.d : 15, gone = n >= a;
+    const btn = document.querySelector('.stabs button[data-t="t4"]'), pan = document.getElementById('t4');
+    const pt = document.getElementById('preTxt'); if (pt) pt.hidden = gone;
+    if (btn){ btn.hidden = gone; btn.closest('.stabs').classList.toggle('no4', gone); if (gone && pan) pan.hidden = true; }
+    let k = 1; document.querySelectorAll('.stabs button').forEach(b => { if (!b.hidden) b.querySelector('.n').textContent = k++; });
+    if (pan) pan.querySelectorAll('li[data-by]').forEach(li => { const by = li.dataset.by === 'arr' ? a : +li.dataset.by; li.hidden = n > by || (li.dataset.by === 'arr' && n >= a); });
+  }
   function renderLive(){
     renderProg();
+    renderPre(mcrNow());
     setCountdown(DEMO ? new Date(Date.UTC(2026, 10, DEMO.d, Math.floor(DEMO.m/60), DEMO.m % 60)) : new Date());
     const N = mcrNow(), el = $('#live');
     const i0 = TRIP_DAYS.findIndex(D => D.n === ordOf(N)), i = i0 >= 0 && inStay(i0) ? i0 : -1;
@@ -2774,7 +2783,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const ss = toMin(D.maghrib);
     const open = PLACES.filter(p => openAt(p, D.dow, N.m)).length;
     const trw = tr2m(D), inTr = trw && N.m >= trw[0] && N.m < D.prog.free, inTrain = inTr && N.m < trw[1];
-    const progTxt = inTr ? (inTrain ? `في التدريب حتى <b class="num">${D.prog.train[1]}</b>` : `في ${esc(D.prog.eve.replace(/\s*\d.*$/, ''))} حتى <b class="num">${hhmm(D.prog.free)}</b>`) : (D.prog.dinner && N.m >= toMin(D.prog.train[1]) && N.m < 22*60 ? 'الليلة: عشاء جماعي للزمالة' : '');
+    const progTxt = inTr ? (inTrain ? `في التدريب حتى <b class="num">${D.prog.train[1]}</b>` : `في ${esc(D.prog.eve.replace(/\s*\d.*$/, ''))} حتى <b class="num">${hhmm(D.prog.free)}</b>`) : (D.prog.dinner && N.m >= toMin(D.prog.train[1]) && N.m < 22*60 ? 'الليلة: عشاء جماعي للزمالة' : (trw && N.m < trw[0]) ? `التدريب يبدأ <b class="num">${D.prog.train[0]}</b> بعد ${fmtMin(trw[0] - N.m)}` : D.prog.label === 'يوم العودة' ? (D.prog.until !== undefined ? (N.m < D.prog.until ? `يوم عودتك: اخرج من الفندق قبل <b class="num">${hhmm(D.prog.until)}</b>` : '') : 'يوم العودة: كن في المطار قبل رحلتك بثلاث ساعات') : '');
     el.innerHTML = `<span class="pulse" aria-hidden="true"></span><span>${dLab(D)} · الآن في مانشستر <b class="num">${hhmm(N.m)}</b></span><span>الصلاة القادمة: ${nxt}</span>${progTxt ? `<span>${progTxt}</span>` : ''}<span>${N.m < ss ? `الغروب بعد <b class="num">${fmtMin(ss - N.m)}</b>` : 'حلّ الظلام'}</span>
       ${open ? `<button id="liveOpen">المفتوح الآن (${open})</button>` : '<span>أغلب الأماكن مغلقة الآن</span>'}${(SCH.days[i]?.items.length) ? `<button id="liveMine">جدولي اليوم (${SCH.days[i].items.length})</button>` : ''}${N.m < 21*60 ? `<button id="livePlan">${inTr ? 'خطّط لما بعد البرنامج' : 'خطّط من الآن'}</button>` : ''}${DEMO ? `<span class="demo">معاينة: ${D.name} ${D.d} ${MON(D)}</span><button class="ghost" id="demoOff">إنهاء المعاينة</button>` : ''}`;
     const lo = $('#liveOpen'); if (lo) lo.onclick = () => { state.openNow = { dow: D.dow, m: N.m }; state.day = ''; $('#dayf').value = ''; state.cat = 'all'; renderCats(); render(); document.getElementById('ex-h').parentElement.parentElement.scrollIntoView({behavior:'smooth'}); };
