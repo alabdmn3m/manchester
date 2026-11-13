@@ -579,7 +579,7 @@ bdi.nw{white-space:nowrap}
   .pg-t .tm{font-size:.95rem}
   .pg-b p{font-size:.875rem;line-height:1.6}
   .pg-eve-m{display:inline;color:var(--ink);font-weight:700}
-  .pg-mini{display:inline-flex;align-items:center;gap:4px;margin-inline-start:auto;border:1px solid var(--violet);color:var(--violet);background:var(--surface);border-radius:999px;padding:2px 10px;font:inherit;font-size:.8125rem;font-weight:700;cursor:pointer;white-space:nowrap}
+  .pg-mini,button.chip{position:relative}.pg-mini::after,button.chip::after{content:"";position:absolute;inset:-9px -4px}summary{min-height:40px}.by-t .upd{display:block;opacity:.75;font-size:.75rem;margin-top:2px}.pg-mini{display:inline-flex;align-items:center;gap:4px;margin-inline-start:auto;border:1px solid var(--violet);color:var(--violet);background:var(--surface);border-radius:999px;padding:2px 10px;font:inherit;font-size:.8125rem;font-weight:700;cursor:pointer;white-space:nowrap}
   .pg-mini span{font-size:1rem;line-height:1}
 }
 
@@ -771,7 +771,7 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
       <div>
         <div class="eyebrow"><b>الزمالة السعودية البريطانية في قيادة العمل التنموي</b><span>المعسكر القيادي</span></div>
         <h1 class="title">مانشستر<small>دليلنا في مدينة النحلة العاملة. المعسكر من <span class="num">15</span> إلى <span class="num">22</span> نوفمبر <span class="num">2026</span>، وموعد رحلتك تختاره أدناه.</small></h1>
-        <a class="byline" href="#sign" aria-label="إعداد: عبدالرحمن العبدالمنعم"><span class="lgtile" aria-hidden="true"><svg viewBox="318 297 444 413"><use href="#lg-art"/></svg></span><span class="by-t"><small>إعداد</small><b>عبدالرحمن العبدالمنعم</b></span></a>
+        <a class="byline" href="#sign" aria-label="إعداد: عبدالرحمن العبدالمنعم"><span class="lgtile" aria-hidden="true"><svg viewBox="318 297 444 413"><use href="#lg-art"/></svg></span><span class="by-t"><small>إعداد</small><b>عبدالرحمن العبدالمنعم</b><small class="upd">آخر تحديث: 13 نوفمبر 2026</small></span></a>
       </div>
       <svg class="bee" viewBox="0 0 200 200" role="img" aria-label="نحلة مانشستر العاملة، رمز المدينة">
         <path d="M100 8l78 45v94l-78 45-78-45V53z" fill="#F2B705" opacity=".14"/>
@@ -885,6 +885,11 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
     </div>
 
     <div class="spanel" id="t6" role="region" aria-label="الفندق والحمّام" hidden>
+      <h4 class="rg">الغرفة</h4>
+      <div class="rules">
+        <div class="rule"><b>الاستلام من 15:00، والتسليم 12:00 ظهرًا</b><span>هذا نظام فندق Hyatt Regency. إن وصلت قبل موعد الاستلام أو غادرت بعد الظهر فاترك حقائبك في الاستقبال، وانطلق بلا أثقال.</span></div>
+        <div class="rule"><b>الواي فاي مجاني</b><span>في الغرف والمرافق، فاحفظ اسم الشبكة وكلمتها من الاستقبال عند وصولك.</span></div>
+      </div>
       <h4 class="rg">الأفياش والشحن</h4>
       <div class="rules">
         <div class="rule"><b>الفيش ثلاثي مثل السعودية</b><span>القابس البريطاني (Type G) بثلاث أرجل و230 فولت، فشواحنك السعودية تعمل مباشرة. أما الشاحن ذو الرِّجلين (الأوروبي أو الأمريكي) فيحتاج محوّلًا، تجده في المطار أو الصيدليات مثل Boots.</span></div>
@@ -2461,7 +2466,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const dark = toMin(P.D.maghrib);
     const nS = P.stops.length;
     const trw = tr2m(P.D), T0 = PZ.nowStart ?? PZ.start;
-    const warn = (trw && T0 < trw[1] && T0 + PZ.dur > trw[0] ? `<div class="pz-warn">${icon('i-alert')}هذا الوقت يتعارض مع التدريب (${ltr(P.D.prog.train[0] + '–' + P.D.prog.train[1])}). وقت فراغك يبدأ ${ltr(fmtClose(P.D.prog.free))}.</div>` : '') + (P.D.prog.dep ? `<div class="pz-warn">${icon('i-plane')}${esc(P.D.prog.dep)}: اخرج من الفندق قبل ${ltr(hhmm(P.D.prog.until))}${last && last.b + back.min > P.D.prog.until ? '، وهذه الخطة تتجاوزه فقصّرها' : ''}.</div>` : P.D.prog.label === 'يوم العودة' ? `<div class="pz-warn">${icon('i-plane')}يوم العودة: اترك وقتًا للحقائب والوصول إلى المطار قبل رحلتك بثلاث ساعات.</div>` : '') + (P.D.prog.dinner ? `<div class="pz-warn">${icon('i-plate')}مساء الخميس عشاء جماعي للزمالة 19:00–21:00، فلم نقترح عشاءً${last && P.D.prog.dinT && last.b + back.min > P.D.prog.dinT[0] - 15 ? `، وهذه الخطة تعيدك إلى الفندق نحو ${ltr(hhmm(last.b + back.min))} فاختر مدة أقصر` : ''}.</div>` : '');
+    const warn = (trw && T0 < trw[1] && T0 + PZ.dur > trw[0] ? `<div class="pz-warn">${icon('i-alert')}هذا الوقت يتعارض مع التدريب (${ltr(P.D.prog.train[0] + '–' + P.D.prog.train[1])}). وقت فراغك يبدأ ${ltr(fmtClose(P.D.prog.free))}.</div>` : '') + (P.D.prog.dep ? `<div class="pz-warn">${icon('i-plane')}${esc(P.D.prog.dep)}: سلّم الغرفة قبل 12:00 واترك حقائبك في الاستقبال، واخرج من الفندق قبل ${ltr(hhmm(P.D.prog.until))}${last && last.b + back.min > P.D.prog.until ? '، وهذه الخطة تتجاوزه فقصّرها' : ''}.</div>` : P.D.prog.label === 'يوم العودة' ? `<div class="pz-warn">${icon('i-plane')}يوم العودة: اترك وقتًا للحقائب والوصول إلى المطار قبل رحلتك بثلاث ساعات.</div>` : '') + (P.D.prog.dinner ? `<div class="pz-warn">${icon('i-plate')}مساء الخميس عشاء جماعي للزمالة 19:00–21:00، فلم نقترح عشاءً${last && P.D.prog.dinT && last.b + back.min > P.D.prog.dinT[0] - 15 ? `، وهذه الخطة تعيدك إلى الفندق نحو ${ltr(hhmm(last.b + back.min))} فاختر مدة أقصر` : ''}.</div>` : '');
     let html = warn + `<div class="pz-sum"><span>${nS === 1 ? 'محطة واحدة' : nS === 2 ? 'محطتان' : `<b>${nS}</b> محطات`}</span><span>العودة إلى الفندق نحو <b class="num">${hhmm(last.b + back.min)}</b></span>${walkMin ? `<span>مشي إجمالي نحو <b class="num">${walkMin}</b> د</span>` : ''}<span>الظلام يحل <b class="num">${P.D.maghrib}</b></span></div><ol class="it">`;
     P.ev.forEach(e => {
       if (e.k === 'pray'){ html += `<li><span class="tm num">${e.x}</span><div class="bx pr"><h4>صلاة ${e.n}</h4><p>${e.txt}</p></div></li>`; return; }
