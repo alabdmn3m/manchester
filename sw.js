@@ -1,0 +1,19 @@
+// يحفظ الدليل على الجهاز ليعمل دون إنترنت بعد أول فتح
+const CORE = 'mcr-core-v1', IMG = 'mcr-img-v1';
+const CORE_FILES = ['./', './index.html', './favicon.svg', './og.jpg'];
+const IMAGES = ["./img/02d8fbf3acde.webp", "./img/0ee808aa144a.webp", "./img/0f70a8a2f09a.webp", "./img/159b64cf935c.webp", "./img/198fce768e10.webp", "./img/1ab83b9daf57.webp", "./img/1c53c610bcbe.webp", "./img/20feac4fcc17.webp", "./img/24939958e679.webp", "./img/265d12fb44d2.webp", "./img/281f23e99166.webp", "./img/284c7beb34c5.webp", "./img/2be4f97c72cb.webp", "./img/2f549d1be3c4.webp", "./img/31168f11c5c8.webp", "./img/35ce7b982bee.webp", "./img/39aa3ded9bd0.webp", "./img/39e89f507ddb.webp", "./img/3c273ad34cd7.webp", "./img/3c5812a99e5d.webp", "./img/3d345cb4f58c.webp", "./img/3dad8a0ce8b9.webp", "./img/3ebfc752d96f.webp", "./img/42d59aac1229.webp", "./img/4364368a2878.webp", "./img/4508c1e0430c.webp", "./img/46f67f33e1b1.webp", "./img/4752b55e6547.webp", "./img/4f2552d70685.webp", "./img/4f25a3271e82.webp", "./img/52ce68555c87.webp", "./img/53bcc6341f78.webp", "./img/559710dd774b.webp", "./img/57c868d62eb6.webp", "./img/5a5aa414cc60.webp", "./img/5db085a8868f.webp", "./img/5e24c50180f7.webp", "./img/609db7777ace.webp", "./img/60f862af776e.webp", "./img/635860ed8121.webp", "./img/63b9d0caaf5f.webp", "./img/6942a71bdcc6.webp", "./img/6c749bf78e76.webp", "./img/6ec046ed0ac4.webp", "./img/6ff22418ffc9.webp", "./img/709f189a119e.webp", "./img/737ec5b48808.webp", "./img/7496b0079a97.webp", "./img/7bcc6ea3e952.webp", "./img/7c1370dddd6f.webp", "./img/7ea9b7389d12.webp", "./img/8063ff8b3b1e.webp", "./img/825e48c9c689.webp", "./img/88f48ea3d7e5.webp", "./img/89c31380f557.webp", "./img/8a04f5139f53.webp", "./img/94bd811f9ce8.webp", "./img/94e7d5c85c9b.webp", "./img/964f83a3c21f.webp", "./img/96f383a0e5f5.webp", "./img/97c655313d93.webp", "./img/986f409591bb.webp", "./img/9b9194051835.webp", "./img/9ecf7711bd1c.webp", "./img/9f4afcb639ac.webp", "./img/9fe7000d1349.webp", "./img/a4b742e8f55e.webp", "./img/a6046f99b77c.webp", "./img/a8a27d8166d3.webp", "./img/a8f861fb4db3.webp", "./img/aab60dee26fd.webp", "./img/ac4cdea69cb6.webp", "./img/b3112a5c9734.webp", "./img/c058fabf8a87.webp", "./img/c5117d82ed8b.webp", "./img/cabca5f61c4d.webp", "./img/d4832e3e5640.webp", "./img/d977f613c8b1.webp", "./img/dca09ab4381b.webp", "./img/dd844de1abdd.webp", "./img/dfc656366485.webp", "./img/dfcf6c287cf7.webp", "./img/e5035483f560.webp", "./img/e82c84d01e19.webp", "./img/e902248eed96.webp", "./img/efb3bda80298.webp", "./img/f3fe8c4f0f74.webp", "./img/f53b57a0b037.webp", "./img/f792ea64b3d5.webp", "./img/fa36a2eaaf87.webp", "./img/fa5b8d74d38f.webp", "./img/fc3cc5e7c81a.webp"];
+self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CORE).then(c => c.addAll(CORE_FILES))); });
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CORE && k !== IMG).map(k => caches.delete(k)))).then(() => self.clients.claim()));
+  caches.open(IMG).then(c => Promise.all(IMAGES.map(u => c.match(u).then(m => m || c.add(u).catch(() => {})))));
+});
+self.addEventListener('fetch', e => {
+  const r = e.request; if (r.method !== 'GET') return;
+  const u = new URL(r.url); if (u.origin !== location.origin) return;
+  if (r.mode === 'navigate' || u.pathname.endsWith('/') || u.pathname.endsWith('.html')) {
+    e.respondWith(fetch(r).then(res => { if (res.ok) { const cp = res.clone(); caches.open(CORE).then(c => c.put('./index.html', cp)); } return res; })
+      .catch(() => caches.match('./index.html')));
+    return;
+  }
+  e.respondWith(caches.match(r, { ignoreSearch: true }).then(m => m || fetch(r).then(res => { if (res.ok) { const cp = res.clone(); caches.open(u.pathname.includes('/img/') ? IMG : CORE).then(c => c.put(r, cp)); } return res; })));
+});

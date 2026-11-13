@@ -829,7 +829,7 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
 
     <div class="spanel" id="t1" role="region" aria-label="أول 24 ساعة" hidden>
       <ol class="steps">
-        <li><div><b>في المطار: الاتصال أولًا.</b> شريحة جوال من متاجر الصالات مثل WHSmith، أو فعّل شريحة إلكترونية (eSIM) قبل الإقلاع. الصفحة تحتاج إنترنت.</div></li>
+        <li><div><b>في المطار: الاتصال أولًا.</b> شريحة جوال من متاجر الصالات مثل WHSmith، أو فعّل شريحة إلكترونية (eSIM) قبل الإقلاع. بعد أول فتح يعمل الدليل دون إنترنت، عدا الخرائط والروابط الخارجية.</div></li>
         <li><div><b>إلى الفندق.</b> يطلب البرنامج الوصول قبل 16:00 يوم الأحد. لك ثلاثة طرق:
           <ul class="opts">
             <li><b>تاكسي</b> من الموقف أمام كل صالة: نحو £28–40، أو Uber نحو £20–32، في 25–35 دقيقة. الأسهل مع الحقائب، وسعر Uber يرتفع وقت الذروة.</li>
@@ -1098,7 +1098,7 @@ const TRIP_DAYS = [
   { d: 16, dow: 1, name: 'الإثنين', hi: 10, lo: 4, fc: { hi: 10, lo: 0, w: 'غائم', rain: 0 }, fajr: '05:33', sunrise: '07:36', dhuhr: '11:54', asr: '13:51', asrH: '14:22', maghrib: '16:11', isha: '18:14', note: 'متحف مانشستر ومكتبة رايلاندز مغلقان اليوم.' , prog: { label: 'تدريب', train: ['09:00','17:00'], topic: 'افتتاح المعسكر، ثم السلوك التنظيمي والتحفيز: الذات والآخرون والفرق', by: 'د. ستيفن بروكس، أ. ستيوارت ويلز، أ.د. جيف توماس', eve: 'مفتوح', free: 17*60 } },
   { d: 17, dow: 2, name: 'الثلاثاء', hi: 10, lo: 4, fc: { hi: 9, lo: 0, w: 'مطر غزير', rain: 0 }, fajr: '05:35', sunrise: '07:38', dhuhr: '11:54', asr: '13:50', asrH: '14:20', maghrib: '16:09', isha: '18:13', note: 'مكتبة رايلاندز ما زالت مغلقة؛ تفتح من الغد.' , prog: { label: 'تدريب', train: ['09:00','17:00'], topic: 'أصحاب المصلحة: الأولويات والشبكات والإشراك', by: 'أ. يونيس مايتورينا سانشيز', eve: 'مفتوح', free: 17*60 } },
   { d: 18, dow: 3, name: 'الأربعاء', hi: 10, lo: 3, fc: { hi: 8, lo: 3, w: 'غائم، وزخات خفيفة محتملة', rain: 0 }, fajr: '05:36', sunrise: '07:40', dhuhr: '11:54', asr: '13:49', asrH: '14:19', maghrib: '16:08', isha: '18:12', note: 'أهم يوم للزيارات: التدريب ينتهي ظهرًا، ومكتبة رايلاندز مفتوحة، ومتحف مانشستر مفتوح حتى 21:00 على بعد 5 دقائق من الفندق.' , prog: { label: 'نصف يوم', train: ['08:15','13:30'], topic: 'عروض مشاريع «تحدي القيادة التطبيقي»، ثم تطبيق القيم الشخصية في الممارسات المؤسسية، ثم الغداء مع المتحدث', by: 'د. ستيفن بروكس، أ. دون فيليبس', eve: 'مفتوح من الظهر', lunch: true, free: 13*60+30 } },
-  { d: 19, dow: 4, name: 'الخميس', hi: 9, lo: 3, fc: { hi: 8, lo: -1, w: 'بارد، وقد يمطر', rain: 0 }, fajr: '05:37', sunrise: '07:42', dhuhr: '11:54', asr: '13:48', asrH: '14:18', maghrib: '16:06', isha: '18:11', note: '' , prog: { label: 'تدريب', train: ['08:15','17:00'], topic: 'عروض مشاريع «تحدي القيادة التطبيقي»، والحوكمة الرشيدة، والقيادة الأصيلة · الصورة الجماعية 12:30', by: 'د. ستيفن بروكس، أ. سارة هاينز', eve: 'عشاء جماعي', dinner: true, free: 17*60 } },
+  { d: 19, dow: 4, name: 'الخميس', hi: 9, lo: 3, fc: { hi: 8, lo: -1, w: 'بارد، وقد يمطر', rain: 0 }, fajr: '05:37', sunrise: '07:42', dhuhr: '11:54', asr: '13:48', asrH: '14:18', maghrib: '16:06', isha: '18:11', note: '' , prog: { label: 'تدريب', train: ['08:15','17:00'], topic: 'عروض مشاريع «تحدي القيادة التطبيقي»، والحوكمة الرشيدة، والقيادة الأصيلة · الصورة الجماعية 12:30', by: 'د. ستيفن بروكس، أ. سارة هاينز', eve: 'عشاء جماعي 19:00–21:00', dinner: true, dinT: [19*60, 21*60], free: 17*60 } },
   { d: 20, dow: 5, name: 'الجمعة', hi: 9, lo: 3, fc: { hi: 9, lo: 0, w: 'غائم جزئيًا', rain: 0 }, fajr: '05:39', sunrise: '07:44', dhuhr: '11:55', asr: '13:47', asrH: '14:17', maghrib: '16:05', isha: '18:10', note: 'بعض مطاعم Rusholme تفتح بعد الظهر يوم الجمعة (حضرموت 13:45، ماي بيشاور 15:00).' , prog: { label: 'تدريب', train: ['09:00','17:00'], topic: 'التفكير النظمي والقيادة التكيفية، ثم حفل الختام 15:45–17:00', by: 'أ. غريغ يونغ', eve: 'مفتوح', free: 17*60 } },
   { d: 21, dow: 6, name: 'السبت', hi: 9, lo: 3, fajr: '05:40', sunrise: '07:45', dhuhr: '11:55', asr: '13:46', asrH: '14:16', maghrib: '16:04', isha: '18:09', note: 'يوم حر كامل بعد انتهاء البرنامج: يناسب رحلة يوم (تشستر أو ليفربول أو يورك) أو يومًا في مانشستر. السبت أكثر الأيام ازدحامًا في المولات وأسواق الميلاد.' , prog: { label: 'يوم حر', train: null, eve: 'حر', free: 9*60 } },
   { d: 22, dow: 0, name: 'الأحد', hi: 9, lo: 3, fajr: '05:42', sunrise: '07:47', dhuhr: '11:55', asr: '13:45', asrH: '14:14', maghrib: '16:03', isha: '18:08', tag: 'يوم العودة', note: 'الأحد: المتاجر الكبيرة 6 ساعات فقط (أرنديل 11:30–17:30). القطار إلى المطار نحو 20 دقيقة من محطة Piccadilly، كل 10 دقائق، والمحطة على بعد نحو 1.3 كم من الفندق.' , prog: { label: 'يوم العودة', train: null, eve: '', free: 9*60 } },
@@ -1331,8 +1331,8 @@ const PLACES = [
 
   { id: 's3', enAddr: 'City centre, Manchester', cat: 'shop', ar: 'أسواق الميلاد الموسمية', en: 'Manchester Christmas Markets', lat: 53.48229, lng: -2.24545,
     rating: null, price: { level: '££', text: 'أسعار سياحية' },
-    hours: H(Array(7).fill('نحو 10:00–20:00 (المواعيد الرسمية لم تُنشر)')),
-    desc: 'نحو 210 أكشاك موزعة على 10 مواقع في وسط المدينة من 6 نوفمبر إلى 22 ديسمبر 2026 (ساحة ألبرت وCathedral Gardens حتى 3 يناير)، منها ساحة ألبرت وشارع King وساحة St Ann’s وExchange Square وCathedral Gardens. حِرف يدوية وهدايا وأطعمة شتوية وعجلة دوّارة.',
+    hours: H(Array(7).fill('10:00–21:00 (أكشاك الحِرف حتى 20:00)')),
+    desc: 'نحو 210 أكشاك موزعة على 10 مواقع في وسط المدينة من 6 نوفمبر إلى 22 ديسمبر 2026 (ساحة ألبرت وCathedral Gardens حتى 3 يناير)، منها ساحة ألبرت وشارع King وساحة St Ann’s وExchange Square وCathedral Gardens، وساحة Lincoln الجديدة هذا العام. المواعيد اليومية بحسب نظام الموسم الماضي: الحِرف 10:00–20:00، والطعام 11:00–21:00. حِرف يدوية وهدايا وأطعمة شتوية وعجلة دوّارة.',
     why: ['أجواء مضيئة في أيام الشتاء القصيرة', 'هدايا وحِرف يدوية متنوعة', 'المواقع متقاربة ويمكن التجول بينها مشيًا'],
     cons: ['زحام شديد مساءً وفي نهاية الأسبوع', 'أسعار سياحية'],
     visit: 'ساعة أو أكثر · نهارًا',
@@ -1857,7 +1857,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   const dayVis = i => { const [a,b] = STAY(), d = TRIP_DAYS[i].n; return d >= Math.min(a, 15) && d <= Math.max(b, 22); };
   const VIS = () => ORDER.filter(dayVis), STAYD = () => ORDER.filter(inStay);
   const mapD = (ids, f) => ids.map(i => f(TRIP_DAYS[i], i));
-  const END = P => P.until ?? 22*60 + 30;
+  const END = P => P.until ?? (P.dinT ? P.dinT[0] - 15 : 22*60 + 30);
   const canPlan = P => !P.away && !(P.label === 'يوم العودة' && P.until === undefined) && END(P) - P.free >= 60;
   function applyTrip(){
     TRIP_DAYS.forEach((D,i) => {
@@ -2461,7 +2461,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const dark = toMin(P.D.maghrib);
     const nS = P.stops.length;
     const trw = tr2m(P.D), T0 = PZ.nowStart ?? PZ.start;
-    const warn = (trw && T0 < trw[1] && T0 + PZ.dur > trw[0] ? `<div class="pz-warn">${icon('i-alert')}هذا الوقت يتعارض مع التدريب (${ltr(P.D.prog.train[0] + '–' + P.D.prog.train[1])}). وقت فراغك يبدأ ${ltr(fmtClose(P.D.prog.free))}.</div>` : '') + (P.D.prog.dep ? `<div class="pz-warn">${icon('i-plane')}${esc(P.D.prog.dep)}: اخرج من الفندق قبل ${ltr(hhmm(P.D.prog.until))}${last && last.b + back.min > P.D.prog.until ? '، وهذه الخطة تتجاوزه فقصّرها' : ''}.</div>` : P.D.prog.label === 'يوم العودة' ? `<div class="pz-warn">${icon('i-plane')}يوم العودة: اترك وقتًا للحقائب والوصول إلى المطار قبل رحلتك بثلاث ساعات.</div>` : '') + (P.D.prog.dinner ? `<div class="pz-warn">${icon('i-plate')}مساء الخميس عشاء جماعي للزمالة ولم يُعلن وقته بعد، فلم نقترح عشاءً. تأكد أن المحطات المسائية لا تتعارض معه.</div>` : '');
+    const warn = (trw && T0 < trw[1] && T0 + PZ.dur > trw[0] ? `<div class="pz-warn">${icon('i-alert')}هذا الوقت يتعارض مع التدريب (${ltr(P.D.prog.train[0] + '–' + P.D.prog.train[1])}). وقت فراغك يبدأ ${ltr(fmtClose(P.D.prog.free))}.</div>` : '') + (P.D.prog.dep ? `<div class="pz-warn">${icon('i-plane')}${esc(P.D.prog.dep)}: اخرج من الفندق قبل ${ltr(hhmm(P.D.prog.until))}${last && last.b + back.min > P.D.prog.until ? '، وهذه الخطة تتجاوزه فقصّرها' : ''}.</div>` : P.D.prog.label === 'يوم العودة' ? `<div class="pz-warn">${icon('i-plane')}يوم العودة: اترك وقتًا للحقائب والوصول إلى المطار قبل رحلتك بثلاث ساعات.</div>` : '') + (P.D.prog.dinner ? `<div class="pz-warn">${icon('i-plate')}مساء الخميس عشاء جماعي للزمالة 19:00–21:00، فلم نقترح عشاءً${last && P.D.prog.dinT && last.b + back.min > P.D.prog.dinT[0] - 15 ? `، وهذه الخطة تعيدك إلى الفندق نحو ${ltr(hhmm(last.b + back.min))} فاختر مدة أقصر` : ''}.</div>` : '');
     let html = warn + `<div class="pz-sum"><span>${nS === 1 ? 'محطة واحدة' : nS === 2 ? 'محطتان' : `<b>${nS}</b> محطات`}</span><span>العودة إلى الفندق نحو <b class="num">${hhmm(last.b + back.min)}</b></span>${walkMin ? `<span>مشي إجمالي نحو <b class="num">${walkMin}</b> د</span>` : ''}<span>الظلام يحل <b class="num">${P.D.maghrib}</b></span></div><ol class="it">`;
     P.ev.forEach(e => {
       if (e.k === 'pray'){ html += `<li><span class="tm num">${e.x}</span><div class="bx pr"><h4>صلاة ${e.n}</h4><p>${e.txt}</p></div></li>`; return; }
@@ -2584,7 +2584,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     pzSub();
     const i = MY.day, C = computeDay(i), D = C.D, P = D.prog;
     let h = '';
-    if (P.train) h += `<div class="my-lock">${icon('i-id')}<span><b>برنامج المعسكر ${ltr(P.train[0] + '–' + P.train[1])}</b> · ${esc(P.topic)}${P.dinner ? ' · المساء عشاء جماعي' : /التكريم/.test(P.eve) ? ' · ثم ' + esc(P.eve) : ''}</span></div>`;
+    if (P.train) h += `<div class="my-lock">${icon('i-id')}<span><b>برنامج المعسكر ${ltr(P.train[0] + '–' + P.train[1])}</b> · ${esc(P.topic)}${P.dinner ? ' · المساء ' + esc(P.eve) : /التكريم/.test(P.eve) ? ' · ثم ' + esc(P.eve) : ''}</span></div>`;
     else if (P.mine) h += `<div class="my-lock">${icon('i-plane')}<span><b>${esc(P.mine)}</b> · وقتك الحر من نحو ${ltr(hhmm(P.free))}</span></div>`;
     else if (P.arrive) h += `<div class="my-lock">${icon('i-plane')}<span><b>الوصول قبل 16:00 بحسب البرنامج</b> · وقتك الحر من نحو ${ltr(hhmm(P.free))} <button class="lnk" data-trip>أدخل رحلتك لحساب أدق</button></span></div>`;
     if (P.train && P.mine) h += `<div class="my-lock">${icon('i-plane')}<span><b>${esc(P.mine)}</b> · وقتك الحر من نحو ${ltr(hhmm(P.free))}</span></div>`;
@@ -2602,7 +2602,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
       h += `<div class="pz-sum"><span>${C.rows.length === 1 ? 'مكان واحد' : C.rows.length === 2 ? 'مكانان' : `<b>${C.rows.length}</b> أماكن`}</span><span>من <b class="num">${hhmm(C.start)}</b> حتى العودة نحو <b class="num">${hhmm(C.end)}</b></span><span>الظلام يحل <b class="num">${D.maghrib}</b></span></div>`;
       { const f = C.rows[0], wait = f.w.some(x => /فستنتظر/.test(x[1])) ? f.a - (C.start + f.l.min) : 0; if (wait >= 30){ const ns = Math.max(P.free, Math.floor((f.a - f.l.min) / 15) * 15); if (ns > C.start) h += `<div class="pz-warn">${icon('i-clock')}أول مكان يفتح ${hhmm(f.a)}. <button class="lnk" id="myFixStart">ابدأ جدولك من ${hhmm(ns)}</button></div>`; MY.fix = ns; } }
       if (C.end > 23*60) h += `<div class="pz-warn">${icon('i-moon')}العودة إلى الفندق نحو ${hhmm(C.end)}، أي بعد 23:00. خفّف الجدول أو ابدأ أبكر.</div>`;
-      if (P.dinner && C.end > 17*60 + 30) h += `<div class="pz-warn">${icon('i-plate')}الليلة عشاء جماعي لبرنامج الزمالة؛ تأكد أن جدولك لا يتعارض معه.</div>`;
+      if (P.dinner && C.end > 18*60 + 45) h += `<div class="pz-warn">${icon('i-plate')}العشاء الجماعي 19:00، وجدولك يعيدك إلى الفندق نحو ${hhmm(C.end)}؛ اختر مدة أقصر.</div>`;
       h += '<ol class="it">';
       const N = C.rows.length;
       ev.forEach(e => {
@@ -2756,6 +2756,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const f = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone:'Europe/London', year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hourCycle:'h23' }).formatToParts(new Date()).map(x => [x.type, x.value]));
     return { y:+f.year, mo:+f.month, d:+f.day, m: +f.hour*60 + +f.minute };
   }
+  if ('serviceWorker' in navigator && /github\.io$|^localhost$/.test(location.hostname)) addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
   function renderPre(N){
     const n = ordOf(N), a = TRIP ? TRIP.a.d : 15, gone = n >= a;
     const btn = document.querySelector('.stabs button[data-t="t4"]'), pan = document.getElementById('t4');
@@ -2783,7 +2784,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const ss = toMin(D.maghrib);
     const open = PLACES.filter(p => openAt(p, D.dow, N.m)).length;
     const trw = tr2m(D), inTr = trw && N.m >= trw[0] && N.m < D.prog.free, inTrain = inTr && N.m < trw[1];
-    const progTxt = inTr ? (inTrain ? `في التدريب حتى <b class="num">${D.prog.train[1]}</b>` : `في ${esc(D.prog.eve.replace(/\s*\d.*$/, ''))} حتى <b class="num">${hhmm(D.prog.free)}</b>`) : (D.prog.dinner && N.m >= toMin(D.prog.train[1]) && N.m < 22*60 ? 'الليلة: عشاء جماعي للزمالة' : (trw && N.m < trw[0]) ? `التدريب يبدأ <b class="num">${D.prog.train[0]}</b> بعد ${fmtMin(trw[0] - N.m)}` : D.prog.label === 'يوم العودة' ? (D.prog.until !== undefined ? (N.m < D.prog.until ? `يوم عودتك: اخرج من الفندق قبل <b class="num">${hhmm(D.prog.until)}</b>` : '') : 'يوم العودة: كن في المطار قبل رحلتك بثلاث ساعات') : '');
+    const progTxt = inTr ? (inTrain ? `في التدريب حتى <b class="num">${D.prog.train[1]}</b>` : `في ${esc(D.prog.eve.replace(/\s*\d.*$/, ''))} حتى <b class="num">${hhmm(D.prog.free)}</b>`) : (D.prog.dinner && N.m >= toMin(D.prog.train[1]) && N.m < 21*60 ? (N.m < 19*60 ? `الليلة: عشاء جماعي للزمالة <b class="num">19:00–21:00</b>` : 'الآن: عشاء جماعي للزمالة حتى <b class="num">21:00</b>') : (trw && N.m < trw[0]) ? `التدريب يبدأ <b class="num">${D.prog.train[0]}</b> بعد ${fmtMin(trw[0] - N.m)}` : D.prog.label === 'يوم العودة' ? (D.prog.until !== undefined ? (N.m < D.prog.until ? `يوم عودتك: اخرج من الفندق قبل <b class="num">${hhmm(D.prog.until)}</b>` : '') : 'يوم العودة: كن في المطار قبل رحلتك بثلاث ساعات') : '');
     el.innerHTML = `<span class="pulse" aria-hidden="true"></span><span>${dLab(D)} · الآن في مانشستر <b class="num">${hhmm(N.m)}</b></span><span>الصلاة القادمة: ${nxt}</span>${progTxt ? `<span>${progTxt}</span>` : ''}<span>${N.m < ss ? `الغروب بعد <b class="num">${fmtMin(ss - N.m)}</b>` : 'حلّ الظلام'}</span>
       ${open ? `<button id="liveOpen">المفتوح الآن (${open})</button>` : '<span>أغلب الأماكن مغلقة الآن</span>'}${(SCH.days[i]?.items.length) ? `<button id="liveMine">جدولي اليوم (${SCH.days[i].items.length})</button>` : ''}${N.m < 21*60 ? `<button id="livePlan">${inTr ? 'خطّط لما بعد البرنامج' : 'خطّط من الآن'}</button>` : ''}${DEMO ? `<span class="demo">معاينة: ${D.name} ${D.d} ${MON(D)}</span><button class="ghost" id="demoOff">إنهاء المعاينة</button>` : ''}`;
     const lo = $('#liveOpen'); if (lo) lo.onclick = () => { state.openNow = { dow: D.dow, m: N.m }; state.day = ''; $('#dayf').value = ''; state.cat = 'all'; renderCats(); render(); document.getElementById('ex-h').parentElement.parentElement.scrollIntoView({behavior:'smooth'}); };
