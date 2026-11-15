@@ -255,7 +255,7 @@ dialog::backdrop{background:rgba(16,8,36,.6);backdrop-filter:blur(3px)}
 .week{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;text-align:center;font-size:.8125rem}
 .week div{border-radius:8px;padding:6px 2px;background:var(--surface);border:1px solid var(--line);min-width:0}
 .week b{display:block;font-size:.95rem;font-family:var(--f-body)}
-.week .c{background:var(--bad-bg);color:var(--bad);border-color:transparent}
+.week .wt{display:block;font-size:.68rem;white-space:nowrap;margin-top:1px}.week .c{background:var(--bad-bg);color:var(--bad);border-color:transparent}
 .week .sel{outline:2px solid var(--gold)}
 .hours-list{font-size:1rem;margin-top:8px}
 .hours-list div{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--line);padding-block:3px}
@@ -2079,6 +2079,17 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     if (p.price.text && p.price.text.includes('£')) return `<span class="chip pr">${esc(p.price.text)}</span>`;
     return p.price.level ? `<span class="chip" title="${esc(p.price.text)}">${LEVEL[p.price.level] || esc(p.price.text)}</span>` : `<span class="chip pr">${esc(p.price.text)}</span>`;
   }
+  function shortH(h){ const r = [...String(h).matchAll(/(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/g)]; return r.length ? r[0][1] + '–' + r[r.length-1][2] : ''; }
+  function hLabel(h){ const t = shortH(h); if (t) return t; const s = String(h); return /حجز|محجوز/.test(s) ? 'بحجز' : /قطارات/.test(s) ? 'طوال اليوم' : /الصلو/.test(s) ? 'للصلوات' : /منتصف الليل/.test(s) ? 'حتى 00:00' : 'مفتوح'; }
+  function todayChip(p){
+    if (!p.hours) return '';
+    const D = TRIP_DAYS.find(X => X.n === ordOf(mcrNow()));
+    if (!D) return closedChip(p);
+    const h = p.hours[D.dow];
+    if (h === null) return `<span class="chip bad">مغلق اليوم</span>`;
+    const t = shortH(h);
+    return `<span class="chip">اليوم ${t ? ltr(t) : esc(hLabel(h))}</span>`;
+  }
   function closedChip(p){
     if (!p.hours) return '';
     const shut = TRIP_DAYS.filter(D => p.hours[D.dow] === null);
@@ -2109,7 +2120,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
             <div class="meta">
               ${p.rating ? `<span class="chip"><span class="stars">${icon('i-star','ico star')}${ltr(p.rating.toFixed(1))}</span><span class="muted num">(${p.reviews.toLocaleString('en-US')})</span></span>` : ''}
               <span class="chip">${icon('i-pin')}${summary(p)}</span>
-              ${progChip(p)}${priceChip(p)}${halalChip(p)}${closedChip(p)}${state.eve ? (()=>{ const dw = state.day !== '' ? TRIP_DAYS[+state.day].dow : 3; const c = closeMin(p.hours[dw]); return c ? `<span class="chip late">حتى ${ltr(fmtClose(c))}</span>` : ''; })() : ''}
+              ${progChip(p)}${priceChip(p)}${halalChip(p)}${todayChip(p)}${state.eve ? (()=>{ const dw = state.day !== '' ? TRIP_DAYS[+state.day].dow : 3; const c = closeMin(p.hours[dw]); return c ? `<span class="chip late">حتى ${ltr(fmtClose(c))}</span>` : ''; })() : ''}
             </div>
           </div>
         </button>
@@ -2177,7 +2188,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const dirUrl = `https://www.google.com/maps/dir/?api=1&origin=${base().lat},${base().lng}&destination=${encodeURIComponent(p.q)}&travelmode=transit`;
     const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.q)}`;
     const fav = state.favs.has(p.id);
-    const week = mapD(VIS().length > 12 ? ORDER.filter(i => TRIP_DAYS[i].n >= 15 && TRIP_DAYS[i].n <= 22) : VIS(), (D,i) => { const h = p.hours[D.dow]; return `<div class="${h===null?'c':''}${i===state.sel?' sel':''}" title="${esc(h||'مغلق')}"><span>${D.name}</span><b class="num">${D.d}</b>${h===null?'مغلق':'مفتوح'}</div>`; }).join('');
+    const week = mapD(VIS().length > 12 ? ORDER.filter(i => TRIP_DAYS[i].n >= 15 && TRIP_DAYS[i].n <= 22) : VIS(), (D,i) => { const h = p.hours[D.dow]; return `<div class="${h===null?'c':''}${i===state.sel?' sel':''}" title="${esc(h||'مغلق')}"><span>${D.name}</span><b class="num">${D.d}</b>${h===null?'مغلق':`<small class="num wt" dir="ltr">${esc(hLabel(h))}${shortH(h) !== h ? '*' : ''}</small>`}</div>`; }).join('');
     const uniq = [0,1,2,3,4,5,6].map(dw => [['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'][dw], p.hours[dw]]);
     const routeHtml = rs.map(r => {
       let fare = '';
@@ -2209,7 +2220,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
         <div class="cols">
           <div class="box${p.price.gbp || p.price.free ? ' has-sar' : ''}"><h5>${icon('i-card')}السعر</h5>${priceHtml}${p.visit ? `<div class="muted" style="margin-top:6px">${icon('i-clock')} ${esc(p.visit)}</div>` : ''}</div>
           <div class="box"><h5>${icon('i-cal')}خلال أيام الرحلة</h5><div class="week">${week}</div>
-            <details style="margin-top:8px"><summary>المواعيد بالتفصيل</summary><div class="hours-list">${uniq.map(([n,h]) => `<div><span>${n}</span><span class="num">${h === null ? '<b style="color:var(--bad)">مغلق</b>' : esc(h)}</span></div>`).join('')}</div></details></div>
+            ${uniq.some(([n,h]) => h !== null && shortH(h) !== h) ? `<details style="margin-top:8px"><summary>* ملاحظات المواعيد</summary><div class="hours-list">${uniq.filter(([n,h]) => h !== null && shortH(h) !== h).map(([n,h]) => `<div><span>${n}</span><span class="num">${h === null ? '<b style="color:var(--bad)">مغلق</b>' : esc(h)}</span></div>`).join('')}</div></details>` : ''}</div>
         </div>
         <div class="box"><h5>${icon('i-route')}كيف تصل ${p.far ? 'من مانشستر' : 'من السكن'}</h5><div class="routes has-sar">${routeHtml}</div>
           <p class="src" style="margin-top:8px">الباص £2 للرحلة، والترام بالبطاقة اللاتلامسية مع سقف يومي (TfGM 2026). أوقات الباص والترام وأجرة Uber تقديرات من المسافة.</p></div>
