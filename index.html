@@ -253,9 +253,9 @@ dialog::backdrop{background:rgba(16,8,36,.6);backdrop-filter:blur(3px)}
 .alert.note{background:var(--surface-2);background:color-mix(in srgb,var(--c-mosque) 13%,var(--surface));} .alert.note .ico{color:var(--c-mosque)}
 .alert .ico{margin-top:4px}
 .week{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;text-align:center;font-size:.8125rem}
-.week div{border-radius:8px;padding:6px 2px;background:var(--surface);border:1px solid var(--line);min-width:0}
+.week div{border-radius:8px;padding:6px 0;background:var(--surface);border:1px solid var(--line);min-width:0}
 .week b{display:block;font-size:.95rem;font-family:var(--f-body)}
-.week .wt{display:block;font-size:.68rem;white-space:nowrap;margin-top:1px}.week .c{background:var(--bad-bg);color:var(--bad);border-color:transparent}
+.week .wt{display:block;font-size:.68rem;line-height:1.25;margin-top:1px}.week .c{background:var(--bad-bg);color:var(--bad);border-color:transparent}
 .week .sel{outline:2px solid var(--gold)}
 .hours-list{font-size:1rem;margin-top:8px}
 .hours-list div{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--line);padding-block:3px}
@@ -1764,6 +1764,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   };
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const ltr = s => `<bdi dir="ltr" class="num">${s}</bdi>`;
+  const tRng = s => `<bdi dir="rtl" class="num">${s}</bdi>`;
   function sarOf(txt){
     const nums = (txt.match(/\d+(?:[.,]\d+)?/g) || []).map(x => Math.round(parseFloat(x.replace(',', '')) * state.rate));
     return nums.length ? nums.map(n => n.toLocaleString('en-US')).join('–') + ' ر.س' : '';
@@ -1777,7 +1778,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
       const f = document.createDocumentFragment(); let last = 0; const s = n.nodeValue; re.lastIndex = 0; let m;
       while ((m = re.exec(s))){
         f.append(s.slice(last, m.index));
-        const b = document.createElement('bdi'); b.dir = 'ltr'; b.className = 'num'; b.textContent = m[0].replace(/[.,]$/, ''); f.append(b);
+        const b = document.createElement('bdi'); b.dir = m[0][0] === '£' ? 'ltr' : 'rtl'; b.className = 'num'; b.textContent = m[0].replace(/[.,]$/, ''); f.append(b);
         let end = m.index + b.textContent.length;
         if (!skip && m[0][0] === '£'){ const sp = document.createElement('span'); sp.className = 'sar num'; sp.textContent = ' (نحو ' + sarOf(b.textContent) + ')'; f.append(sp); }
         last = end;
@@ -1929,7 +1930,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     if (P.away) h += 'لست في مانشستر في هذا اليوم بحسب «رحلتي».';
     else if (P.mine && !tr) h += `${esc(P.mine)}. وقتك الحر يبدأ نحو ${ltr(hhmm(P.free))} بعد الوصول إلى الفندق${P.until !== undefined ? '، وأخرج من الفندق قبل ' + ltr(hhmm(P.until)) : ''}.`;
     else if (P.arrive) h += `${P.arrive}، ولا برنامج غير ذلك؛ خطّط حسب موعد وصولك. <button class="lnk" data-trip>أدخل موعد رحلتك</button>`;
-    else if (tr) h += `تدريب ${ltr(tr[0] + '–' + tr[1])}${P.dinner || /التكريم/.test(P.eve) ? `، ثم ${esc(P.eve)}` : ''}. <button class="lnk" data-go-prog>التفاصيل</button>`;
+    else if (tr) h += `تدريب ${tRng(tr[0] + '–' + tr[1])}${P.dinner || /التكريم/.test(P.eve) ? `، ثم ${esc(P.eve)}` : ''}. <button class="lnk" data-go-prog>التفاصيل</button>`;
     else if (P.label === 'يوم حر') h += 'لا برنامج اليوم؛ اليوم كله لك.';
     else if (P.dep) h += `${esc(P.dep)}. اخرج من الفندق قبل ${ltr(hhmm(P.until))}.`;
     else h += 'يوم العودة. <button class="lnk" data-trip>أدخل موعد رحلتك</button>';
@@ -1950,7 +1951,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
       if (Q.away) main = `<div class="pg-t"><span>${D.n < TRIP.a.d ? 'قبل وصولك' : 'بعد مغادرتك'}</span><span class="pg-l">خارج رحلتك</span></div><p>لست في مانشستر في هذا اليوم بحسب «رحلتي».</p>`;
       else if (early) main = `<div class="pg-t"><span>الحضور في موعد أقصاه 16:00</span><span class="pg-l">بداية المعسكر</span></div><p>يبدأ سكن البرنامج في الفندق، والتدريب صباح الغد.</p>`;
       else if (late) main = `<div class="pg-t"><span>نهاية سكن البرنامج</span><span class="pg-l">نهاية المعسكر</span></div><p>رحلتك ${esc(dLab(TRIP_DAYS.find(X => X.n === TRIP.b.d) || D))}؛ هذا يوم حر لك.</p>`;
-      else if (tr) main = `<div class="pg-t"><span class="tm">${ltr(tr[0] + '–' + tr[1])}</span><span class="pg-l">${esc(P.label)}</span>${P.unsure ? '<span class="pg-u">الوقت يحتاج تأكيد الإدارة</span>' : ''}</div><p><b>${esc(P.topic)}</b> · ${esc(P.by)}</p>`;
+      else if (tr) main = `<div class="pg-t"><span class="tm">${tRng(tr[0] + '–' + tr[1])}</span><span class="pg-l">${esc(P.label)}</span>${P.unsure ? '<span class="pg-u">الوقت يحتاج تأكيد الإدارة</span>' : ''}</div><p><b>${esc(P.topic)}</b> · ${esc(P.by)}</p>`;
       else if (P.arrive) main = `<div class="pg-t"><span>${esc(P.arrive)}</span><span class="pg-l">${esc(P.label)}</span></div><p>لا برنامج قبل الوصول ولا بعده؛ خطّط ليومك حسب موعد رحلتك. التدريب يبدأ صباح الغد.</p>`;
       else if (ret) main = `<div class="pg-t"><span>مغادرة الفندق</span><span class="pg-l">${esc(P.label)}</span></div><p>كن في المطار قبل رحلتك بثلاث ساعات.</p>`;
       else main = `<div class="pg-t"><span>لا برنامج</span><span class="pg-l">${esc(P.label)}</span></div><p>رحلة يوم خارج المدينة، أو يوم في مانشستر.</p>`;
@@ -2088,7 +2089,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const h = p.hours[D.dow];
     if (h === null) return `<span class="chip bad">مغلق اليوم</span>`;
     const t = shortH(h);
-    return `<span class="chip">اليوم ${t ? ltr(t) : esc(hLabel(h))}</span>`;
+    return `<span class="chip">اليوم ${t ? tRng(t) : esc(hLabel(h))}</span>`;
   }
   function closedChip(p){
     if (!p.hours) return '';
@@ -2188,7 +2189,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const dirUrl = `https://www.google.com/maps/dir/?api=1&origin=${base().lat},${base().lng}&destination=${encodeURIComponent(p.q)}&travelmode=transit`;
     const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.q)}`;
     const fav = state.favs.has(p.id);
-    const week = mapD(VIS().length > 12 ? ORDER.filter(i => TRIP_DAYS[i].n >= 15 && TRIP_DAYS[i].n <= 22) : VIS(), (D,i) => { const h = p.hours[D.dow]; return `<div class="${h===null?'c':''}${i===state.sel?' sel':''}" title="${esc(h||'مغلق')}"><span>${D.name}</span><b class="num">${D.d}</b>${h===null?'مغلق':`<small class="num wt" dir="ltr">${esc(hLabel(h))}${shortH(h) !== h ? '*' : ''}</small>`}</div>`; }).join('');
+    const week = mapD(VIS().length > 12 ? ORDER.filter(i => TRIP_DAYS[i].n >= 15 && TRIP_DAYS[i].n <= 22) : VIS(), (D,i) => { const h = p.hours[D.dow]; return `<div class="${h===null?'c':''}${i===state.sel?' sel':''}" title="${esc(h||'مغلق')}"><span>${D.name}</span><b class="num">${D.d}</b>${h===null?'مغلق':`<small class="num wt" dir="rtl">${esc(hLabel(h)).replace('–', '–<wbr>')}${shortH(h) !== h ? '*' : ''}</small>`}</div>`; }).join('');
     const uniq = [0,1,2,3,4,5,6].map(dw => [['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'][dw], p.hours[dw]]);
     const routeHtml = rs.map(r => {
       let fare = '';
@@ -2487,7 +2488,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const dark = toMin(P.D.maghrib);
     const nS = P.stops.length;
     const trw = tr2m(P.D), T0 = PZ.nowStart ?? PZ.start;
-    const warn = (trw && T0 < trw[1] && T0 + PZ.dur > trw[0] ? `<div class="pz-warn">${icon('i-alert')}هذا الوقت يتعارض مع التدريب (${ltr(P.D.prog.train[0] + '–' + P.D.prog.train[1])}). وقت فراغك يبدأ ${ltr(fmtClose(P.D.prog.free))}.</div>` : '') + (P.D.prog.dep ? `<div class="pz-warn">${icon('i-plane')}${esc(P.D.prog.dep)}: سلّم الغرفة قبل 12:00 واترك حقائبك في الاستقبال، واخرج من الفندق قبل ${ltr(hhmm(P.D.prog.until))}${last && last.b + back.min > P.D.prog.until ? '، وهذه الخطة تتجاوزه فقصّرها' : ''}.</div>` : P.D.prog.label === 'يوم العودة' ? `<div class="pz-warn">${icon('i-plane')}يوم العودة: اترك وقتًا للحقائب والوصول إلى المطار قبل رحلتك بثلاث ساعات.</div>` : '') + (P.D.prog.dinner ? `<div class="pz-warn">${icon('i-plate')}مساء الخميس عشاء جماعي للزمالة 19:00–21:00، فلم نقترح عشاءً${last && P.D.prog.dinT && last.b + back.min > P.D.prog.dinT[0] - 15 ? `، وهذه الخطة تعيدك إلى الفندق نحو ${ltr(hhmm(last.b + back.min))} فاختر مدة أقصر` : ''}.</div>` : '');
+    const warn = (trw && T0 < trw[1] && T0 + PZ.dur > trw[0] ? `<div class="pz-warn">${icon('i-alert')}هذا الوقت يتعارض مع التدريب (${tRng(P.D.prog.train[0] + '–' + P.D.prog.train[1])}). وقت فراغك يبدأ ${ltr(fmtClose(P.D.prog.free))}.</div>` : '') + (P.D.prog.dep ? `<div class="pz-warn">${icon('i-plane')}${esc(P.D.prog.dep)}: سلّم الغرفة قبل 12:00 واترك حقائبك في الاستقبال، واخرج من الفندق قبل ${ltr(hhmm(P.D.prog.until))}${last && last.b + back.min > P.D.prog.until ? '، وهذه الخطة تتجاوزه فقصّرها' : ''}.</div>` : P.D.prog.label === 'يوم العودة' ? `<div class="pz-warn">${icon('i-plane')}يوم العودة: اترك وقتًا للحقائب والوصول إلى المطار قبل رحلتك بثلاث ساعات.</div>` : '') + (P.D.prog.dinner ? `<div class="pz-warn">${icon('i-plate')}مساء الخميس عشاء جماعي للزمالة 19:00–21:00، فلم نقترح عشاءً${last && P.D.prog.dinT && last.b + back.min > P.D.prog.dinT[0] - 15 ? `، وهذه الخطة تعيدك إلى الفندق نحو ${ltr(hhmm(last.b + back.min))} فاختر مدة أقصر` : ''}.</div>` : '');
     let html = warn + `<div class="pz-sum"><span>${nS === 1 ? 'محطة واحدة' : nS === 2 ? 'محطتان' : `<b>${nS}</b> محطات`}</span><span>العودة إلى الفندق نحو <b class="num">${hhmm(last.b + back.min)}</b></span>${walkMin ? `<span>مشي إجمالي نحو <b class="num">${walkMin}</b> د</span>` : ''}<span>الظلام يحل <b class="num">${P.D.maghrib}</b></span></div><ol class="it">`;
     P.ev.forEach(e => {
       if (e.k === 'pray'){ html += `<li><span class="tm num">${e.x}</span><div class="bx pr"><h4>صلاة ${e.n}</h4><p>${e.txt}</p></div></li>`; return; }
@@ -2610,7 +2611,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     pzSub();
     const i = MY.day, C = computeDay(i), D = C.D, P = D.prog;
     let h = '';
-    if (P.train) h += `<div class="my-lock">${icon('i-id')}<span><b>برنامج المعسكر ${ltr(P.train[0] + '–' + P.train[1])}</b> · ${esc(P.topic)}${P.dinner ? ' · المساء ' + esc(P.eve) : /التكريم/.test(P.eve) ? ' · ثم ' + esc(P.eve) : ''}</span></div>`;
+    if (P.train) h += `<div class="my-lock">${icon('i-id')}<span><b>برنامج المعسكر ${tRng(P.train[0] + '–' + P.train[1])}</b> · ${esc(P.topic)}${P.dinner ? ' · المساء ' + esc(P.eve) : /التكريم/.test(P.eve) ? ' · ثم ' + esc(P.eve) : ''}</span></div>`;
     else if (P.mine) h += `<div class="my-lock">${icon('i-plane')}<span><b>${esc(P.mine)}</b> · وقتك الحر من نحو ${ltr(hhmm(P.free))}</span></div>`;
     else if (P.arrive) h += `<div class="my-lock">${icon('i-plane')}<span><b>الوصول قبل 16:00 بحسب البرنامج</b> · وقتك الحر من نحو ${ltr(hhmm(P.free))} <button class="lnk" data-trip>أدخل رحلتك لحساب أدق</button></span></div>`;
     if (P.train && P.mine) h += `<div class="my-lock">${icon('i-plane')}<span><b>${esc(P.mine)}</b> · وقتك الحر من نحو ${ltr(hhmm(P.free))}</span></div>`;
