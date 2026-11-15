@@ -685,6 +685,13 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
 .pz-note{font-size:.875rem;color:var(--muted);margin-top:10px}
 /* live */
 .live:empty{display:none}
+.hchk{margin-top:12px;display:flex;gap:12px;align-items:center;background:linear-gradient(135deg,rgba(242,183,5,.22),rgba(242,183,5,.08));border:1.5px solid var(--gold);border-radius:16px;padding:12px 14px;color:var(--hero-ink);text-decoration:none}
+.hchk>.ico{width:34px;height:34px;flex:none;color:var(--on-gold);background:var(--gold);border-radius:10px;padding:7px}
+.hchk .ht{flex:1;min-width:0}.hchk b{display:block;font-size:1.05rem;color:var(--gold)}.hchk .ht>span{display:block;font-size:.92rem;line-height:1.5}
+.hchk small{display:block;opacity:.75;font-size:.78rem;margin-top:2px}
+.hchk .go{flex:none;background:var(--gold);color:var(--on-gold);border-radius:999px;padding:7px 14px;font-weight:700;font-size:.9rem;display:inline-flex;gap:6px;align-items:center;white-space:nowrap}.hchk .go .ico{width:15px;height:15px}
+@media (max-width:520px){.hchk{flex-wrap:wrap;align-items:flex-start}.hchk .ht{flex:1 1 calc(100% - 50px)}.hchk .go{margin-inline-start:auto}}
+.need .tool{display:flex;gap:8px;align-items:center;margin:4px 0 8px;padding:8px 10px;border-radius:10px;border:1px dashed var(--gold);font-size:.88rem}.need .tool .ico{width:18px;height:18px;flex:none}
 .htrip{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:10px 14px;color:var(--hero-ink)}
 .htrip .ico{width:18px;height:18px;color:var(--gold);flex:none}.htrip b{color:var(--gold)}.htrip span{flex:1;min-width:200px}
 .htrip button{border:0;background:var(--gold);color:var(--on-gold);border-radius:999px;padding:6px 14px;font-weight:700;cursor:pointer}
@@ -791,6 +798,7 @@ footer{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
       <span class="fact">التوقيت: متأخر عن الرياض <strong class="num">3</strong> ساعات</span>
       <span class="fact">بين السكن والتدريب: <strong>دقيقة مشيًا</strong></span>
     </div>
+    <a class="hchk" href="https://halal-zamalah.lovable.app" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-cam"/></svg><span class="ht"><b>فاحص الحلال</b><span>صوّر قائمة مكونات أي منتج تشتريه، فتقرؤها الأداة وتبيّن لك الحلال والمشبوه.</span><small>من إعداد أحد زملاء الزمالة · نتيجتها استرشادية، وعند الشك اعتمد شعار جهة حلال معتمدة.</small></span><span class="go">افتح الأداة<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span></a>
     <div class="htrip" id="tripHero"></div>
     <div class="live" id="live" aria-live="polite"></div>
 
@@ -1719,7 +1727,7 @@ const PLACES = [
 
 
 const NEEDS = [
-  { t: 'بقالة وسوبرماركت', ic: 'i-bag', items: [
+  { t: 'بقالة وسوبرماركت', ic: 'i-bag', tool: true, items: [
     { n: 'Go Local Extra', note: 'بقالة · حتى منتصف الليل بحسب دليل غير رسمي', lat: 53.46686, lng: -2.23887, q: 'Go Local Extra Cambridge Street M15 6AR' },
     { n: 'Co-op Food', note: 'بقالة على Booth St W · يوميًا حتى 23:00', lat: 53.46820, lng: -2.23565, q: 'Co-op Food Oxford Road M13 9GP' },
     { n: 'Morrisons', note: 'سوبرماركت كبير · حتى 22:00، والأحد 12:00–18:00', lat: 53.46320, lng: -2.22968, q: 'Morrisons Oxford Road M13 9NU' },
@@ -2214,7 +2222,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
         <p>${esc(p.desc)}</p>
         ${p.alert ? `<div class="alert warn">${icon('i-alert')}<div>${esc(p.alert)}</div></div>` : ''}
         ${p.note ? `<div class="alert note">${icon('i-leaf')}<div><b>ملاحظة للزائر المحافظ:</b> ${esc(p.note)}</div></div>` : ''}
-        ${p.halal ? `<div class="box"><h5>${icon('i-plate')}الحلال ${halalChip(p)}</h5>${esc(p.halal)}</div>` : ''}
+        ${p.halal ? `<div class="box"><h5>${icon('i-plate')}الحلال ${halalChip(p)}</h5>${esc(p.halal)}<p class="muted" style="margin:6px 0 0;font-size:.85rem">لمنتج مغلّف تشتريه من المحل: <a href="https://halal-zamalah.lovable.app" target="_blank" rel="noopener">فاحص الحلال</a></p></div>` : ''}
         ${p.jumuah ? `<div class="box"><h5>${icon('i-dome')}صلاة الجمعة (20 نوفمبر)</h5>${esc(p.jumuah)}</div>` : ''}
         ${p.prayer ? `<div class="box"><h5>${icon('i-dome')}المصلى</h5>${esc(p.prayer)}</div>` : ''}
         ${dishes}
@@ -2852,7 +2860,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   const setEve = on => { state.eve = on; $('#eveOnly').setAttribute('aria-pressed', on); if (on && state.sort === 'rating') {} render(); };
   $('#eveOnly').onclick = () => setEve(!state.eve);
   /* needs */
-  $('#needs').innerHTML = NEEDS.map(g => `<div class="need"><h3>${icon(g.ic)}${g.t}</h3>${g.items.map(i => { const dm = hav(HOTEL, i) * 1000; const w = Math.max(1, Math.round(dm*1.3/80)); return `<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(i.q)}" target="_blank" rel="noopener"><span class="nn"><b>${esc(i.n)}</b><span>${esc(i.note)}</span></span><span class="nd num">${dm < 1000 ? Math.round(dm/10)*10 + ' م' : (dm/1000).toFixed(1) + ' كم'} · ${w} د</span></a>`; }).join('')}</div>`).join('');
+  $('#needs').innerHTML = NEEDS.map(g => `<div class="need"><h3>${icon(g.ic)}${g.t}</h3>${g.tool ? `<a class="tool" href="https://halal-zamalah.lovable.app" target="_blank" rel="noopener">${icon('i-cam')}<span>تحقق من مكونات منتج قبل شرائه: <b>فاحص الحلال</b></span></a>` : ''}${g.items.map(i => { const dm = hav(HOTEL, i) * 1000; const w = Math.max(1, Math.round(dm*1.3/80)); return `<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(i.q)}" target="_blank" rel="noopener"><span class="nn"><b>${esc(i.n)}</b><span>${esc(i.note)}</span></span><span class="nd num">${dm < 1000 ? Math.round(dm/10)*10 + ' م' : (dm/1000).toFixed(1) + ' كم'} · ${w} د</span></a>`; }).join('')}</div>`).join('');
   /* evening plans */
   bidiFix($('#needs'));
   document.querySelectorAll('.stabs button').forEach(b => b.onclick = () => {
