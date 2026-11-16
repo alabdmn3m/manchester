@@ -7,7 +7,7 @@
 <meta name="description" content="دليل تفاعلي للمشاركين في الزمالة السعودية البريطانية: برنامج المعسكر وجدولي والأماكن والصلاة في مانشستر.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="دليل مانشستر · الزمالة السعودية البريطانية">
-<meta property="og:description" content="برنامج المعسكر، وجدولك الشخصي، و52 مكانًا مختارًا، ومواقيت الصلاة والقبلة، ويتكيّف مع موعد رحلتك · المعسكر القيادي، نوفمبر 2026">
+<meta property="og:description" content="برنامج المعسكر، وجدولك الشخصي، و53 مكانًا مختارًا، ومواقيت الصلاة والقبلة، ويتكيّف مع موعد رحلتك · المعسكر القيادي، نوفمبر 2026">
 <meta property="og:image" content="https://alabdmn3m.github.io/manchester/og.jpg?v=2">
 <meta property="og:image:secure_url" content="https://alabdmn3m.github.io/manchester/og.jpg?v=2">
 <meta property="og:image:type" content="image/jpeg">
@@ -1318,7 +1318,7 @@ const PLACES = [
   { id: 's1', byProg: true, cat: 'shop', ar: 'مانشستر أرنديل', en: 'Manchester Arndale', lat: 53.48327, lng: -2.24142,
     rating: 4.3, reviews: 44129, price: { level: '££', text: 'ماركات متوسطة' },
     hours: H(['11:30–17:30', '09:00–20:00', '09:00–20:00', '09:00–20:00', '09:00–20:00', '09:00–20:00', '09:00–20:00']),
-    desc: 'مجمع تجاري مغطى ضخم في قلب المدينة: أزياء وتجميل وإلكترونيات وصالة طعام وماركات الشارع التجاري المتوسطة. ملاذ مثالي حين يمطر. وعلى واجهته في شارع Market فرع يونيكلو (UNIQLO)، ومعه برايمارك، وهما من محلات التسوق في عرض البرنامج.',
+    desc: 'مجمع تجاري مغطى ضخم في قلب المدينة: أزياء وتجميل وإلكترونيات وصالة طعام وماركات الشارع التجاري المتوسطة. ملاذ مثالي حين يمطر. وعلى واجهته في شارع Market فرعا يونيكلو (UNIQLO) وبرايمارك، وهما من محلات التسوق في عرض البرنامج، ولكل منهما بطاقة مستقلة في الدليل.',
     praise: ['نظيف وغير مزدحم في الغالب', 'كل شيء تحت سقف واحد', 'قريب من Piccadilly سيرًا'],
     cons: ['من السهل أن تضيع داخله', 'موقف السيارات مكلف'],
     visit: '1–3 ساعات',
@@ -1333,6 +1333,15 @@ const PLACES = [
     cons: ['يزدحم كثيرًا مع تقدم اليوم', 'الإرشادات داخله قليلة، وأغلب الدفع ذاتي'],
     visit: '45–90 دقيقة',
     url: 'https://www.primark.com/en-gb/stores/manchester-market-street', q: 'Primark 106 Market St Manchester M1 1WA' },
+
+  { id: 's10', byProg: true, cat: 'shop', ar: 'يونيكلو', en: 'UNIQLO, Market Street', lat: 53.48240, lng: -2.24013,
+    rating: 4.3, reviews: 1220, price: { level: '££', text: 'أسعار متوسطة' },
+    hours: H(['11:00–17:00', '10:00–20:00', '10:00–20:00', '10:00–20:00', '10:00–20:00', '10:00–20:00', '10:00–20:00']),
+    desc: 'المتجر الرئيس للعلامة اليابانية في شمال إنجلترا، افتُتح عام 2019 على واجهة أرنديل في شارع Market، على بعد خطوات من برايمارك. ملابس عملية بجودة جيدة وأسعار متوسطة. أنفع ما فيه لنا في برد نوفمبر: ملابس HEATTECH الداخلية الحرارية، والجاكيتات الخفيفة المبطنة التي تُطوى في الحقيبة.',
+    praise: ['تشكيلة كبيرة ومخزون وافر', 'موظفون متعاونون', 'غرف قياس منظمة'],
+    cons: ['واسع ومزدحم وقد يربك في البداية', 'يغلق 20:00، أبكر من برايمارك'],
+    visit: '30–60 دقيقة',
+    url: 'https://www.uniqlo.com/uk/en/', q: 'UNIQLO 57 Market St Manchester M1 1WN' },
 
   { id: 's2', byProg: true, cat: 'shop', ar: 'ترافورد سنتر', en: 'The Trafford Centre', lat: 53.46550, lng: -2.34837,
     rating: 4.5, reviews: 14702, price: { level: '££–£££', text: 'متوسطة إلى فاخرة' },
@@ -2401,7 +2410,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   const preStart = x => Math.max(x.v.start, TRIP_DAYS[x.v.day ?? PZ.day].prog.free);
   const durOK = () => PZ_DURS.filter(([v], j) => j === 0 || (PZ.nowStart ?? PZ.start) + v <= END(TRIP_DAYS[PZ.day].prog));
   function fitDur(){ const ok = durOK(); if (!ok.some(([v]) => v === PZ.dur)) PZ.dur = ok[ok.length-1][0]; }
-  const VDUR = { h1:60, h2:150, h3:120, h4:40, h8:120, h10:60, h13:40, h14:75, s1:90, s9:40, s2:150, s4:60, s8:45 };
+  const VDUR = { h1:60, h2:150, h3:120, h4:40, h8:120, h10:60, h13:40, h14:75, s1:90, s9:40, s10:40, s2:150, s4:60, s8:45 };
   const CDUR = { history:90, shop:75, food:60, sweet:30 };
   const NOPLAN = new Set(['h6','h11','s3','s7','k1']);
   const MOSQ = ['m1','m2','m3'];
