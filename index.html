@@ -7,7 +7,7 @@
 <meta name="description" content="دليل تفاعلي للمشاركين في الزمالة السعودية البريطانية: برنامج المعسكر وجدولي والأماكن والصلاة في مانشستر.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="دليل مانشستر · الزمالة السعودية البريطانية">
-<meta property="og:description" content="برنامج المعسكر، وجدولك الشخصي، و53 مكانًا مختارًا، ومواقيت الصلاة والقبلة، ويتكيّف مع موعد رحلتك · المعسكر القيادي، نوفمبر 2026">
+<meta property="og:description" content="برنامج المعسكر، وجدولك الشخصي، و54 مكانًا مختارًا، ومواقيت الصلاة والقبلة، ويتكيّف مع موعد رحلتك · المعسكر القيادي، نوفمبر 2026">
 <meta property="og:image" content="https://alabdmn3m.github.io/manchester/og.jpg?v=2">
 <meta property="og:image:secure_url" content="https://alabdmn3m.github.io/manchester/og.jpg?v=2">
 <meta property="og:image:type" content="image/jpeg">
@@ -1610,6 +1610,17 @@ const PLACES = [
     cons: ['لا يمكن الأكل في المكان', 'لا بد من الطلب المسبق، والمواعيد تنفد', 'نافذة الاستلام في زقاق غير جذاب'],
     url: 'https://www.google.com/maps/place/?q=place_id:ChIJqfiZJdyte0gRIkd3Ym-TIMs', q: "Fat Pat's 88 Portland St Manchester M1 4GX", enAddr: '88 Portland St, Manchester M1 4GX' },
 
+  { id: 'f20', cat: 'food', ar: 'مطعم شوبان الأفغاني', en: 'Choupan Restaurant', lat: 53.50912, lng: -2.24255,
+    rating: 4.6, reviews: 828, price: { level: '££', text: 'متوسطة، ويصفها الزوار بأنها مناسبة للكمية' },
+    hours: H(['17:30–23:00', '17:30–23:00', null, '17:30–23:00', '17:30–23:00', '17:30–23:00', '17:30–23:00']),
+    desc: 'مطعم أفغاني وفارسي في حي Cheetham Hill شمال المدينة، يشتهر بالقابلي بلاو (أرز بلحم الضأن والجزر والزبيب) والكباب والريش المشوية. وجهة عشاء: يفتح مساءً فقط، ويغلق الثلاثاء.',
+    halal: 'حلال بإعلان المطعم، ومصنّف حلالًا في Tripadvisor وGoogle، دون جهة اعتماد مسمّاة · بلا كحول بحسب الزوار', hl: 'l',
+    dishes: [{ n: 'قابلي بلاو' }, { n: 'كباب كوبيده' }, { n: 'ريش ضأن' }, { n: 'زرشك بلو بالدجاج' }],
+    praise: ['القابلي بلاو من الأفضل في مانشستر بحسب الزوار', 'طعم أصيل ولحم طري', 'خدمة سريعة واقتراحات مفيدة من المدير'],
+    cons: ['بعيد في شمال المدينة، والأنسب الذهاب بالتاكسي', 'يفتح مساءً فقط ويغلق الثلاثاء', 'شكاوى متفرقة عن تفاوت الجودة، منها بلاغ عن وعكة بعد الأكل'],
+    bus: 'باص أو تاكسي شمالًا من وسط المدينة على Cheetham Hill Road',
+    url: 'https://www.google.com/maps/place/?q=place_id:ChIJd8xSkjewe0gRcUMNJXyI_L4', q: 'Choupan Restaurant 414 Cheetham Hill Rd Manchester M8 9LE', enAddr: '414 Cheetham Hill Rd, Manchester M8 9LE' },
+
   // ───────── حلويات وقهوة
   { id: 'c1', cat: 'sweet', ar: 'هيفنلي ديزرتس', en: 'Heavenly Desserts', lat: 53.45701, lng: -2.22592,
     rating: 4.8, reviews: 12741, price: { level: '££', text: 'متوسطة' },
@@ -1763,7 +1774,8 @@ const NEEDS = [
   { t: 'قهوة الصباح', ic: 'i-cup', items: [
     { n: 'Bold Street Coffee', note: 'University Green · الإثنين–الجمعة 08:00–18:00، والعطلة 09:00–16:00', lat: 53.46757, lng: -2.23560, q: 'Bold Street Coffee University Green M13 9GP' },
     { n: 'Caffè Nero (داخل مكتبة Blackwell’s)', note: 'الأقرب للفندق، داخل مكتبة الجامعة وبين الكتب · الإثنين–الجمعة 08:30–18:30، والسبت 10:00–17:00، والأحد 11:00–17:00 · بلا كحول، وبعض السندويتشات فيها لحم خنزير فاقرأ الملصق', lat: 53.46748, lng: -2.23623, q: "Caffè Nero Blackwell's University Green 146 Oxford Rd M13 9GP" },
-    { n: 'Caffè Nero (8A Oxford Road)', note: 'أبكر فرع قريب: يفتح 06:30 أيام الأسبوع، و08:00 السبت والأحد، ويغلق 19:00 (الأحد 18:00) · قرب محطة Oxford Road', lat: 53.47303, lng: -2.23992, q: 'Caffè Nero 8A Oxford Rd Manchester M1 5QA' } ] },
+    { n: 'Caffè Nero (8A Oxford Road)', note: 'أبكر فرع قريب: يفتح 06:30 أيام الأسبوع، و08:00 السبت والأحد، ويغلق 19:00 (الأحد 18:00) · قرب محطة Oxford Road', lat: 53.47303, lng: -2.23992, q: 'Caffè Nero 8A Oxford Rd Manchester M1 5QA' },
+    { n: 'GAIL’s Bakery (King Street)', note: 'مخبز ومقهى في قلب المدينة، يفتح 06:30 يوميًا (السبت 07:00) ويغلق 19:00 (الأحد 18:30) · بلا كحول، لكن بعض السندويتشات فيها لحوم غير حلال، فاكتفِ بالمخبوزات والقهوة', lat: 53.48118, lng: -2.24694, q: 'GAIL\'s Bakery 16 King St Manchester M2 6AG' } ] },
   { t: 'قهوة مختصة', ic: 'i-cup', items: [
     { n: 'MuKafe Studio', note: 'مقهى صغير في الدور الأول تديره صاحبته، تحمّص بنفسها وتتقن التقطير اليدوي · الثلاثاء–الجمعة 08:00–16:00، والسبت 09:00–16:00، ومغلق الأحد والإثنين', lat: 53.47716, lng: -2.23780, q: 'MuKafe Studio 37 Bloom St Manchester M1 3LY' },
     { n: 'Atrium Coffee', note: 'في ساحة St Peter’s، حبوب من عدة محامص وتقطير يدوي · الثلاثاء–الخميس 07:30–16:00، والجمعة 08:00–15:00، ومغلق السبت والأحد، والإثنين غير مؤكد', lat: 53.47753, lng: -2.24333, q: "Atrium Coffee 1 St Peter's Square Manchester M2 3DE" },
