@@ -7,7 +7,7 @@
 <meta name="description" content="دليل تفاعلي للمشاركين في الزمالة السعودية البريطانية: برنامج المعسكر وجدولي والأماكن والصلاة في مانشستر.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="دليل مانشستر · الزمالة السعودية البريطانية">
-<meta property="og:description" content="برنامج المعسكر، وجدولك الشخصي، و54 مكانًا مختارًا، ومواقيت الصلاة والقبلة، ويتكيّف مع موعد رحلتك · المعسكر القيادي، نوفمبر 2026">
+<meta property="og:description" content="برنامج المعسكر، وجدولك الشخصي، و55 مكانًا مختارًا، ومواقيت الصلاة والقبلة، ويتكيّف مع موعد رحلتك · المعسكر القيادي، نوفمبر 2026">
 <meta property="og:image" content="https://alabdmn3m.github.io/manchester/og.jpg?v=2">
 <meta property="og:image:secure_url" content="https://alabdmn3m.github.io/manchester/og.jpg?v=2">
 <meta property="og:image:type" content="image/jpeg">
@@ -1707,6 +1707,17 @@ const PLACES = [
     bus: 'باص من Oxford Road جنوبًا باتجاه Rusholme (Wilmslow Road)',
     url: '', q: 'Syria Sweets 2 Dagenham Rd Manchester M14 5ED', enAddr: '2 Dagenham Rd, Manchester M14 5ED' },
 
+  { id: 'c10', cat: 'sweet', ar: 'مطعم 20 ستوريز (إطلالة)', en: '20 Stories', lat: 53.47900, lng: -2.25210,
+    rating: 4.3, reviews: 6165, price: { level: '£££', text: 'مرتفعة، وتدفع جزءًا منها للإطلالة' },
+    hours: H(['12:00–23:00', '12:00–00:00', '12:00–00:00', '12:00–00:00', '12:00–00:00', '12:00–01:00', '12:00–01:00']),
+    desc: 'مطعم في الطابق العشرين بمنطقة Spinningfields، بإطلالة 360 درجة على مانشستر يمدحها الزوار كثيرًا. وصلتنا عنه توصيات متعددة من الزملاء. نهارًا مطعم هادئ مناسب للإطلالة وشاي العصر، ويتحول مساءً إلى بار مزدحم.',
+    halal: 'يقدّم الكحول، ولا لحم حلال فيه · المناسب: شاي العصر والحلويات والأطباق البحرية والنباتية', hl: 'n',
+    dishes: [{ n: 'شاي العصر (الإثنين–السبت 12:00–15:00، بحجز مسبق)' }, { n: 'أطباق بحرية' }],
+    praise: ['إطلالة على المدينة كلها من الطابق العشرين', 'خدمة لبقة ومتابعة', 'مكان مناسب للصور والمناسبات'],
+    cons: ['أسعاره مرتفعة', 'يقدّم الكحول، وبار مزدحم مساءً', 'لحومه غير حلال'],
+    alert: 'الأنسب زيارته نهارًا بين 12:00 و15:00، قبل أن يتحول إلى بار مساءً. يفتح الظهر لا الصباح، فلا قهوة صباحية فيه. وفي شاي العصر اطلب سندويتشات نباتية أو بالسمك بدل الهام.',
+    url: 'https://20stories.co.uk', q: '20 Stories 1 Hardman St Manchester M3 3AQ', enAddr: '1 Hardman St, Manchester M3 3AQ' },
+
   // ───────── مساجد
   { id: 'm1', cat: 'mosque', ar: 'المسجد المركزي في مانشستر', en: 'Manchester Central Mosque', lat: 53.45576, lng: -2.21902,
     rating: 4.8, reviews: 1356, price: { free: true },
@@ -1868,9 +1879,9 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     if (state.day !== '') return lateOn(p, TRIP_DAYS[+state.day].dow);
     return [1,2,3,4,5].filter(dw => lateOn(p, dw)).length >= 3;
   }
-  const HBAND = { k: 1, u: 2 }; // الترتيب يحترم اختيار المستخدم، وتُؤخَّر فقط الأماكن غير المتحقق منها
+  const HBAND = { k: 1, u: 2, n: 3 }; // الترتيب يحترم اختيار المستخدم، وتُؤخَّر فقط الأماكن غير المتحقق منها
   const progChip = p => p.byProg ? `<span class="chip byprog">${icon('i-id')}في عرض البرنامج</span>` : '';
-  const HTIER = { v: ['hv','حلال باعتماد مستقل'], s: ['hs','لحوم من مورّد معتمد'], g: ['hg','مدرج في أدلة الحلال'], l: ['hl','حلال بإعلان المكان'], r: ['hl','حلال بحسب المراجعات'], k: ['hu','للقهوة فقط'], u: ['hu','حلال غير متحقق'] };
+  const HTIER = { v: ['hv','حلال باعتماد مستقل'], s: ['hs','لحوم من مورّد معتمد'], g: ['hg','مدرج في أدلة الحلال'], l: ['hl','حلال بإعلان المكان'], r: ['hl','حلال بحسب المراجعات'], k: ['hu','للقهوة فقط'], u: ['hu','حلال غير متحقق'], n: ['hu','لحومه غير حلال'] };
   function halalChip(p){
     if (!p.hl) return '';
     const t = HTIER[p.hl] || HTIER.u;
@@ -2422,7 +2433,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
   const preStart = x => Math.max(x.v.start, TRIP_DAYS[x.v.day ?? PZ.day].prog.free);
   const durOK = () => PZ_DURS.filter(([v], j) => j === 0 || (PZ.nowStart ?? PZ.start) + v <= END(TRIP_DAYS[PZ.day].prog));
   function fitDur(){ const ok = durOK(); if (!ok.some(([v]) => v === PZ.dur)) PZ.dur = ok[ok.length-1][0]; }
-  const VDUR = { h1:60, h2:150, h3:120, h4:40, h8:120, h10:60, h13:40, h14:75, s1:90, s9:40, s10:40, s2:150, s4:60, s8:45 };
+  const VDUR = { h1:60, h2:150, h3:120, h4:40, h8:120, h10:60, h13:40, h14:75, s1:90, s9:40, s10:40, c10:60, s2:150, s4:60, s8:45 };
   const CDUR = { history:90, shop:75, food:60, sweet:30 };
   const NOPLAN = new Set(['h6','h11','s3','s7','k1']);
   const MOSQ = ['m1','m2','m3'];
@@ -2468,7 +2479,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
           if (used.has(p.id) || p.noplan) continue;
           if (p.cat === 'food' && (!sl || done[sl] || !['v','s','g','l','r'].includes(p.hl))) continue;
           if (p.cat === 'food' && !wantMeal && PZ.int !== 'food') continue;
-          if (p.cat === 'sweet' && (sweet >= 1 || !ate() || p.hl === 'u' || p.hl === 'k')) continue;
+          if (p.cat === 'sweet' && (sweet >= 1 || !ate() || p.hl === 'u' || p.hl === 'k' || p.hl === 'n')) continue;
           if (wantMeal && p.cat !== 'food') continue;
           const l = leg(pos, p), r = rangeOf(p.hours[dow]);
           let arr = t + l.min; if (arr < r[0]) { if (r[0] - arr > 20) continue; arr = r[0]; }
