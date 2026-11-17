@@ -399,6 +399,7 @@ footer .credits li{margin-block:6px;font-size:.875rem}
 .steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;max-width:80ch}
 .steps li::before{content:counter(s);width:30px;height:30px;border-radius:9px;background:var(--gold);color:var(--on-gold);display:grid;place-items:center;font-weight:700;font-family:var(--f-body)}
 .lnk{all:unset;cursor:pointer;color:var(--violet);font-weight:700;border-bottom:1px dashed currentColor}
+.nb ul{list-style:none;margin:0;padding:0}.nb li{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--line)}.nb li:last-child{border-bottom:0}.nb li .lnk{flex:1;min-width:0}.nb .nbm{color:var(--muted);font-size:.85rem;white-space:nowrap}.nb .nbx{margin:8px 0 0;font-size:.9rem}.nb .nbx div{padding:2px 0}
 .lnk:focus-visible{outline:2px solid var(--gold)}
 .plans3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .pl3{background:var(--surface-2);border-radius:14px;padding:14px 16px}
@@ -2256,6 +2257,23 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
 
   /* ── place dialog ── */
   const modeIcon = { walk:'i-walk', tram:'i-tram', bus:'i-bus', taxi:'i-taxi', train:'i-train' };
+  const walkMin = (a, b) => Math.max(1, Math.round(hav(a, b)*1.3/4.8*60));
+  const nbDist = (a, b) => { const m = walkMin(a, b); return m <= 30 ? `${m} د مشيًا` : `نحو ${fmtKm(hav(a, b)*1.3)}`; };
+  const HALAL_OK = ['v','s','g','l','r'];
+  function nearbyBox(p){
+    if (p.far) return '';
+    const others = PLACES.filter(x => x.id !== p.id && !x.far).map(x => ({ x, d: hav(p, x) })).sort((a, b) => a.d - b.d);
+    const top = others.slice(0, 5);
+    const near1 = (f) => (others.find(o => f(o.x)) || {}).x;
+    const food = near1(x => x.cat === 'food' && HALAL_OK.includes(x.hl));
+    const mosque = near1(x => x.cat === 'mosque');
+    const row = x => `<li><button class="lnk" data-open="${x.id}">${esc(x.ar)}</button><span class="nbm num">${nbDist(p, x)}</span></li>`;
+    const inTop = x => top.some(o => o.x.id === x.id);
+    const ext = [food && p.cat !== 'food' && !inTop(food) ? `<div>أقرب مطعم حلال: <button class="lnk" data-open="${food.id}">${esc(food.ar)}</button> <span class="nbm num">(${nbDist(p, food)})</span></div>` : '',
+                 mosque && p.cat !== 'mosque' && !inTop(mosque) ? `<div>أقرب مسجد: <button class="lnk" data-open="${mosque.id}">${esc(mosque.ar)}</button> <span class="nbm num">(${nbDist(p, mosque)})</span></div>` : ''].join('');
+    const farOnly = top.length && walkMin(p, top[0].x) > 30;
+    return `<div class="box nb"><h5>${icon('i-pin')}قريب من هنا</h5>${farOnly ? '<p class="muted" style="margin:0 0 4px">لا مكان من الدليل على مسافة مشي من هنا؛ هذه الأقرب:</p>' : ''}<ul>${top.map(o => row(o.x)).join('')}</ul>${ext ? `<div class="nbx">${ext}</div>` : ''}<p class="muted" style="margin:6px 0 0;font-size:.8rem">المسافة من هذا المكان لا من السكن، تقديرًا بالمشي.</p></div>`;
+  }
   function openPlace(id){
     const p = PLACES.find(x => x.id === id); if (!p) return;
     const c = CATS[p.cat];
@@ -2297,6 +2315,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
           <div class="box"><h5>${icon('i-cal')}خلال أيام الرحلة</h5><div class="week">${week}</div>
             ${uniq.some(([n,h]) => h !== null && shortH(h) !== h) ? `<details style="margin-top:8px"><summary>* ملاحظات المواعيد</summary><div class="hours-list">${uniq.filter(([n,h]) => h !== null && shortH(h) !== h).map(([n,h]) => `<div><span>${n}</span><span class="num">${h === null ? '<b style="color:var(--bad)">مغلق</b>' : esc(h)}</span></div>`).join('')}</div></details>` : ''}</div>
         </div>
+        ${nearbyBox(p)}
         <div class="box"><h5>${icon('i-route')}كيف تصل ${p.far ? 'من مانشستر' : 'من السكن'}</h5><div class="routes has-sar">${routeHtml}</div>
           <p class="src" style="margin-top:8px">الباص £2 للرحلة، والترام بالبطاقة اللاتلامسية مع سقف يومي (TfGM 2026). أوقات الباص والترام وأجرة Uber تقديرات من المسافة.</p></div>
         <div class="actions">
@@ -2313,6 +2332,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     wireGallery($('#dlgBody'));
     $('#dlgX').onclick = () => closeDlg();
     $('#dlgBody [data-fav]').onclick = () => toggleFav(p.id);
+    $('#dlgBody').querySelectorAll('.nb [data-open]').forEach(b => b.onclick = () => openPlace(b.dataset.open));
     $('#dlgBody [data-show]').onclick = () => showPlace(p);
     $('#dlgBody [data-addday]').onclick = e => { const box = $('#addDay'); const open = box.hidden; box.hidden = !open; e.currentTarget.setAttribute('aria-expanded', open); if (open){ renderAddDay(p); box.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } };
     if (!dlg.open){ if (typeof dlg.showModal === 'function') dlg.showModal(); else { dlg.setAttribute('open',''); dlg.classList.add('nomodal'); } }
