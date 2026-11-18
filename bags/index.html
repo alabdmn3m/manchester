@@ -254,6 +254,11 @@ dialog.shop::backdrop{background:rgba(10,6,24,.55)}
 .where{display:flex;align-items:center;gap:6px;margin:6px 0 2px;font-size:.92rem;color:var(--ink,inherit);font-weight:600}.where .ico{width:16px;height:16px;flex:none;color:var(--muted)}
 small.why,p.why{display:block;color:var(--muted);font-size:.82rem;line-height:1.5}small.why::before,p.why::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);margin-inline-end:6px;vertical-align:2px}p.why{margin:2px 0 8px;font-size:.88rem}
 @media (max-width:820px){.chips.more{-webkit-mask-image:linear-gradient(to left,transparent 0,#000 40px);mask-image:linear-gradient(to left,transparent 0,#000 40px)}}
+.bagbox{border:1px dashed color-mix(in srgb,var(--violet) 40%,transparent);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;background:color-mix(in srgb,var(--violet) 4%,transparent)}
+.bagbox h4{margin:0;display:flex;align-items:center;gap:6px;font-size:.98rem;font-family:var(--f-body)}.bagbox h4 .ico{width:18px;height:18px;color:var(--violet)}
+.bagbox p{margin:0;font-size:.9rem;color:var(--muted);line-height:1.6}.bagbox small{font-size:.8rem;color:var(--muted);line-height:1.5}
+.bagbox input{font:inherit;font-size:16px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);text-align:left;min-height:44px}
+.bagbox input::placeholder{text-align:right;direction:rtl}.bagbox .btn{justify-content:center}.bagbox input.bad{border-color:var(--warn)}
 .nextb.cross{background:color-mix(in srgb,var(--gold) 16%,transparent)}.nextb.hl{box-shadow:0 0 0 3px var(--gold)}
 #sdPos small{color:var(--muted);font-size:.75rem}
 .meta{display:grid;gap:4px;font-size:.88rem;color:var(--muted)}
@@ -667,6 +672,9 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   const MONO = { longchamp: 'LC', tkmaxx: 'TK', kgo: 'KG', guess: 'G', dune: 'D', acc: 'A', karl: 'KL', fossil: 'F', hof: 'HF', kurt: 'KG', kate: 'KS', mko: 'MK', coacho: 'C', selft: 'S', mkc: 'MK', mkt: 'MK', kgt: 'KG', dunet: 'D', acct: 'A' };
   const mono = x => `<span class="mono a-${x.area}" aria-hidden="true">${MONO[x.id] || ''}</span>`;
   const shopLink = x => `<a class="shopl" href="${x.shop}" target="_blank" rel="noopener">${ico('i-ext')}<span>${x.deep ? `تصفّحوا الشنط في موقع ${esc(x.bn)}` : `تصفّحوا موقع ${esc(x.bn)}`}${x.area === 'oaks' ? '<small>أسعار الموقع أعلى عادة من المنفذ</small>' : ''}</span></a>`;
+  const closeTxt = x => { if (!x.hrs) return ''; const N = mcrNow(), r = x.hrs[N.d]; return N.m >= r[1] ? `أغلق اليوم، ويفتح غدًا ${fmt(x.hrs[(N.d + 1) % 7][0])}` : `يغلق اليوم ${fmt(r[1])}`; };
+  const BAGWA = (x, link) => 'https://wa.me/?text=' + encodeURIComponent(`شنطة أعجبتني من ${x.ar}:\n${link || '(صورتها مرفقة)'}\n\nالمحل: ${x.loc}\n${closeTxt(x)} بتوقيت مانشستر\nتفاصيل المحل والطريق إليه:\n${URL0}#${x.id}\n\nإن لم تجدها في المحل فاسأل الموظف عن أقرب بديل.`);
+  const bagBox = x => `<div class="bagbox"><h4>${ico('i-bag')}أعجبتكم شنطة بعينها؟</h4><p>افتحوا موقع ${esc(x.bn)} من الرابط أعلاه، وانسخوا رابط الشنطة والصقوه هنا، ثم أرسلوه لمن في مانشستر.</p><input type="url" inputmode="url" dir="ltr" class="baglink" data-bag="${x.id}" placeholder="الصقوا رابط الشنطة هنا (اختياري)" aria-label="رابط الشنطة من موقع الماركة"><a class="btn wa" data-bagwa="${x.id}" href="${BAGWA(x, '')}" target="_blank" rel="noopener">أرسلها في واتساب</a><small>أرفقوا صورة الشنطة في المحادثة نفسها واذكروا اللون${x.area === 'oaks' ? '، فالمنافذ لا تعرض كل ما في الموقع' : '، فقد لا يتوفر في المحل كل ما في الموقع'}.</small></div>`;
   const visBtn = x => `<button type="button" class="vis" data-vis="${x.id}" aria-pressed="${VIS.has(x.id)}">${VIS.has(x.id) ? '✓ زرتُه' : 'زرتُه؟'}</button>`;
   const saveFav = () => { try { localStorage.setItem('bags-fav', JSON.stringify([...FAV])); } catch (e) {} };
   const DIR = x => `https://www.google.com/maps/dir/?api=1&destination=${x.ll.join(',')}&destination_place_id=${x.place}&travelmode=${x.area === 'city' ? 'walking' : 'driving'}`;
@@ -788,7 +796,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
       <div class="tags"><span class="fit ${x.fit}">${FIT[x.fit]}</span>${nowTag(x)}${favBtn(x)}${visBtn(x)}</div>
       ${VIS.has(x.id) ? nextMini(x) : ''}
       <div class="price">${x.price}</div>
-      ${shopLink(x)}
+      ${shopLink(x)}${bagBox(x)}
       <div class="tip"><h4>رأي الخبير</h4><p>${esc(x.tip)}</p></div>
       ${say(x)}
       <div class="meta"><div>${ico('i-clock')}<span>${tnum(esc(x.hours))}</span></div><div>${ico('i-route')}<span>${esc(x.go)}</span></div><div>${ico('i-pin')}<span><b>${esc(x.loc)}</b><br><span dir="auto">${esc(x.addr)}</span>${x.branch ? `<br><a class="brl" href="${x.branch}" target="_blank" rel="noopener">صفحة الفرع الرسمية: المواعيد والعنوان ↗</a> <small>(${esc(x.bsrc)})</small>` : ''}</span></div></div>
@@ -901,6 +909,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   sd.addEventListener('click', e => { if (e.target === sd) sd.close(); });
   sd.addEventListener('close', () => { try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} });
   let tx = null;
+  $('#sdBody').addEventListener('input', e => { const i = e.target.closest('.baglink'); if (!i) return; const x = S.find(y => y.id === i.dataset.bag), m = i.value.match(/https?:\/\/\S+/), a = $(`#sdBody [data-bagwa="${x.id}"]`); i.classList.toggle('bad', !!i.value.trim() && !m); a.href = BAGWA(x, m ? m[0] : ''); });
   $('#sdBody').addEventListener('touchstart', e => { tx = e.target.closest('.ph.gal') ? null : e.touches[0].clientX; }, { passive: true });
   $('#sdBody').addEventListener('touchend', e => { if (tx == null) return; const dx = e.changedTouches[0].clientX - tx; tx = null; if (Math.abs(dx) > 70) (dx > 0 ? $('#sdNext') : $('#sdPrev')).click(); }, { passive: true });
   try { if (!localStorage.getItem('bags-hint')) $('#hint1').hidden = false; } catch (e) { $('#hint1').hidden = false; }
