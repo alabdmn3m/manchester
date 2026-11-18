@@ -127,6 +127,31 @@ section{margin-block:0 30px}
 .vsw button[aria-pressed="true"]{background:var(--violet);color:#fff}
 .idx{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0 10px;margin-bottom:6px}
 .idx::-webkit-scrollbar{display:none}
+.card .ph{cursor:pointer}
+.ct .open{background:none;border:0;padding:0;font:inherit;color:inherit;text-align:start;cursor:pointer}
+.ct .open:hover h3,.ct .open:focus-visible h3{color:var(--violet)}
+.ct .open h3{margin:0;font-size:1.3rem;line-height:1.3;text-decoration:underline dotted 1px;text-underline-offset:6px;text-decoration-color:var(--line)}
+.enrow{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.enrow .en{font-size:.85rem;color:var(--muted);direction:ltr}
+.btn.more2{width:100%;justify-content:center;border-style:dashed;color:var(--violet);font-weight:700}
+.rows .nm small .sar{color:var(--ok);white-space:nowrap}
+.hint{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1.5px solid var(--gold);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:.92rem}
+.hint ol{margin:0;padding-inline-start:18px}
+.hint button{margin-inline-start:auto;flex:none;border:0;background:none;color:var(--muted);cursor:pointer;min-width:36px;min-height:36px}
+dialog.shop{border:0;padding:0;width:100%;max-width:560px;max-height:92vh;margin:auto auto 0;border-radius:18px 18px 0 0;background:var(--surface);color:var(--ink);box-shadow:0 -10px 40px rgba(0,0,0,.3);overflow:hidden}
+@media (min-width:821px){dialog.shop{margin:auto;border-radius:18px;max-height:88vh}}
+dialog.shop::backdrop{background:rgba(10,6,24,.55)}
+.sd{display:flex;flex-direction:column;max-height:inherit}
+.sd-bar{display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--line);flex:none}
+.sd-bar .x{border:0;background:var(--surface-2);color:var(--ink);border-radius:50%;width:40px;height:40px;cursor:pointer;display:grid;place-items:center}
+.sd-bar .pos{font-size:.85rem;color:var(--muted);margin-inline-start:auto}
+.sd-bar .nav{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;min-height:40px;padding:0 12px;font:inherit;font-size:.9rem;cursor:pointer}
+.sd-bar .nav:disabled{opacity:.4;cursor:default}
+.sd-body{overflow:auto;padding:0 0 calc(16px + env(safe-area-inset-bottom))}
+.sd-body .ph{border-radius:0}
+.sd-in{padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.sd-in h2{margin:0;font-size:1.5rem;line-height:1.3}
+.sd-in .acts{flex-wrap:wrap}
 .idx button{flex:none;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:8px;padding:5px 10px;font:inherit;font-size:.85rem;cursor:pointer;min-height:36px;white-space:nowrap}
 .idx .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-inline-end:5px;vertical-align:1px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
@@ -134,6 +159,7 @@ section{margin-block:0 30px}
 .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ph .cap{position:absolute;inset:auto 0 0 0;background:linear-gradient(transparent,rgba(10,6,24,.82));color:#fff;font-size:.78rem;padding:22px 10px 6px;line-height:1.45}
 .ph .cap a{color:#FFE7A3}
+.card .ph .area{display:none}
 .ph .area{position:absolute;top:10px;inset-inline-start:10px;background:rgba(20,10,46,.78);color:#fff;font-size:.8rem;border-radius:999px;padding:3px 10px}
 .cb{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
 .ct{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
@@ -335,7 +361,8 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
       <div class="chips" id="fitChips"><span class="lbl">السعر:</span></div>
       <div class="chips"><span class="count" id="count" aria-live="polite"></span><div class="vsw" role="group" aria-label="طريقة العرض"><button type="button" data-view="cards">بطاقات</button><button type="button" data-view="list">قائمة</button></div></div>
     </div>
-    <div class="idx" id="idx" aria-label="انتقل إلى محل"></div>
+    <div class="hint" id="hint1" hidden><div><b>كيف تستخدمون الصفحة؟</b><ol><li>اضغطوا اسم المحل أو صورته لتروا تفاصيله كاملة.</li><li>اضغطوا ☆ على ما يعجبكم ليُحفظ في «قائمتي».</li><li>أرسلوا «قائمتي» في واتساب من الشريط الذي يظهر فوق المحلات.</li></ol></div><button type="button" id="hint1x" aria-label="إغلاق التلميح">✕</button></div>
+    <div class="idx" id="idx" aria-label="افتح تفاصيل محل"></div>
     <div class="favbar" id="favbar" hidden></div>
     <div class="grid" id="grid"></div>
   </section>
@@ -387,6 +414,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   <button type="button" id="dConv"><svg class="ico"><use href="#i-swap"/></svg>المحوّل</button>
   <button type="button" id="dFav"><svg class="ico"><use href="#i-star"/></svg><span>قائمتي<span class="n num" id="dFavN" hidden></span></span></button>
 </nav>
+<dialog class="shop" id="shopDlg" aria-labelledby="sdT"><div class="sd"><div class="sd-bar"><button type="button" class="x" id="sdX" aria-label="إغلاق"><svg class="ico"><use href="#i-x"/></svg></button><button type="button" class="nav" id="sdPrev">› السابق</button><button type="button" class="nav" id="sdNext">التالي ‹</button><span class="pos" id="sdPos"></span></div><div class="sd-body" id="sdBody"></div></div></dialog>
 <dialog class="sheet" id="convDlg" aria-labelledby="convT">
   <form method="dialog">
     <h3 id="convT">محوّل العملة</h3>
@@ -421,7 +449,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
       hours: 'ركن لونشان: الإثنين إلى السبت 10:00–20:00، والأحد 11:00–17:30', go: 'نحو 30 دقيقة مشيًا من الفندق، أو أوبر نحو 10 دقائق', addr: '1 Exchange Square، الدور الخاص بالإكسسوارات', place: 'ChIJXad2ucaxe0gR2jB5fWgpmKU', site: 'https://www.longchamp.com/gb/en/le-pliage/' },
     { id: 'tkmaxx', ll: [53.4826894,-2.2406667], hrs: [[720,1080],[480,1260],[480,1260],[480,1260],[480,1260],[480,1260],[480,1200]], short: 'ماركات بخصم يصل إلى 60%', ar: 'تي كي ماكس', en: 'TK Maxx · Market Street', area: 'city', fit: 'in', ord: 2, img: 'market',
       rate: [4.3, 3589],
-      price: 'ماركات عالمية بأسعار تقول الشركة إنها <b>أقل حتى 60%</b> من السعر الأصلي. المعروض يتغير يوميًا، وأغلب الشنط تحت <span class="num">£100</span> (تقدير).', psrc: 'موقع تي كي ماكس (نسبة الخصم)', pv: 'الخصم مؤكد، والمعروض تقدير',
+      price: 'ماركات عالمية بأسعار تقول الشركة إنها <b>أقل حتى <span class="num">60%</span></b> من السعر الأصلي. المعروض يتغير يوميًا، وأغلب الشنط تحت <span class="num">£100</span> (تقدير).', psrc: 'موقع تي كي ماكس (نسبة الخصم)', pv: 'الخصم مؤكد، والمعروض تقدير',
       pos: ['كثيرون يجدون فيه ماركات معروفة بسعر رخيص.', 'من أكبر فروعه في بريطانيا، وطاقمه ودود.'], neg: ['طابور الدفع يطول أحيانًا.', 'مزدحم، والبضاعة على الرفوف غير مرتبة دائمًا.'],
       tip: 'ابحثوا في ركن الشنط وقسم «Gold Label» للماركات الأعلى. افحصوا الشنطة جيدًا، فبعضها معروض بلا تغليف.',
       hours: 'الإثنين إلى الجمعة 08:00–21:00، والسبت 08:00–20:00، والأحد 12:00–18:00', go: 'نحو 28 دقيقة مشيًا من الفندق، بجوار يونيكلو', addr: '51–55 Market Street', place: 'ChIJeUUxtsCxe0gRP9hxqNxgDqA', site: 'https://www.tkmaxx.com/uk/en/' },
@@ -538,7 +566,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
     document.querySelectorAll('[data-fav]').forEach(b => b.onclick = () => {
       const id = b.dataset.fav; FAV.has(id) ? FAV.delete(id) : FAV.add(id); saveFav();
       b.setAttribute('aria-pressed', FAV.has(id)); b.querySelector('span').textContent = FAV.has(id) ? 'في قائمتي' : 'أضف لقائمتي'; if (b.classList.contains('sf')) b.setAttribute('aria-label', FAV.has(id) ? 'في قائمتي' : 'أضف لقائمتي');
-      favCount(); if (st.fit === 'fav') render();
+      favCount(); if (st.fit === 'fav' || b.closest('#shopDlg')) { const y = window.scrollY; render(); scrollTo(0, y); }
     });
   }
   function favCount(){
@@ -572,33 +600,59 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
       const im = IMG[t.img];
       return `<div class="box tour"><div class="tph"><img src="img/${im.f}.webp" alt="${esc(im.c)}" loading="lazy" style="object-position:${im.p}"><div class="cap">${esc(im.c)} · <a href="${im.u}" target="_blank" rel="noopener">${esc(im.a)}</a> · ${esc(im.l)}</div></div><h3>${t.h}</h3><p class="sub">${t.sub} المشي بينها نحو <span class="num">${tot}</span> ${tot >= 3 && tot <= 10 ? 'دقائق' : 'دقيقة'}.</p><ol class="stops">${xs.map((x, i) => `<li><span class="n num">${i + 1}</span><div><button class="lnk" data-go="${x.id}">${esc(x.ar)}</button><small>${numify(esc(t.notes[x.id] || x.short))}</small></div></li>${i < xs.length - 1 ? `<li><span></span><div class="leg">${ico('i-walk')}<span class="num">${walk(x, xs[i + 1])}</span> د مشيًا</div></li>` : ''}`).join('')}</ol><a class="btn primary" href="${url}" target="_blank" rel="noopener">${ico('i-route')}افتح المسار كاملًا في الخرائط</a></div>`;
     }).join('');
-    document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => goTo(b.dataset.go));
+    document.querySelectorAll('#tours [data-go]').forEach(b => b.onclick = () => openShop(b.dataset.go));
   }
   function photo(x){
     if (x.tile) return `<div class="ph tile" role="img" aria-label="${esc(x.tile)}، ${AREAS[x.area]}"><span class="area">${AREAS[x.area]}</span><b dir="ltr">${esc(x.tile)}</b><small>${x.tsub ? esc(x.tsub) : `منفذ · شيشاير أوكس${x.unit ? ` · وحدة <span class="num">${x.unit}</span>` : ''}`}</small></div>`;
     const im = IMG[x.img];
     return `<div class="ph"><img src="img/${im.f}.webp" alt="${esc(im.c)}" loading="lazy" style="object-position:${im.p}"><span class="area">${AREAS[x.area]}</span><div class="cap">${esc(im.c)} · <a href="${im.u}" target="_blank" rel="noopener">${esc(im.a)}</a> · ${esc(im.l)}</div></div>`;
   }
+  const sarRange = t => { const m = [...t.matchAll(/£(\d+)/g)].map(v => +v[1]); if (!m.length) return ''; const a = sar(Math.min(...m)), b = sar(Math.max(...m)); return a === b ? `نحو ${a} ريال` : `نحو ${a}–${b} ريال`; };
+  const say = x => `<div class="say"><h4>كلام الناس</h4><ul>${x.pos.map(t => `<li class="pos">${esc(t)}</li>`).join('')}${x.neg.map(t => `<li class="neg">${esc(t)}</li>`).join('')}</ul></div>`;
+  const favBtn = x => `<button class="fav" data-fav="${x.id}" aria-pressed="${FAV.has(x.id)}">${ico('i-star')}<span>${FAV.has(x.id) ? 'في قائمتي' : 'أضف لقائمتي'}</span></button>`;
+  const rateBox = x => `<div class="rate" title="${x.rate[2] ? esc(x.rate[2]) : 'تقييم Google'}"><b class="num">${x.rate[0].toFixed(1)} ★</b><small class="num">${x.rate[1].toLocaleString('en-US')} مراجعة</small></div>`;
   function card(x){
-    return `<article class="card" id="${x.id}">${photo(x)}
+    return `<article class="card" id="${x.id}"><div data-open="${x.id}">${photo(x)}</div>
       <div class="cb">
-        <div class="ct"><h3>${esc(x.ar)}<span class="en">${esc(x.en)}</span></h3>
-          <div class="rate" title="${x.rate[2] ? esc(x.rate[2]) : 'تقييم Google'}"><b class="num">${x.rate[0].toFixed(1)} ★</b><small class="num">${x.rate[1].toLocaleString('en-US')} مراجعة</small></div></div>
-        <div class="tags"><span class="fit ${x.fit}">${FIT[x.fit]}</span>${nowTag(x)}<button class="fav" data-fav="${x.id}" aria-pressed="${FAV.has(x.id)}">${ico('i-star')}<span>${FAV.has(x.id) ? 'في قائمتي' : 'أضف لقائمتي'}</span></button></div>
+        <div class="ct"><button class="open" data-open="${x.id}"><h3>${esc(x.ar)}</h3></button>${rateBox(x)}</div>
+        <div class="enrow"><span class="en">${esc(x.en)}</span>${favBtn(x)}</div>
+        <div class="tags"><span class="fit ${x.fit}">${FIT[x.fit]}</span>${nowTag(x)}</div>
         <div class="price">${x.price}</div>
         <p class="tipl">${esc(x.tip)}</p>
         <div class="acts"><a class="btn primary" href="${DIR(x)}" target="_blank" rel="noopener">${ico('i-route')}الاتجاهات</a><a class="btn wa" href="${WA(x)}" target="_blank" rel="noopener">أرسل في واتساب</a></div>
-        <details class="more"><summary>التفاصيل</summary><div class="morein">
-          <div class="say"><h4>كلام الناس</h4><ul>${x.pos.map(t => `<li class="pos">${esc(t)}</li>`).join('')}${x.neg.map(t => `<li class="neg">${esc(t)}</li>`).join('')}</ul></div>
-          <div class="meta"><div>${ico('i-clock')}<span>${esc(x.hours)}</span></div><div>${ico('i-route')}<span>${esc(x.go)}</span></div><div>${ico('i-pin')}<span dir="auto">${esc(x.addr)}</span></div></div>
-          <p class="psrc">مصدر السعر: ${esc(x.psrc)}<span class="tag">${esc(x.pv)}</span></p>
-          <div class="acts"><a class="btn" href="${MAP(x.place)}" target="_blank" rel="noopener">${ico('i-pin')}الخريطة</a><a class="btn" href="${x.site}" target="_blank" rel="noopener">${ico('i-ext')}موقع الماركة</a></div>
-        </div></details>
+        <button type="button" class="btn more2" data-open="${x.id}">التفاصيل كاملة: كلام الناس والمواعيد والعنوان</button>
       </div></article>`;
+  }
+  function detail(x){
+    return `${photo(x)}<div class="sd-in">
+      <div class="ct"><div><h2 id="sdT">${esc(x.ar)}</h2><span class="en" style="direction:ltr;display:block;text-align:right;color:var(--muted);font-size:.9rem">${esc(x.en)}</span></div>${rateBox(x)}</div>
+      <div class="tags"><span class="fit ${x.fit}">${FIT[x.fit]}</span>${nowTag(x)}${favBtn(x)}</div>
+      <div class="price">${x.price}</div>
+      <div class="tip"><h4>رأي الخبير</h4><p>${esc(x.tip)}</p></div>
+      ${say(x)}
+      <div class="meta"><div>${ico('i-clock')}<span>${esc(x.hours)}</span></div><div>${ico('i-route')}<span>${esc(x.go)}</span></div><div>${ico('i-pin')}<span dir="auto">${esc(x.addr)}</span></div></div>
+      <p class="psrc">مصدر السعر: ${esc(x.psrc)}<span class="tag">${esc(x.pv)}</span></p>
+      <div class="acts"><a class="btn primary" href="${DIR(x)}" target="_blank" rel="noopener">${ico('i-route')}الاتجاهات من موقعك</a><a class="btn wa" href="${WA(x)}" target="_blank" rel="noopener">أرسل في واتساب</a><a class="btn" href="${MAP(x.place)}" target="_blank" rel="noopener">${ico('i-pin')}الخريطة</a><a class="btn" href="${x.site}" target="_blank" rel="noopener">${ico('i-ext')}موقع الماركة</a></div>
+    </div>`;
+  }
+  let SEQ = [], CUR = -1;
+  function visible(){ return ['city', 'oaks', 'trafford'].flatMap(a => S.filter(x => x.area === a && (st.area === 'all' || x.area === st.area) && (st.fit === 'all' || (st.fit === 'fav' ? FAV.has(x.id) : st.fit === 'sent' ? SENT.has(x.id) : st.fit === 'ok' ? x.fit !== 'over' : x.fit === 'in'))).sort((p, q) => p.ord - q.ord)); }
+  function openShop(id){
+    SEQ = visible(); CUR = SEQ.findIndex(x => x.id === id);
+    if (CUR < 0) { SEQ = ['city', 'oaks', 'trafford'].flatMap(a => S.filter(x => x.area === a).sort((p, q) => p.ord - q.ord)); CUR = SEQ.findIndex(x => x.id === id); }
+    if (CUR < 0) return;
+    showShop(); const d = $('#shopDlg'); if (!d.open) d.showModal();
+    try { history.replaceState(null, '', '#' + id); } catch (e) {}
+  }
+  function showShop(){
+    const x = SEQ[CUR]; $('#sdBody').innerHTML = detail(x); $('#sdBody').scrollTop = 0;
+    $('#sdPrev').disabled = CUR <= 0; $('#sdNext').disabled = CUR >= SEQ.length - 1;
+    $('#sdPos').innerHTML = `<span class="num">${CUR + 1}</span> من <span class="num">${SEQ.length}</span>`;
+    wire();
   }
   function row(x){
     const n = nowTag(x).replace(/مغلق، يفتح غدًا [\d:]+/, 'مغلق').replace(/مغلق، يفتح ([\d:]+)/, 'يفتح $1').replace(/مفتوح حتى [\d:]+/, 'مفتوح');
-    return `<li id="r-${x.id}"><button class="sf" data-fav="${x.id}" aria-pressed="${FAV.has(x.id)}" aria-label="${FAV.has(x.id) ? 'في قائمتي' : 'أضف لقائمتي'}">${ico('i-star')}<span hidden></span></button><button class="nm" data-id="${x.id}"><b>${esc(x.ar)}</b><small>${numify(esc(x.short))}</small></button><span class="rt"><b class="num">${x.rate[0].toFixed(1)} ★</b>${n}</span></li>`;
+    return `<li id="r-${x.id}"><button class="sf" data-fav="${x.id}" aria-pressed="${FAV.has(x.id)}" aria-label="${FAV.has(x.id) ? 'في قائمتي' : 'أضف لقائمتي'}">${ico('i-star')}<span hidden></span></button><button class="nm" data-id="${x.id}"><b>${esc(x.ar)}</b><small>${numify(esc(x.short))}${sarRange(x.short) ? ` <span class="sar">(${sarRange(x.short)})</span>` : ''}</small></button><span class="rt"><b class="num">${x.rate[0].toFixed(1)} ★</b>${n}</span></li>`;
   }
   function render(){
     const xs = S.filter(x => (st.area === 'all' || x.area === st.area) && (st.fit === 'all' || (st.fit === 'fav' ? FAV.has(x.id) : st.fit === 'sent' ? SENT.has(x.id) : st.fit === 'ok' ? x.fit !== 'over' : x.fit === 'in'))).sort((a, b) => a.ord - b.ord);
@@ -606,7 +660,8 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
     const nn = n => n === 1 ? 'محل واحد' : n === 2 ? 'محلان' : n < 11 ? `${n} محلات` : `${n} محلًا`;
     $('#grid').innerHTML = xs.length ? groups.map(([a, g]) => `<section class="grp" aria-label="${AREAS[a]}"><h3>${AREAS[a]}<small>${nn(g.length)}${a === 'oaks' ? ' · نحو ساعة بالسيارة' : a === 'trafford' ? ' · نحو 20 دقيقة بالسيارة' : ''}</small></h3>${st.view === 'list' ? `<ul class="rows">${g.map(row).join('')}</ul>` : `<div class="cards">${g.map(card).join('')}</div>`}</section>`).join('') : `<div class="box empty">${st.fit === 'fav' ? 'قائمتكم فارغة. اضغطوا ☆ على أي محل لإضافته.' : 'لا محلات بهذا الاختيار.'}</div>`;
     document.querySelectorAll('.vsw button').forEach(b => b.setAttribute('aria-pressed', b.dataset.view === st.view));
-    document.querySelectorAll('.rows .nm').forEach(b => b.onclick = () => goTo(b.dataset.id));
+    document.querySelectorAll('.rows .nm').forEach(b => b.onclick = () => openShop(b.dataset.id));
+    document.querySelectorAll('#grid [data-open]').forEach(b => b.onclick = () => openShop(b.dataset.open));
     wire();
     $('#count').textContent = `${xs.length} من ${S.length}`;
   }
@@ -620,7 +675,18 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   document.querySelectorAll('.vsw button').forEach(b => b.onclick = () => setView(b.dataset.view));
   const CAT = { city: 'var(--c-shop)', oaks: 'var(--violet)', trafford: 'var(--c-trip)' };
   $('#idx').innerHTML = ['city', 'oaks', 'trafford'].flatMap(a => S.filter(x => x.area === a).sort((p, q) => p.ord - q.ord)).map(x => `<button type="button" data-go="${x.id}"><span class="dot" style="background:${CAT[x.area]}"></span>${esc(x.ar)}</button>`).join('');
-  $('#idx').querySelectorAll('[data-go]').forEach(b => b.onclick = () => goTo(b.dataset.go));
+  $('#idx').querySelectorAll('[data-go]').forEach(b => b.onclick = () => openShop(b.dataset.go));
+  const sd = $('#shopDlg');
+  $('#sdX').onclick = () => sd.close();
+  $('#sdPrev').onclick = () => { if (CUR > 0) { CUR--; showShop(); try { history.replaceState(null, '', '#' + SEQ[CUR].id); } catch (e) {} } };
+  $('#sdNext').onclick = () => { if (CUR < SEQ.length - 1) { CUR++; showShop(); try { history.replaceState(null, '', '#' + SEQ[CUR].id); } catch (e) {} } };
+  sd.addEventListener('click', e => { if (e.target === sd) sd.close(); });
+  sd.addEventListener('close', () => { try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} });
+  let tx = null;
+  $('#sdBody').addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  $('#sdBody').addEventListener('touchend', e => { if (tx == null) return; const dx = e.changedTouches[0].clientX - tx; tx = null; if (Math.abs(dx) > 70) (dx > 0 ? $('#sdNext') : $('#sdPrev')).click(); }, { passive: true });
+  try { if (!localStorage.getItem('bags-hint')) $('#hint1').hidden = false; } catch (e) { $('#hint1').hidden = false; }
+  $('#hint1x').onclick = () => { $('#hint1').hidden = true; try { localStorage.setItem('bags-hint', '1'); } catch (e) {} };
   render(); favCount(); tours();
   function setFit(v){ st.fit = v; document.querySelectorAll('#fitChips .chip').forEach(c => c.setAttribute('aria-pressed', c.dataset.v === v)); document.querySelectorAll('#areaChips .chip').forEach(c => c.setAttribute('aria-pressed', c.dataset.v === 'all')); st.area = 'all'; render(); }
   const toShops = () => $('#s-h').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -628,7 +694,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   if (h.startsWith('fav=')) {
     h.slice(4).split(',').filter(i => S.some(x => x.id === i)).forEach(i => SENT.add(i));
     if (SENT.size) { chips($('#fitChips'), 'fit', [['sent', `القائمة المرسلة (${SENT.size})`]]); setFit('sent'); setTimeout(toShops, 300); }
-  } else if (h) setTimeout(() => goTo(h), 300);
+  } else if (h && S.some(x => x.id === h)) setTimeout(() => openShop(h), 300);
   $('#dShops').onclick = toShops;
   $('#dTour').onclick = () => $('#r-h').scrollIntoView({ behavior: 'smooth', block: 'start' });
   $('#dFav').onclick = () => { setFit('fav'); toShops(); };
