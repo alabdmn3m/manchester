@@ -103,6 +103,11 @@ section{margin-block:0 30px}
 .chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 14px;font:inherit;font-size:.95rem;cursor:pointer;min-height:40px}
 .chip[aria-pressed="true"]{background:var(--violet);border-color:var(--violet);color:#fff}
 .chips + .chips{margin-top:8px}
+.chip .n{opacity:.7;font-size:.85em;margin-inline-start:2px}
+.chip:disabled{opacity:.4;cursor:not-allowed}
+.chip.open .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-inline-end:6px;vertical-align:1px}
+.chip.open[aria-pressed="true"] .dot{background:#fff}
+.grp,.card,#s-h,#grid{scroll-margin-top:175px}
 .count{font-size:.85rem;color:var(--muted);margin-inline-start:auto;white-space:nowrap;flex:none}
 /* cards */
 .grid{display:block}
@@ -136,9 +141,9 @@ section{margin-block:0 30px}
 .btn.more2{width:100%;justify-content:center;border-style:dashed;color:var(--violet);font-weight:700}
 .sar{white-space:nowrap;color:var(--muted);font-size:.92em}
 .rows .nm small .sar{color:var(--ok);white-space:nowrap}
-.hint{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1.5px solid var(--gold);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:.92rem}
-.hint ol{margin:0;padding-inline-start:18px}
-.hint button{margin-inline-start:auto;flex:none;border:0;background:none;color:var(--muted);cursor:pointer;min-width:36px;min-height:36px}
+.hint1{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1.5px solid var(--gold);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:.92rem}
+.hint1 ol{margin:0;padding-inline-start:18px}
+.hint1 button{margin-inline-start:auto;flex:none;border:0;background:none;color:var(--muted);cursor:pointer;min-width:36px;min-height:36px}
 dialog.shop{border:0;padding:0;width:100%;max-width:560px;max-height:92vh;margin:auto auto 0;border-radius:18px 18px 0 0;background:var(--surface);color:var(--ink);box-shadow:0 -10px 40px rgba(0,0,0,.3);overflow:hidden}
 @media (min-width:821px){dialog.shop{margin:auto;border-radius:18px;max-height:88vh}}
 dialog.shop::backdrop{background:rgba(10,6,24,.55)}
@@ -249,6 +254,7 @@ dialog.sheet h3{margin:0 0 10px;font-size:1.2rem}
   .dock .n{font-size:.7rem;background:var(--gold);color:var(--on-gold);border-radius:999px;padding:0 6px;margin-inline-start:2px}
 }
 /* converter */
+.swap{flex-basis:100%;align-self:flex-start;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface-2,var(--surface));color:var(--violet);border-radius:999px;padding:6px 12px;font:inherit;font-size:.88rem;cursor:pointer;width:max-content;max-width:max-content}
 .conv{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .conv label{font-weight:700}
 .conv input{font:inherit;font-size:1.1rem;width:120px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
@@ -274,7 +280,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
 .sign p{margin:4px 0 0;font-size:.9rem;color:var(--hero-muted);max-width:60ch}
 .sign a{color:var(--gold)}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-@media (max-width:820px){.tools{position:static}.chips{flex-wrap:wrap;gap:6px}.chip{flex:none;padding:6px 12px}.verdict{grid-template-columns:1fr}.hero-top{grid-template-columns:1fr}.bagart{width:64px;order:-1}.grid{grid-template-columns:1fr}.count{margin-inline-start:6px}}
+@media (max-width:820px){.tools{position:sticky;top:0;padding-block:8px;margin-inline:-16px;padding-inline:16px}.chips{flex-wrap:nowrap;gap:6px;overflow-x:auto;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}.chips + .chips{margin-top:6px}.chips .lbl{flex:none}.chip{flex:none;padding:5px 12px;min-height:36px}.verdict{grid-template-columns:1fr}.hero-top{grid-template-columns:1fr}.bagart{width:64px;order:-1}.grid{grid-template-columns:1fr}.count{margin-inline-start:6px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -350,23 +356,23 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   </section>
 
   <section aria-labelledby="c-h" id="c-sec">
-    <div class="sh"><h2 id="c-h">محوّل العملة</h2><p>اكتبوا سعر البطاقة بالجنيه</p></div>
+    <div class="sh"><h2 id="c-h">محوّل العملة</h2><p>من الجنيه إلى الريال، أو العكس</p></div>
     <div class="box conv">
-      <label for="gbp">السعر £</label>
+      <button type="button" class="swap" id="sw1" aria-label="اعكس اتجاه التحويل"><svg class="ico"><use href="#i-swap"/></svg><span>اعكس: من الريال إلى الجنيه</span></button><label for="gbp" id="lb1">السعر £</label>
       <input id="gbp" type="number" inputmode="decimal" min="0" step="1" value="145">
       <span>=</span><output id="sar" for="gbp" class="num">721 ريال</output>
-      <p class="hint">بسعر <span class="num">£1 = 4.97</span> ريال؛ البطاقات البنكية تضيف عادة <span class="num">1</span> إلى <span class="num">3</span>%.</p>
+      <p class="hint">بسعر <span class="num">£1 = 4.97</span> ريال، و<span class="num">100</span> ريال ≈ <span class="num">£20</span>؛ البطاقات البنكية تضيف عادة <span class="num">1</span> إلى <span class="num">3</span>%.</p>
     </div>
   </section>
 
   <section aria-labelledby="s-h">
-    <div class="sh"><h2 id="s-h">المحلات</h2><p>مرتبة من الأوفر سعرًا</p></div>
+    <div class="sh"><h2 id="s-h">المحلات</h2><p>مرتبة بترتيب المشي داخل كل منطقة</p></div>
     <div class="tools" role="group" aria-label="تصفية المحلات">
       <div class="chips" id="areaChips"><span class="lbl">المكان:</span></div>
       <div class="chips" id="fitChips"><span class="lbl">السعر:</span></div>
-      <div class="chips"><span class="count" id="count" aria-live="polite"></span><div class="vsw" role="group" aria-label="طريقة العرض"><button type="button" data-view="cards">بطاقات</button><button type="button" data-view="list">قائمة</button></div></div>
+      <div class="chips"><button type="button" class="chip open" id="openChip" aria-pressed="false"><span class="dot"></span>مفتوح الآن</button><span class="count" id="count" aria-live="polite"></span><div class="vsw" role="group" aria-label="طريقة العرض"><button type="button" data-view="cards">بطاقات</button><button type="button" data-view="list">قائمة</button></div></div>
     </div>
-    <div class="hint" id="hint1" hidden><div><b>كيف تستخدمون الصفحة؟</b><ol><li>اضغطوا اسم المحل أو صورته لتروا تفاصيله كاملة.</li><li>اضغطوا ☆ على ما يعجبكم ليُحفظ في «قائمتي».</li><li>أرسلوا «قائمتي» في واتساب من الشريط الذي يظهر فوق المحلات.</li></ol></div><button type="button" id="hint1x" aria-label="إغلاق التلميح">✕</button></div>
+    <div class="hint1" id="hint1" hidden><div><b>كيف تستخدمون الصفحة؟</b><ol><li>اضغطوا اسم المحل أو صورته لتروا تفاصيله كاملة.</li><li>اضغطوا ☆ على ما يعجبكم ليُحفظ في «قائمتي».</li><li>أرسلوا «قائمتي» في واتساب من الشريط الذي يظهر فوق المحلات.</li></ol></div><button type="button" id="hint1x" aria-label="إغلاق التلميح">✕</button></div>
     <div class="idx" id="idx" aria-label="افتح تفاصيل محل"></div>
     <div class="favbar" id="favbar" hidden></div>
     <div class="grid" id="grid"></div>
@@ -423,8 +429,8 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
 <dialog class="sheet" id="convDlg" aria-labelledby="convT">
   <form method="dialog">
     <h3 id="convT">محوّل العملة</h3>
-    <div class="row"><label for="gbp2">السعر £</label><input id="gbp2" type="number" inputmode="decimal" min="0" step="1" placeholder="0"><span>=</span><output id="sar2" for="gbp2" class="num">0 ريال</output></div>
-    <p class="hint">بسعر <span class="num">£1 = 4.97</span> ريال؛ البطاقات البنكية تضيف عادة <span class="num">1</span> إلى <span class="num">3</span>%.</p>
+    <div class="row"><button type="button" class="swap" id="sw2" aria-label="اعكس اتجاه التحويل"><svg class="ico"><use href="#i-swap"/></svg><span>اعكس: من الريال إلى الجنيه</span></button><label for="gbp2" id="lb2">السعر £</label><input id="gbp2" type="number" inputmode="decimal" min="0" step="1" placeholder="0"><span>=</span><output id="sar2" for="gbp2" class="num">0 ريال</output></div>
+    <p class="hint">بسعر <span class="num">£1 = 4.97</span> ريال، و<span class="num">100</span> ريال ≈ <span class="num">£20</span>؛ البطاقات البنكية تضيف عادة <span class="num">1</span> إلى <span class="num">3</span>%.</p>
     <button class="btn primary" value="close">إغلاق</button>
   </form>
 </dialog>
@@ -546,7 +552,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   const $ = s => document.querySelector(s);
   const ico = n => `<svg class="ico"><use href="#${n}"/></svg>`;
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
-  const st = { area: 'all', fit: 'all' };
+  const st = { area: 'all', fit: 'all', open: false };
   const SENT = new Set();
   st.view = (() => { try { return localStorage.getItem('bags-view') || 'cards'; } catch (e) { return 'cards'; } })();
   function setView(v, quiet){ st.view = v; try { localStorage.setItem('bags-view', v); } catch (e) {} if (!quiet) render(); }
@@ -576,9 +582,9 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
     });
   }
   function favCount(){
-    const c = document.querySelector('#fitChips .chip[data-v="fav"]'); if (c) c.textContent = FAV.size ? `★ قائمتي (${FAV.size})` : '★ قائمتي';
+    const c = document.querySelector('#fitChips .chip[data-v="fav"]'); if (c) { c.dataset.l = '★ قائمتي'; refreshChips(); }
     const n = $('#dFavN'); n.hidden = !FAV.size; n.textContent = FAV.size;
-    const fb = $('#favbar'), ids = S.filter(x => FAV.has(x.id)).sort((a, b) => a.ord - b.ord);
+    const fb = $('#favbar'), ids = sortW(S.filter(x => FAV.has(x.id)));
     fb.hidden = !ids.length;
     if (ids.length) {
       const msg = 'اختياراتي من شنط مانشستر:\n' + ids.map((x, i) => `${i + 1}. ${x.ar}: ${sarTxt(x.short)}`).join('\n') + `\n${URL0}#fav=${ids.map(x => x.id).join(',')}`;
@@ -589,7 +595,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   const hav = (a, b) => { const R = 6371, t = Math.PI / 180, dl = (b[0] - a[0]) * t, dn = (b[1] - a[1]) * t, q = Math.sin(dl / 2) ** 2 + Math.cos(a[0] * t) * Math.cos(b[0] * t) * Math.sin(dn / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(q)); };
   const walk = (a, b) => Math.max(1, Math.round(hav(a.ll, b.ll) * 1.3 / 4.8 * 60));
   function goTo(id){
-    st.area = 'all'; st.fit = 'all'; setView('cards', true);
+    st.area = 'all'; st.fit = 'all'; st.open = false; $('#openChip').setAttribute('aria-pressed', 'false'); setView('cards', true);
     document.querySelectorAll('#areaChips .chip,#fitChips .chip').forEach(c => c.setAttribute('aria-pressed', c.dataset.v === 'all'));
     render(); const el = document.getElementById(id); if (!el) return;
     el.scrollIntoView({ behavior: 'smooth', block: 'start' }); el.classList.add('hl'); setTimeout(() => el.classList.remove('hl'), 2500);
@@ -661,7 +667,12 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   }
   const WALKO = ['hof', 'mkc', 'longchamp', 'kurt', 'dune', 'acc', 'tkmaxx', 'selft', 'mkt', 'fossil', 'guess', 'coacho', 'kate', 'kgo', 'mko', 'karl'];
   const wo = x => WALKO.indexOf(x.id);
-  function visible(){ return ['city', 'trafford', 'oaks'].flatMap(a => S.filter(x => x.area === a && (st.area === 'all' || x.area === st.area) && (st.fit === 'all' || (st.fit === 'fav' ? FAV.has(x.id) : st.fit === 'sent' ? SENT.has(x.id) : st.fit === 'ok' ? x.fit !== 'over' : x.fit === 'in'))).sort((p, q) => wo(p) - wo(q))); }
+  const isOpen = x => { if (!x.hrs) return false; const N = mcrNow(), r = x.hrs[N.d]; return N.m >= r[0] && N.m < r[1]; };
+  const fitOk = (x, f) => f === 'all' || (f === 'fav' ? FAV.has(x.id) : f === 'sent' ? SENT.has(x.id) : x.fit === f);
+  const match = (x, o = st) => (o.area === 'all' || x.area === o.area) && fitOk(x, o.fit) && (!o.open || isOpen(x));
+  const AORD = ['city', 'trafford', 'oaks'];
+  const sortW = xs => xs.sort((p, q) => AORD.indexOf(p.area) - AORD.indexOf(q.area) || wo(p) - wo(q));
+  function visible(){ return sortW(S.filter(x => match(x))); }
   function openShop(id){
     SEQ = visible(); CUR = SEQ.findIndex(x => x.id === id);
     if (CUR < 0) { SEQ = [...S].sort((p, q) => wo(p) - wo(q)); CUR = SEQ.findIndex(x => x.id === id); }
@@ -681,26 +692,39 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
     return `<li id="r-${x.id}"><button class="sf" data-fav="${x.id}" aria-pressed="${FAV.has(x.id)}" aria-label="${FAV.has(x.id) ? 'في قائمتي' : 'أضف لقائمتي'}">${ico('i-star')}<span hidden></span></button><button class="nm" data-id="${x.id}"><b>${esc(x.ar)}</b><small>${numify(esc(x.short))}</small></button><span class="rt"><b class="num">${x.rate[0].toFixed(1)} ★</b>${n}</span></li>`;
   }
   function render(){
-    const xs = S.filter(x => (st.area === 'all' || x.area === st.area) && (st.fit === 'all' || (st.fit === 'fav' ? FAV.has(x.id) : st.fit === 'sent' ? SENT.has(x.id) : st.fit === 'ok' ? x.fit !== 'over' : x.fit === 'in'))).sort((a, b) => a.ord - b.ord);
-    const groups = ['city', 'oaks', 'trafford'].map(a => [a, xs.filter(x => x.area === a)]).filter(g => g[1].length);
+    const xs = visible();
+    const groups = AORD.map(a => [a, xs.filter(x => x.area === a)]).filter(g => g[1].length);
     const nn = n => n === 1 ? 'محل واحد' : n === 2 ? 'محلان' : n < 11 ? `${n} محلات` : `${n} محلًا`;
     $('#grid').innerHTML = xs.length ? groups.map(([a, g]) => `<section class="grp" aria-label="${AREAS[a]}"><h3>${AREAS[a]}<small>${nn(g.length)}${a === 'oaks' ? ' · نحو ساعة بالسيارة' : a === 'trafford' ? ' · نحو 20 دقيقة بالسيارة' : ''}</small></h3>${st.view === 'list' ? `<ul class="rows">${g.map(row).join('')}</ul>` : `<div class="cards">${g.map(card).join('')}</div>`}</section>`).join('') : `<div class="box empty">${st.fit === 'fav' ? 'قائمتكم فارغة. اضغطوا ☆ على أي محل لإضافته.' : 'لا محلات بهذا الاختيار.'}</div>`;
     document.querySelectorAll('.vsw button').forEach(b => b.setAttribute('aria-pressed', b.dataset.view === st.view));
     document.querySelectorAll('.rows .nm').forEach(b => b.onclick = () => openShop(b.dataset.id));
     document.querySelectorAll('#grid [data-open]').forEach(b => b.onclick = () => openShop(b.dataset.open));
     wire();
-    $('#count').textContent = `${xs.length} من ${S.length}`;
+    $('#count').textContent = `${xs.length} من ${S.length}${st.open ? ' · مفتوحة الآن' : ''}`;
+    refreshChips();
+  }
+  function toGrid(){ const g = $('#grid'); if (g.getBoundingClientRect().top < 0) g.scrollIntoView({ block: 'start' }); }
+  function refreshChips(){
+    document.querySelectorAll('#areaChips .chip, #fitChips .chip, #openChip').forEach(c => {
+      const k = c.closest('#areaChips') ? 'area' : c.id === 'openChip' ? 'open' : 'fit', v = k === 'open' ? true : c.dataset.v;
+      const n = S.filter(x => match(x, { ...st, [k]: v })).length;
+      if (!c.dataset.l) c.dataset.l = c.textContent;
+      const showN = !(k !== 'open' && v === 'all') && v !== 'sent';
+      c.innerHTML = `${esc(c.dataset.l)}${showN ? ` <span class="n num">${n}</span>` : ''}`;
+      const on = c.getAttribute('aria-pressed') === 'true'; c.disabled = !on && n === 0 && v !== 'fav';
+      c.title = c.disabled ? (k === 'open' ? 'المحلات في هذا الاختيار مغلقة الآن' : 'لا محلات بهذا الاختيار') : '';
+    });
   }
   function chips(el, key, opts){
     el.insertAdjacentHTML('beforeend', opts.map(([v, t]) => `<button class="chip" data-v="${v}" aria-pressed="${st[key] === v}">${t}</button>`).join(''));
-    el.querySelectorAll('.chip').forEach(b => b.onclick = () => { st[key] = b.dataset.v; el.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c === b)); render(); });
+    el.querySelectorAll('.chip').forEach(b => b.onclick = () => { st[key] = b.dataset.v; el.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c === b)); render(); toGrid(); });
   }
-  const cnt = a => S.filter(x => x.area === a).length;
-  chips($('#areaChips'), 'area', [['all', 'الكل'], ['city', `${AREAS.city} ${cnt('city')}`], ['oaks', `شيشاير أوكس ${cnt('oaks')}`], ['trafford', `ترافورد ${cnt('trafford')}`]]);
-  chips($('#fitChips'), 'fit', [['all', 'الكل'], ['in', 'في المتناول'], ['fav', '★ قائمتي']]);
+  chips($('#areaChips'), 'area', [['all', 'الكل'], ['city', AREAS.city], ['trafford', 'ترافورد'], ['oaks', 'شيشاير أوكس']]);
+  chips($('#fitChips'), 'fit', [['all', 'الكل'], ['in', 'في المتناول'], ['part', 'متفاوتة'], ['over', 'أعلى'], ['fav', '★ قائمتي']]);
+  $('#openChip').onclick = () => { st.open = !st.open; $('#openChip').setAttribute('aria-pressed', st.open); render(); toGrid(); };
   document.querySelectorAll('.vsw button').forEach(b => b.onclick = () => setView(b.dataset.view));
   const CAT = { city: 'var(--c-shop)', oaks: 'var(--violet)', trafford: 'var(--c-trip)' };
-  $('#idx').innerHTML = ['city', 'oaks', 'trafford'].flatMap(a => S.filter(x => x.area === a).sort((p, q) => p.ord - q.ord)).map(x => `<button type="button" data-go="${x.id}"><span class="dot" style="background:${CAT[x.area]}"></span>${esc(x.ar)}</button>`).join('');
+  $('#idx').innerHTML = sortW([...S]).map(x => `<button type="button" data-go="${x.id}"><span class="dot" style="background:${CAT[x.area]}"></span>${esc(x.ar)}</button>`).join('');
   $('#idx').querySelectorAll('[data-go]').forEach(b => b.onclick = () => openShop(b.dataset.go));
   const sd = $('#shopDlg');
   $('#sdX').onclick = () => sd.close();
@@ -716,6 +740,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   try { if (!localStorage.getItem('bags-hint')) $('#hint1').hidden = false; } catch (e) { $('#hint1').hidden = false; }
   $('#hint1x').onclick = () => { $('#hint1').hidden = true; try { localStorage.setItem('bags-hint', '1'); } catch (e) {} };
   render(); favCount(); tours();
+  setInterval(() => { if (st.open) { const y = scrollY; render(); scrollTo(0, y); } else refreshChips(); }, 60000);
   function setFit(v){ st.fit = v; document.querySelectorAll('#fitChips .chip').forEach(c => c.setAttribute('aria-pressed', c.dataset.v === v)); document.querySelectorAll('#areaChips .chip').forEach(c => c.setAttribute('aria-pressed', c.dataset.v === 'all')); st.area = 'all'; render(); }
   const toShops = () => $('#s-h').scrollIntoView({ behavior: 'smooth', block: 'start' });
   const h = decodeURIComponent(location.hash.slice(1));
@@ -727,16 +752,20 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   $('#dTour').onclick = () => $('#r-h').scrollIntoView({ behavior: 'smooth', block: 'start' });
   $('#dFav').onclick = () => { setFit('fav'); toShops(); };
   const dlg = $('#convDlg'), g2 = $('#gbp2');
-  g2.oninput = () => { $('#sar2').textContent = `${sar(Math.max(0, parseFloat(g2.value) || 0)).toLocaleString('en-US')} ريال`; };
+  function makeConv(inp, out, lbl, btn){
+    let dir = 'g';
+    const val = () => Math.max(0, parseFloat(inp.value) || 0);
+    const res = v => dir === 'g' ? sar(v) : Math.round(v / RATE);
+    const run = () => { const r = res(val()).toLocaleString('en-US'); out.textContent = dir === 'g' ? `${r} ريال` : `£${r}`; };
+    btn.onclick = () => { const r = res(val()); dir = dir === 'g' ? 's' : 'g'; if (inp.value !== '') inp.value = r;
+      lbl.textContent = dir === 'g' ? 'السعر £' : 'المبلغ بالريال'; btn.querySelector('span').textContent = dir === 'g' ? 'اعكس: من الريال إلى الجنيه' : 'اعكس: من الجنيه إلى الريال'; run(); inp.focus(); };
+    inp.oninput = run; run();
+  }
+  makeConv(g2, $('#sar2'), $('#lb2'), $('#sw2'));
   $('#dConv').onclick = () => { dlg.showModal(); g2.focus(); g2.select(); };
   dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
-  const inp = $('#gbp');
-  function conv(){
-    const g = Math.max(0, parseFloat(inp.value) || 0);
-    $('#sar').textContent = `${sar(g).toLocaleString('en-US')} ريال`;
-  }
-  inp.oninput = conv; conv();
+  makeConv($('#gbp'), $('#sar'), $('#lb1'), $('#sw1'));
 })();
 </script>
 </body>
