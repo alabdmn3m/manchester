@@ -8,7 +8,16 @@
 <meta name="description" content="دليل عائلي لمحلات الشنط النسائية في مانشستر بجودة جيدة وسعر لا يتجاوز 1000 ريال: الأسعار، وكلام الناس، والصور، ورابط الموقع.">
 <meta property="og:title" content="شنط مانشستر · دليل للعائلة">
 <meta property="og:description" content="محلات موثوقة لشنط نسائية بجودة جيدة وسعر حتى 1000 ريال، في وسط مانشستر وترافورد سنتر ومنافذ شيشاير أوكس.">
-<meta property="og:image" content="https://alabdmn3m.github.io/manchester/bags/img/e902248eed96.webp">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://alabdmn3m.github.io/manchester/bags/">
+<meta property="og:image" content="https://alabdmn3m.github.io/manchester/bags/og.jpg?v=1">
+<meta property="og:image:secure_url" content="https://alabdmn3m.github.io/manchester/bags/og.jpg?v=1">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="غلاف صفحة شنط مانشستر: محلات بجودة جيدة وسعر حتى 1000 ريال">
+<meta property="og:site_name" content="شنط مانشستر">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:locale" content="ar_SA">
 <meta name="theme-color" content="#22104A">
 <meta name="author" content="عبدالرحمن العبدالمنعم">
@@ -132,6 +141,27 @@ section{margin-block:0 30px}
 .btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:8px 12px;font:inherit;font-size:.92rem;text-decoration:none;min-height:42px}
 .btn.primary{background:var(--violet);border-color:var(--violet);color:#fff}
 .empty{padding:24px;text-align:center;color:var(--muted)}
+.now{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font-size:.85rem;font-weight:700}
+.now::before{content:"";width:9px;height:9px;border-radius:50%;background:currentColor}
+.now.open{color:var(--ok)}.now.soon{color:var(--warn)}.now.shut{color:var(--bad)}
+.tags{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.fav{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:6px 12px;font:inherit;font-size:.88rem;cursor:pointer;min-height:38px;display:inline-flex;gap:6px;align-items:center}
+.fav[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--on-gold);font-weight:700}
+.fav[aria-pressed="true"] .ico{fill:currentColor}
+.btn.wa{color:#0F7A3B;border-color:color-mix(in srgb,#0F7A3B 35%,var(--line))}
+.card.hl{outline:3px solid var(--gold);outline-offset:2px}
+.card{scroll-margin-top:120px}
+.tours{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.tour h3{margin:0 0 2px;font-size:1.2rem}
+.tour .sub{margin:0 0 10px;color:var(--muted);font-size:.92rem}
+.stops{list-style:none;margin:0;padding:0}
+.stops li{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start}
+.stops .n{width:30px;height:30px;border-radius:50%;background:var(--violet);color:#fff;font-weight:700;display:grid;place-items:center}
+.stops .lnk{background:none;border:0;padding:0;font:inherit;font-weight:700;color:var(--ink);text-align:start;cursor:pointer;text-decoration:underline dotted;text-underline-offset:4px}
+.stops small{display:block;color:var(--muted);font-size:.85rem}
+.stops .leg{grid-column:2;color:var(--muted);font-size:.85rem;padding:2px 0 8px;display:flex;gap:6px;align-items:center}
+.tour .btn{margin-top:6px}
+@media (max-width:820px){.tours{grid-template-columns:1fr}}
 /* converter */
 .conv{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .conv label{font-weight:700}
@@ -234,8 +264,13 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
     <div class="avoid"><svg class="ico"><use href="#i-alert"/></svg><div><b>تنبيه:</b> شنط كوتش ومايكل كورس بسعرها الكامل في وسط المدينة وترافورد تبدأ غالبًا من <span class="num">£214</span> إلى <span class="num">£230</span> (أكثر من <span class="num">1060</span> ريال)، فهي فوق الحد إلا في التخفيضات. ومَلبري فوق الحد حتى في المنفذ.</div></div>
   </section>
 
+  <section aria-labelledby="r-h">
+    <div class="sh"><h2 id="r-h">جولة مقترحة</h2><p>بالترتيب الأوفر في المشي</p></div>
+    <div class="tours" id="tours"></div>
+  </section>
+
   <section aria-labelledby="c-h">
-    <div class="sh"><h2 id="c-h">حاسبة الميزانية</h2><p>اكتب سعر البطاقة بالجنيه</p></div>
+    <div class="sh"><h2 id="c-h">حاسبة الميزانية</h2><p>اكتبوا سعر البطاقة بالجنيه</p></div>
     <div class="box conv">
       <label for="gbp">السعر £</label>
       <input id="gbp" type="number" inputmode="decimal" min="0" step="1" value="145">
@@ -306,61 +341,61 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
     oaks: { f: '3dad8a0ce8b9', c: 'واجهات المحلات في شيشاير أوكس', a: 'Carden Park', l: '© أصحابها', u: 'https://www.cardenpark.co.uk/', p: '50% 40%' }
   };
   const S = [
-    { id: 'longchamp', ar: 'لونشان (داخل سيلفريدجز)', en: 'Longchamp · Selfridges Exchange Square', area: 'city', fit: 'in', ord: 1, img: 'selfridges',
+    { id: 'longchamp', ll: [53.4838221,-2.2438271], hrs: [[660,1050],[600,1200],[600,1200],[600,1200],[600,1200],[600,1200],[600,1200]], short: 'من £85 إلى £145', ar: 'لونشان (داخل سيلفريدجز)', en: 'Longchamp · Selfridges Exchange Square', area: 'city', fit: 'in', ord: 1, img: 'selfridges',
       rate: [4.4, 6218, 'تقييم سيلفريدجز كله'],
       price: 'شنط <b>Le Pliage Original</b> من <span class="num">£85</span> إلى <span class="num">£145</span> (نحو <span class="num">420</span> إلى <span class="num">720</span> ريال). المجموعات الجلدية من <span class="num">£195</span> إلى <span class="num">£455</span>.', psrc: 'موقع لونشان الرسمي', pv: 'مؤكد',
       pos: ['زوار شكروا موظفين ساعدوهم في اختيار الشنط وشرحوا الفروق بصبر.', 'المبنى مرتب ويحمل طابع سيلفريدجز.'], neg: ['أصغر من فرع سيلفريدجز في ترافورد، فالمعروض أقل.'],
       tip: 'الأنسب للاستعمال اليومي والسفر: نايلون خفيف يُطوى بأطراف جلدية. ليست شنطة سهرة فاخرة، لكنها تعيش سنوات.',
       hours: 'ركن لونشان: الإثنين إلى السبت 10:00–20:00، والأحد 11:00–17:30', go: 'نحو 30 دقيقة مشيًا من الفندق، أو أوبر نحو 10 دقائق', addr: '1 Exchange Square، الدور الخاص بالإكسسوارات', place: 'ChIJXad2ucaxe0gR2jB5fWgpmKU', site: 'https://www.longchamp.com/gb/en/le-pliage/' },
-    { id: 'tkmaxx', ar: 'تي كي ماكس', en: 'TK Maxx · Market Street', area: 'city', fit: 'in', ord: 2, img: 'market',
+    { id: 'tkmaxx', ll: [53.4826894,-2.2406667], hrs: [[720,1080],[480,1260],[480,1260],[480,1260],[480,1260],[480,1260],[480,1200]], short: 'ماركات بخصم يصل إلى 60%', ar: 'تي كي ماكس', en: 'TK Maxx · Market Street', area: 'city', fit: 'in', ord: 2, img: 'market',
       rate: [4.3, 3589],
       price: 'ماركات عالمية بأسعار تقول الشركة إنها <b>أقل حتى 60%</b> من السعر الأصلي. المعروض يتغير يوميًا، وأغلب الشنط تحت <span class="num">£100</span> (تقدير).', psrc: 'موقع تي كي ماكس (نسبة الخصم)', pv: 'الخصم مؤكد، والمعروض تقدير',
       pos: ['كثيرون يجدون فيه ماركات معروفة بسعر رخيص.', 'من أكبر فروعه في بريطانيا، وطاقمه ودود.'], neg: ['طابور الدفع يطول أحيانًا.', 'مزدحم، والبضاعة على الرفوف غير مرتبة دائمًا.'],
-      tip: 'ابحثي في ركن الشنط وقسم «Gold Label» للماركات الأعلى. افحصي الشنطة جيدًا، فبعضها معروض بلا تغليف.',
+      tip: 'ابحثوا في ركن الشنط وقسم «Gold Label» للماركات الأعلى. افحصوا الشنطة جيدًا، فبعضها معروض بلا تغليف.',
       hours: 'الإثنين إلى الجمعة 08:00–21:00، والسبت 08:00–20:00، والأحد 12:00–18:00', go: 'نحو 28 دقيقة مشيًا من الفندق، بجوار يونيكلو', addr: '51–55 Market Street', place: 'ChIJeUUxtsCxe0gRP9hxqNxgDqA', site: 'https://www.tkmaxx.com/uk/en/' },
-    { id: 'radley', ar: 'رادلي (منفذ)', en: 'Radley · Cheshire Oaks', area: 'oaks', fit: 'in', ord: 3, img: 'oaks',
+    { id: 'radley', ll: [53.2668497,-2.8790969], hrs: [[540,1140],[600,1260],[600,1260],[600,1260],[600,1260],[600,1260],[540,1260]], short: 'مخفّضة غالبًا من £100 إلى £200', ar: 'رادلي (منفذ)', en: 'Radley · Cheshire Oaks', area: 'oaks', fit: 'in', ord: 3, img: 'oaks',
       rate: [4.6, 186],
       price: 'سعرها الأصلي عادة من <span class="num">£219</span> إلى <span class="num">£299</span>، ومخفّضها لدى المتاجر من <span class="num">£100</span> إلى <span class="num">£209</span> (نحو <span class="num">500</span> إلى <span class="num">1040</span> ريال). وأسعار المنفذ أقل غالبًا.', psrc: 'House of Fraser؛ ومراجعة ذكرت شنطة بـ£100 من المنفذ', pv: 'نطاق المتاجر مؤكد، والمنفذ تقدير',
       pos: ['طاقم ودود يرحّب بالزائر ولو دخل ثلاث مرات.', 'موظفات بحثن عن شنطة في فروع أخرى واتصلن بالزبون.'], neg: ['زائر اشترى شنطة بـ£100 فوجدها معيبة، ولم يُحسن المدير التعامل معه.'],
       tip: 'أفضل قيمة في القائمة: جلد جيد وتصاميم كلاسيكية بشعار الكلب الاسكتلندي. خطوط Dukes Place وLiverpool Street الأكثر طلبًا.',
       hours: 'مواعيد المركز: الإثنين إلى الجمعة 10:00–21:00، والسبت 09:00–21:00، والأحد 09:00–19:00', go: 'نحو ساعة بالسيارة أو أوبر (قرابة 60 كم)', addr: 'Kinsey Road, Ellesmere Port', place: 'ChIJQZ5FEP_dekgR3Hz2LHuHmK4', site: 'https://www.radleylondon.com/' },
-    { id: 'kurt', ar: 'كيرت جايجر', en: 'Kurt Geiger London · Arndale', area: 'city', fit: 'part', ord: 4, img: 'arndale',
+    { id: 'kurt', ll: [53.484223,-2.241173], hrs: [[690,1050],[540,1200],[540,1200],[540,1200],[540,1200],[540,1200],[540,1140]], short: 'Kensington الصغيرة من £169 إلى £189', ar: 'كيرت جايجر', en: 'Kurt Geiger London · Arndale', area: 'city', fit: 'part', ord: 4, img: 'arndale',
       rate: [3.2, 28],
       price: '9 من أول 15 شنطة في الموقع ضمن الحد: <b>Kensington الصغيرة</b> من <span class="num">£169</span> إلى <span class="num">£189</span>، وChelsea بـ<span class="num">£159</span>. والكبيرة حتى <span class="num">£329</span>.', psrc: 'موقع كيرت جايجر الرسمي', pv: 'مؤكد',
       pos: ['زوار مدحوا موظفين بأسمائهم وترتيب المحل.', 'وجدوا ما يبحثون عنه بسرعة.'], neg: ['شكاوى من تعامل سيئ لبعض الموظفين قرب وقت الإغلاق.'],
-      tip: 'تصاميم لافتة بشعار النسر وكريستال؛ مناسبة للمناسبات أكثر من الاستعمال اليومي. اذهبي في أول النهار لا قبل الإغلاق.',
+      tip: 'تصاميم لافتة بشعار النسر وكريستال؛ مناسبة للمناسبات أكثر من الاستعمال اليومي. اذهبوا في أول النهار لا قبل الإغلاق.',
       hours: 'الإثنين إلى الجمعة 09:00–20:00، والسبت 09:00–19:00، والأحد 11:30–17:30', go: 'نحو 31 دقيقة مشيًا من الفندق، داخل أرنديل', addr: 'Unit L8, Manchester Arndale', place: 'ChIJ0Wql2vixe0gRVV5KfaRUcIg', site: 'https://www.kurtgeiger.com/women/bags' },
-    { id: 'kate', ar: 'كيت سبيد (منفذ)', en: 'Kate Spade Outlet · Cheshire Oaks', area: 'oaks', fit: 'part', ord: 5, img: 'oaks',
+    { id: 'kate', ll: [53.2661249,-2.8818599], hrs: [[600,1080],[600,1200],[600,1200],[600,1200],[600,1200],[540,1260],[540,1260]], short: 'عروض المنفذ، ومثال منشور بـ£119', ar: 'كيت سبيد (منفذ)', en: 'Kate Spade Outlet · Cheshire Oaks', area: 'oaks', fit: 'part', ord: 5, img: 'oaks',
       rate: [4.2, 15],
       price: 'مثال منشور: شنطة <b>Selene</b> من الجلد السويدي بعرض <span class="num">£119</span> (نحو <span class="num">592</span> ريال) بدل <span class="num">£229</span> في المنفذ و<span class="num">£339</span> سعرها الأصلي. وسعر الخط الأساسي في الموقع نحو <span class="num">£295</span>.', psrc: 'McArthurGlen (عرض منتهٍ) وموقع كيت سبيد', pv: 'الأمثلة مؤكدة، والمعروض اليوم تقدير',
       pos: ['موظفات لطيفات يعرفن المنتجات ويعرضن الخيارات دون ضغط.'], neg: ['بعض الزوار وجدوا المتابعة مُلحّة وهم يعرفون ما يريدون.'],
-      tip: 'ألوان مبهجة وتصاميم أنيقة صغيرة. اسألي عن العرض الإضافي على سعر المنفذ، فالخصم الأكبر يأتي منه.',
+      tip: 'ألوان مبهجة وتصاميم أنيقة صغيرة. اسألوا عن العرض الإضافي على سعر المنفذ، فالخصم الأكبر يأتي منه.',
       hours: 'الإثنين إلى الخميس 10:00–20:00، والجمعة والسبت 09:00–21:00، والأحد 10:00–18:00', go: 'نحو ساعة بالسيارة أو أوبر', addr: 'Unit 168, Kinsey Road, Ellesmere Port', place: 'ChIJawJvCdvdekgRoFh5pqxwC58', site: 'https://www.katespade.co.uk/' },
-    { id: 'mko', ar: 'مايكل كورس (منفذ)', en: 'Michael Kors Outlet · Cheshire Oaks', area: 'oaks', fit: 'part', ord: 6, img: 'oaks',
+    { id: 'mko', ll: [53.2667995,-2.8816806], hrs: [[660,1020],[600,1200],[600,1200],[600,1200],[600,1200],[600,1200],[540,1260]], short: 'أسعار المنفذ، وبعضها ضمن الحد', ar: 'مايكل كورس (منفذ)', en: 'Michael Kors Outlet · Cheshire Oaks', area: 'oaks', fit: 'part', ord: 6, img: 'oaks',
       rate: [4.4, 435],
       price: 'أسعار أقل بوضوح من المحلات بحسب الزوار، وبعض الشنط ضمن الحد (تقدير). للمقارنة: أرخص شنطة في الموقع الرسمي <span class="num">£230</span>.', psrc: 'المراجعات، وموقع مايكل كورس', pv: 'تقدير',
       pos: ['ترحيب منذ الدخول، والمعروض نظيف ومرتب.', 'توفير كبير مقارنة بالسعر الأصلي.'], neg: ['بعض الموظفين يلاحقون الزبون عن قرب.', 'زائر ذكر أن المتاح استبدال فقط لا استرداد.'],
-      tip: 'أكبر منفذ للماركة قرب مانشستر وأعلى تقييم بعدد مراجعات كبير. تأكدي من سياسة الإرجاع قبل الدفع.',
+      tip: 'أكبر منفذ للماركة قرب مانشستر وأعلى تقييم بعدد مراجعات كبير. تأكدوا من سياسة الإرجاع قبل الدفع.',
       hours: 'الإثنين إلى الجمعة 10:00–20:00، والسبت 09:00–21:00، والأحد 11:00–17:00', go: 'نحو ساعة بالسيارة أو أوبر', addr: 'Unit 150, Kinsey Road, Ellesmere Port', place: 'ChIJ5-Cq6PvdekgRGrGCeg0bPGg', site: 'https://www.michaelkors.co.uk/' },
-    { id: 'coacho', ar: 'كوتش (منفذ)', en: 'Coach Outlet · Cheshire Oaks', area: 'oaks', fit: 'part', ord: 7, img: 'oaks',
+    { id: 'coacho', ll: [53.2659401,-2.8820916], hrs: [[600,1080],[600,1200],[600,1200],[600,1200],[600,1200],[540,1260],[540,1260]], short: 'أسعار المنفذ، وبعضها ضمن الحد', ar: 'كوتش (منفذ)', en: 'Coach Outlet · Cheshire Oaks', area: 'oaks', fit: 'part', ord: 7, img: 'oaks',
       rate: [4.2, 203],
       price: 'خارج المنافذ تبدأ شنط Tabby من نحو <span class="num">£214</span> (فوق الحد). في المنفذ خصومات تُدخل بعض الشنط ضمن الحد (تقدير).', psrc: 'PriceRunner، والمراجعات', pv: 'تقدير',
       pos: ['تشكيلة كبيرة ومختلفة عن منافذ أخرى.', 'موظفات غلّفن المشتريات بعناية.'], neg: ['شكاوى من ضعف خدمة ما بعد البيع والضمان.', 'الخدمة متفاوتة في الزحام.'],
-      tip: 'قارني بين شنط المنفذ والخط الأساسي في الخامة والتفاصيل، واحتفظي بالفاتورة للضمان.',
+      tip: 'قارنوا بين شنط المنفذ والخط الأساسي في الخامة والتفاصيل، واحتفظوا بالفاتورة للضمان.',
       hours: 'الإثنين إلى الخميس 10:00–20:00، والجمعة والسبت 09:00–21:00، والأحد 10:00–18:00', go: 'نحو ساعة بالسيارة أو أوبر', addr: 'Unit 165, Kinsey Road, Ellesmere Port', place: 'ChIJdd097_7dekgRmEqKW8eA-yk', site: 'https://uk.coach.com/' },
-    { id: 'selft', ar: 'سيلفريدجز ترافورد', en: 'Selfridges · Trafford Centre', area: 'trafford', fit: 'part', ord: 8, img: 'tpath',
+    { id: 'selft', ll: [53.4663515,-2.3473739], hrs: [[690,1080],[600,1320],[600,1320],[600,1320],[600,1320],[600,1320],[600,1260]], short: 'ماركات متعددة، واسألوا عما تحت £200', ar: 'سيلفريدجز ترافورد', en: 'Selfridges · Trafford Centre', area: 'trafford', fit: 'part', ord: 8, img: 'tpath',
       rate: [4.3, 4986],
-      price: 'قاعة إكسسوارات كبيرة فيها ماركات بأسعار متفاوتة؛ بعضها ضمن الحد وكثير منها فوقه. اسألي عن الشنط تحت <span class="num">£200</span>.', psrc: 'وصف المتجر والمراجعات', pv: 'تقدير',
+      price: 'قاعة إكسسوارات كبيرة فيها ماركات بأسعار متفاوتة؛ بعضها ضمن الحد وكثير منها فوقه. اسألوا عن الشنط تحت <span class="num">£200</span>.', psrc: 'وصف المتجر والمراجعات', pv: 'تقدير',
       pos: ['ماركات كثيرة وطاقم ودود ومحترف.'], neg: ['أغلب المعروض ماركات فاخرة تتجاوز الحد.'],
       tip: 'يناسب من يريد رؤية ماركات كثيرة في مكان واحد ومقارنتها، ثم الشراء من الأنسب سعرًا.',
       hours: 'الإثنين إلى الجمعة 10:00–22:00، والسبت 10:00–21:00، والأحد 11:30–18:00', go: 'أوبر نحو 20 دقيقة من الفندق، أو الترام إلى محطة The Trafford Centre', addr: '60 The Trafford Centre', place: 'ChIJb7hcBYiue0gRjUbi7UUrEmg', site: 'https://www.selfridges.com/GB/en/' },
-    { id: 'mkc', ar: 'مايكل كورس (وسط المدينة)', en: 'Michael Kors · New Cathedral Street', area: 'city', fit: 'over', ord: 9, img: 'ncs',
+    { id: 'mkc', ll: [53.4839375,-2.245084], hrs: null, short: 'من £230، فوق الحد إلا في التخفيضات', ar: 'مايكل كورس (وسط المدينة)', en: 'Michael Kors · New Cathedral Street', area: 'city', fit: 'over', ord: 9, img: 'ncs',
       rate: [4.4, 55],
       price: 'أرخص شنطة في الموقع الرسمي اليوم <span class="num">£230</span> (نحو <span class="num">1143</span> ريال)، فهي فوق الحد إلا في التخفيضات.', psrc: 'موقع مايكل كورس الرسمي', pv: 'مؤكد',
       pos: ['طاقم مرحِّب لا يُشعر الزائر بالحرج.', 'المديرة بحثت عن شنطة في فرع آخر وأمّنتها.'], neg: ['زائر شكّ في «خصم 15%» عرضته موظفة.'],
       tip: 'مناسب للمعاينة ومعرفة المقاس واللون، ثم الشراء من المنفذ بسعر أقل.',
-      hours: 'راجعي الخريطة', go: 'نحو 31 دقيقة مشيًا من الفندق', addr: '5 New Cathedral Street', place: 'ChIJN-YeIsSxe0gRDd1CrXqnG5Q', site: 'https://www.michaelkors.co.uk/' },
-    { id: 'mkt', ar: 'مايكل كورس (ترافورد)', en: 'Michael Kors · Trafford Centre', area: 'trafford', fit: 'over', ord: 10, img: 'tdome',
+      hours: 'راجعوا الخريطة', go: 'نحو 31 دقيقة مشيًا من الفندق', addr: '5 New Cathedral Street', place: 'ChIJN-YeIsSxe0gRDd1CrXqnG5Q', site: 'https://www.michaelkors.co.uk/' },
+    { id: 'mkt', ll: [53.465543,-2.3502821], hrs: [[720,1080],[600,1320],[600,1320],[600,1320],[600,1320],[600,1320],[600,1260]], short: 'من £230، فوق الحد إلا في التخفيضات', ar: 'مايكل كورس (ترافورد)', en: 'Michael Kors · Trafford Centre', area: 'trafford', fit: 'over', ord: 10, img: 'tdome',
       rate: [4.6, 136],
       price: 'الأسعار نفسها في الموقع الرسمي: من <span class="num">£230</span>، فهي فوق الحد إلا في التخفيضات.', psrc: 'موقع مايكل كورس الرسمي', pv: 'مؤكد',
       pos: ['مراجعات حديثة كثيرة تمدح الطاقم بالأسماء.', 'محل منظم وخدمة مهذبة.'], neg: ['شكوى قديمة من انشغال الموظفين عن الزبائن.'],
@@ -371,6 +406,53 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   const ico = n => `<svg class="ico"><use href="#${n}"/></svg>`;
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
   const st = { area: 'all', fit: 'all' };
+  const URL0 = 'https://alabdmn3m.github.io/manchester/bags/';
+  const FAV = new Set((() => { try { return JSON.parse(localStorage.getItem('bags-fav') || '[]'); } catch (e) { return []; } })());
+  const saveFav = () => { try { localStorage.setItem('bags-fav', JSON.stringify([...FAV])); } catch (e) {} };
+  const DIR = x => `https://www.google.com/maps/dir/?api=1&destination=${x.ll.join(',')}&destination_place_id=${x.place}&travelmode=${x.area === 'city' ? 'walking' : 'driving'}`;
+  const WA = x => 'https://wa.me/?text=' + encodeURIComponent(`${x.ar}: ${x.short}\n${URL0}#${x.id}`);
+  const fmt = m => `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+  function mcrNow(){
+    const p = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date()).map(o => [o.type, o.value]));
+    return { d: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(p.weekday), m: +p.hour * 60 + +p.minute };
+  }
+  function nowTag(x){
+    if (!x.hrs) return '';
+    const N = mcrNow(), r = x.hrs[N.d];
+    if (N.m < r[0]) return `<span class="now shut">مغلق، يفتح ${fmt(r[0])}</span>`;
+    if (N.m >= r[1]) { const t = x.hrs[(N.d + 1) % 7]; return `<span class="now shut">مغلق، يفتح غدًا ${fmt(t[0])}</span>`; }
+    return r[1] - N.m <= 60 ? `<span class="now soon">يغلق ${fmt(r[1])}</span>` : `<span class="now open">مفتوح حتى ${fmt(r[1])}</span>`;
+  }
+  function wire(){
+    document.querySelectorAll('[data-fav]').forEach(b => b.onclick = () => {
+      const id = b.dataset.fav; FAV.has(id) ? FAV.delete(id) : FAV.add(id); saveFav();
+      b.setAttribute('aria-pressed', FAV.has(id)); b.querySelector('span').textContent = FAV.has(id) ? 'في قائمتي' : 'أضف لقائمتي';
+      favCount(); if (st.fit === 'fav') render();
+    });
+  }
+  function favCount(){ const c = document.querySelector('#fitChips .chip[data-v="fav"]'); if (c) c.textContent = FAV.size ? `★ قائمتي (${FAV.size})` : '★ قائمتي'; }
+  const numify = t => t.replace(/£\d+|\d+%/g, m => `<span class="num">${m}</span>`);
+  const hav = (a, b) => { const R = 6371, t = Math.PI / 180, dl = (b[0] - a[0]) * t, dn = (b[1] - a[1]) * t, q = Math.sin(dl / 2) ** 2 + Math.cos(a[0] * t) * Math.cos(b[0] * t) * Math.sin(dn / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(q)); };
+  const walk = (a, b) => Math.max(1, Math.round(hav(a.ll, b.ll) * 1.3 / 4.8 * 60));
+  function goTo(id){
+    st.area = 'all'; st.fit = 'all';
+    document.querySelectorAll('#areaChips .chip,#fitChips .chip').forEach(c => c.setAttribute('aria-pressed', c.dataset.v === 'all'));
+    render(); const el = document.getElementById(id); if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' }); el.classList.add('hl'); setTimeout(() => el.classList.remove('hl'), 2500);
+  }
+  function tours(){
+    const T = [
+      { h: 'وسط المدينة', sub: 'أربعة محلات متقاربة، تبدأ من سيلفريدجز وتنتهي في شارع Market.', ids: ['longchamp', 'mkc', 'kurt', 'tkmaxx'], notes: { mkc: 'للمعاينة فقط؛ السعر فوق الحد' }, mode: 'walking' },
+      { h: 'منافذ شيشاير أوكس', sub: 'نحو ساعة بالسيارة؛ والمحلات الأربعة متقاربة داخل المركز.', ids: ['radley', 'mko', 'kate', 'coacho'], notes: {}, mode: 'walking' }
+    ];
+    $('#tours').innerHTML = T.map(t => {
+      const xs = t.ids.map(i => S.find(x => x.id === i));
+      const tot = xs.slice(1).reduce((a, x, i) => a + walk(xs[i], x), 0);
+      const url = `https://www.google.com/maps/dir/?api=1&origin=${xs[0].ll.join(',')}&origin_place_id=${xs[0].place}&destination=${xs.at(-1).ll.join(',')}&destination_place_id=${xs.at(-1).place}&waypoints=${xs.slice(1, -1).map(x => x.ll.join(',')).join('|')}&waypoint_place_ids=${xs.slice(1, -1).map(x => x.place).join('|')}&travelmode=${t.mode}`;
+      return `<div class="box tour"><h3>${t.h}</h3><p class="sub">${t.sub} المشي بينها نحو <span class="num">${tot}</span> ${tot >= 3 && tot <= 10 ? 'دقائق' : 'دقيقة'}.</p><ol class="stops">${xs.map((x, i) => `<li><span class="n num">${i + 1}</span><div><button class="lnk" data-go="${x.id}">${esc(x.ar)}</button><small>${numify(esc(t.notes[x.id] || x.short))}</small></div></li>${i < xs.length - 1 ? `<li><span></span><div class="leg">${ico('i-walk')}<span class="num">${walk(x, xs[i + 1])}</span> د مشيًا</div></li>` : ''}`).join('')}</ol><a class="btn primary" href="${url}" target="_blank" rel="noopener">${ico('i-route')}افتح المسار كاملًا في الخرائط</a></div>`;
+    }).join('');
+    document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => goTo(b.dataset.go));
+  }
   function card(x){
     const im = IMG[x.img];
     return `<article class="card" id="${x.id}">
@@ -379,17 +461,18 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
       <div class="cb">
         <div class="ct"><h3>${esc(x.ar)}<span class="en">${esc(x.en)}</span></h3>
           <div class="rate" title="${x.rate[2] ? esc(x.rate[2]) : 'تقييم Google'}"><b class="num">${x.rate[0]} ★</b><small class="num">${x.rate[1].toLocaleString('en-US')} مراجعة</small></div></div>
-        <span class="fit ${x.fit}">${FIT[x.fit]}</span>
+        <div class="tags"><span class="fit ${x.fit}">${FIT[x.fit]}</span>${nowTag(x)}<button class="fav" data-fav="${x.id}" aria-pressed="${FAV.has(x.id)}">${ico('i-star')}<span>${FAV.has(x.id) ? 'في قائمتي' : 'أضف لقائمتي'}</span></button></div>
         <div class="price">${x.price}<span class="src">المصدر: ${esc(x.psrc)}<span class="tag">${esc(x.pv)}</span></span></div>
         <div class="say"><h4>كلام الناس</h4><ul>${x.pos.map(t => `<li class="pos">${esc(t)}</li>`).join('')}${x.neg.map(t => `<li class="neg">${esc(t)}</li>`).join('')}</ul></div>
         <div class="tip"><h4>رأي الخبير</h4><p>${esc(x.tip)}</p></div>
         <div class="meta"><div>${ico('i-clock')}<span>${esc(x.hours)}</span></div><div>${ico('i-route')}<span>${esc(x.go)}</span></div><div>${ico('i-pin')}<span dir="auto">${esc(x.addr)}</span></div></div>
-        <div class="acts"><a class="btn primary" href="${MAP(x.place)}" target="_blank" rel="noopener">${ico('i-pin')}افتح في الخرائط</a><a class="btn" href="${x.site}" target="_blank" rel="noopener">${ico('i-ext')}موقع الماركة</a></div>
+        <div class="acts"><a class="btn primary" href="${DIR(x)}" target="_blank" rel="noopener">${ico('i-route')}الاتجاهات من موقعك</a><a class="btn" href="${MAP(x.place)}" target="_blank" rel="noopener">${ico('i-pin')}الخريطة</a><a class="btn wa" href="${WA(x)}" target="_blank" rel="noopener">أرسل في واتساب</a><a class="btn" href="${x.site}" target="_blank" rel="noopener">${ico('i-ext')}موقع الماركة</a></div>
       </div></article>`;
   }
   function render(){
-    const xs = S.filter(x => (st.area === 'all' || x.area === st.area) && (st.fit === 'all' || (st.fit === 'ok' ? x.fit !== 'over' : x.fit === 'in'))).sort((a, b) => a.ord - b.ord);
-    $('#grid').innerHTML = xs.length ? xs.map(card).join('') : '<div class="box empty">لا محلات بهذا الاختيار.</div>';
+    const xs = S.filter(x => (st.area === 'all' || x.area === st.area) && (st.fit === 'all' || (st.fit === 'fav' ? FAV.has(x.id) : st.fit === 'ok' ? x.fit !== 'over' : x.fit === 'in'))).sort((a, b) => a.ord - b.ord);
+    $('#grid').innerHTML = xs.length ? xs.map(card).join('') : `<div class="box empty">${st.fit === 'fav' ? 'قائمتكم فارغة. اضغطوا ☆ على أي محل لإضافته.' : 'لا محلات بهذا الاختيار.'}</div>`;
+    wire();
     $('#count').textContent = `${xs.length} من ${S.length}`;
   }
   function chips(el, key, opts){
@@ -397,15 +480,16 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
     el.querySelectorAll('.chip').forEach(b => b.onclick = () => { st[key] = b.dataset.v; el.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c === b)); render(); });
   }
   chips($('#areaChips'), 'area', [['all', 'الكل'], ['city', AREAS.city], ['trafford', AREAS.trafford], ['oaks', AREAS.oaks]]);
-  chips($('#fitChips'), 'fit', [['all', 'الكل'], ['ok', 'ضمن الميزانية أو بعضها'], ['in', 'ضمن الميزانية فقط']]);
-  render();
+  chips($('#fitChips'), 'fit', [['all', 'الكل'], ['ok', 'ضمن الميزانية أو بعضها'], ['in', 'ضمن الميزانية فقط'], ['fav', '★ قائمتي']]);
+  render(); favCount(); tours();
+  if (location.hash.length > 1) setTimeout(() => goTo(decodeURIComponent(location.hash.slice(1))), 300);
   const inp = $('#gbp');
   function conv(){
     const g = Math.max(0, parseFloat(inp.value) || 0), r = sar(g), over = r > LIMIT;
     $('#sar').textContent = `${r.toLocaleString('en-US')} ريال`;
     $('#bar').classList.toggle('over', over);
     $('#bar i').style.width = Math.min(100, r / LIMIT * 100) + '%';
-    $('#hint').innerHTML = !g ? 'اكتب السعر لترى أين يقع من الحد.' : over ? `فوق الحد بـ<span class="num">${(r - LIMIT).toLocaleString('en-US')}</span> ريال.` : `ضمن الحد، ويتبقى <span class="num">${(LIMIT - r).toLocaleString('en-US')}</span> ريال.`;
+    $('#hint').innerHTML = !g ? 'اكتبوا السعر لتروا أين يقع من الحد.' : over ? `فوق الحد بـ<span class="num">${(r - LIMIT).toLocaleString('en-US')}</span> ريال.` : `ضمن الحد، ويتبقى <span class="num">${(LIMIT - r).toLocaleString('en-US')}</span> ريال.`;
   }
   inp.oninput = conv; conv();
 })();
