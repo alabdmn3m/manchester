@@ -134,6 +134,7 @@ section{margin-block:0 30px}
 .enrow{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 .enrow .en{font-size:.85rem;color:var(--muted);direction:ltr}
 .btn.more2{width:100%;justify-content:center;border-style:dashed;color:var(--violet);font-weight:700}
+.sar{white-space:nowrap;color:var(--muted);font-size:.92em}
 .rows .nm small .sar{color:var(--ok);white-space:nowrap}
 .hint{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1.5px solid var(--gold);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:.92rem}
 .hint ol{margin:0;padding-inline-start:18px}
@@ -341,11 +342,11 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   <section aria-labelledby="v-h">
     <div class="sh"><h2 id="v-h">الخلاصة</h2><p>إن كان وقتكم ضيقًا فهذه الثلاثة أولًا</p></div>
     <div class="verdict">
-      <div class="box pick"><span class="rk num">1</span><h3>لونشان «لو بلياج» في سيلفريدجز</h3><p class="why">أوضح قيمة في وسط المدينة: شنطة عملية خفيفة تُطوى، سعرها ثابت ومعلن، والمحل على بعد مشي.</p><div class="pr">من <span class="num">£85</span> إلى <span class="num">£145</span> (نحو <span class="num">420</span> إلى <span class="num">720</span> ريال)</div></div>
-      <div class="box pick"><span class="rk num">2</span><h3>تي كي ماكس في شارع Market</h3><p class="why">ماركات عالمية بخصم يصل إلى <span class="num">60%</span>، والمحل على بعد خطوات من أرنديل، ومعه دون وأكسسورايز للخيارات الأقل سعرًا.</p><div class="pr">أغلب الشنط تحت <span class="num">£100</span></div></div>
+      <div class="box pick"><span class="rk num">1</span><h3>لونشان «لو بلياج» في سيلفريدجز</h3><p class="why">أوضح قيمة في وسط المدينة: شنطة عملية خفيفة تُطوى، سعرها ثابت ومعلن، والمحل على بعد مشي.</p><div class="pr">من <span class="num">£85</span> إلى <span class="num">£145</span> (نحو <span class="num">422–721</span> ريال)</div></div>
+      <div class="box pick"><span class="rk num">2</span><h3>تي كي ماكس في شارع Market</h3><p class="why">ماركات عالمية بخصم يصل إلى <span class="num">60%</span>، والمحل على بعد خطوات من أرنديل، ومعه دون وأكسسورايز للخيارات الأقل سعرًا.</p><div class="pr">أغلب الشنط تحت <span class="num">£100</span> (نحو <span class="num">497</span> ريال)</div></div>
       <div class="box pick"><span class="rk num">3</span><h3>منافذ شيشاير أوكس</h3><p class="why">كيرت جايجر وجيس وكارل لاغرفيلد وفوسيل بأسعار مناسبة، وكوتش ومايكل كورس وكيت سبيد أوفر بكثير من المحلات العادية.</p><div class="pr">رحلة يوم كامل، وتستحقها</div></div>
     </div>
-    <div class="avoid"><svg class="ico"><use href="#i-alert"/></svg><div><b>للمقارنة:</b> شنط كوتش ومايكل كورس بسعرها الكامل في وسط المدينة وترافورد تبدأ غالبًا من <span class="num">£214</span> إلى <span class="num">£230</span>، والمنافذ أوفر منها. ومَلبري أعلى سعرًا حتى في المنفذ.</div></div>
+    <div class="avoid"><svg class="ico"><use href="#i-alert"/></svg><div><b>للمقارنة:</b> شنط كوتش ومايكل كورس بسعرها الكامل في وسط المدينة وترافورد تبدأ غالبًا من <span class="num">£214</span> إلى <span class="num">£230</span> (نحو <span class="num">1064–1143</span> ريال)، والمنافذ أوفر منها. ومَلبري أعلى سعرًا حتى في المنفذ.</div></div>
   </section>
 
   <section aria-labelledby="c-h" id="c-sec">
@@ -447,7 +448,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   const S = [
     { id: 'longchamp', branch: 'https://www.longchamp.com/gb/en/shops/gb057', bsrc: 'موقع لونشان', loc: 'سيلفريدجز Exchange Square · دور الإكسسوارات', cmap: '', ll: [53.4838221,-2.2438271], hrs: [[660,1050],[600,1200],[600,1200],[600,1200],[600,1200],[600,1200],[600,1200]], short: 'من £85 إلى £145', ar: 'لونشان (داخل سيلفريدجز)', en: 'Longchamp · Selfridges Exchange Square', area: 'city', fit: 'in', ord: 1, img: 'selfridges',
       rate: [4.4, 6218, 'تقييم سيلفريدجز كله'],
-      price: 'شنط <b>Le Pliage Original</b> من <span class="num">£85</span> إلى <span class="num">£145</span> (نحو <span class="num">420</span> إلى <span class="num">720</span> ريال). المجموعات الجلدية من <span class="num">£195</span> إلى <span class="num">£455</span>.', psrc: 'موقع لونشان الرسمي', pv: 'مؤكد',
+      price: 'شنط <b>Le Pliage Original</b> من <span class="num">£85</span> إلى <span class="num">£145</span> (نحو <span class="num">422–721</span> ريال). المجموعات الجلدية من <span class="num">£195</span> إلى <span class="num">£455</span>.', psrc: 'موقع لونشان الرسمي', pv: 'مؤكد',
       pos: ['زوار شكروا موظفين ساعدوهم في اختيار الشنط وشرحوا الفروق بصبر.', 'المبنى مرتب ويحمل طابع سيلفريدجز.'], neg: ['أصغر من فرع سيلفريدجز في ترافورد، فالمعروض أقل.'],
       tip: 'الأنسب للاستعمال اليومي والسفر: نايلون خفيف يُطوى بأطراف جلدية. ليست شنطة سهرة فاخرة، لكنها تعيش سنوات.',
       hours: 'ركن لونشان: الإثنين إلى السبت 10:00–20:00، والأحد 11:00–17:30', go: 'نحو 30 دقيقة مشيًا من الفندق، أو أوبر نحو 10 دقائق', addr: '1 Exchange Square', place: 'ChIJXad2ucaxe0gR2jB5fWgpmKU', site: 'https://www.longchamp.com/gb/en/le-pliage/' },
@@ -465,25 +466,25 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
       hours: 'الإثنين إلى الجمعة 10:00–20:00، والسبت 09:00–21:00، والأحد 10:00–18:00', go: 'نحو ساعة بالسيارة أو أوبر', addr: 'Cheshire Oaks Designer Outlet, Kinsey Road', place: 'ChIJFXuQ9v7dekgR0WSIUEPzF6I', site: 'https://www.kurtgeiger.com/' },
     { id: 'guess', branch: 'https://www.mcarthurglen.com/en/outlets/uk/designer-outlet-cheshire-oaks/stores/guess/', bsrc: 'موقع مركز شيشاير أوكس', loc: 'منافذ شيشاير أوكس · وحدة 19B', cmap: 'https://www.mcarthurglen.com/en/outlets/uk/designer-outlet-cheshire-oaks/plan-your-visit/', tile: 'GUESS', unit: 0, ll: [53.2653,-2.8812], hrs: [[660,1020],[540,1260],[540,1260],[600,1260],[600,1260],[600,1260],[540,1260]], short: 'شنط عملية، وأغلبها بين £62 و£148', ar: 'جيس (منفذ)', en: 'GUESS Outlet · Cheshire Oaks', area: 'oaks', fit: 'in', ord: 4, img: 'oaks',
       rate: [4.1, 128],
-      price: 'شنط الكتف المخفّضة في المتاجر البريطانية بين <span class="num">£62</span> و<span class="num">£148</span> (نحو <span class="num">310</span> إلى <span class="num">735</span> ريال)، وسعرها الأصلي حتى <span class="num">£193</span>.', psrc: 'Lyst UK', pv: 'مؤكد للمتاجر، والمنفذ تقدير',
+      price: 'شنط الكتف المخفّضة في المتاجر البريطانية بين <span class="num">£62</span> و<span class="num">£148</span> (نحو <span class="num">308–736</span> ريال)، وسعرها الأصلي حتى <span class="num">£193</span>.', psrc: 'Lyst UK', pv: 'مؤكد للمتاجر، والمنفذ تقدير',
       pos: ['تشكيلة جيدة وخدمة لطيفة وخصومات تستحق.'], neg: ['شكوى من تعامل موظفة غرف القياس.'],
       tip: 'شنط بشعار الماركة وتصاميم عصرية بأسعار معتدلة. الخامة غالبًا جلد صناعي، فهي للاستعمال اليومي لا للاقتناء الطويل.',
       hours: 'الإثنين والثلاثاء 09:00–21:00، والأربعاء إلى الجمعة 10:00–21:00، والسبت 09:00–21:00، والأحد 11:00–17:00', go: 'نحو ساعة بالسيارة أو أوبر', addr: 'Unit 19B, Cheshire Oaks Designer Outlet', place: 'ChIJZ53Vq_7dekgRmmD_MEucc10', site: 'https://www.guess.eu/en-gb/' },
     { id: 'dune', branch: 'https://manchesterarndale.com/stores/dune/', bsrc: 'موقع أرنديل', loc: 'أرنديل · الدور السفلي · وحدة L32', cmap: '', ll: [53.4840423,-2.2408462], hrs: [[690,1050],[540,1200],[540,1200],[540,1200],[540,1200],[540,1200],[540,1140]], short: 'شنط أنيقة، وأغلبها بين £60 و£190', ar: 'دون لندن', en: 'Dune London · Arndale', area: 'city', fit: 'in', ord: 5, img: 'arndale',
       rate: [4.3, 6, 'تقييم فرع L12'],
-      price: 'أغلب الشنط بين <span class="num">£60</span> و<span class="num">£190</span> (نحو <span class="num">300</span> إلى <span class="num">945</span> ريال)، وتنزل إلى <span class="num">£40</span> في التخفيضات.', psrc: 'Lyst UK وHouse of Fraser', pv: 'مؤكد',
+      price: 'أغلب الشنط بين <span class="num">£60</span> و<span class="num">£190</span> (نحو <span class="num">298–944</span> ريال)، وتنزل إلى <span class="num">£40</span> في التخفيضات.', psrc: 'Lyst UK وHouse of Fraser', pv: 'مؤكد',
       pos: ['موظفات يساعدن في اختيار شنطة تناسب الحذاء والمناسبة.', 'المحل نظيف ومرتب.'], neg: ['مراجعات قديمة لفرع آخر في أرنديل اشتكت من الإرجاع.'],
       tip: 'ماركة إنجليزية بتصاميم كلاسيكية تناسب المناسبات والعمل. ولها فرع منفذ في شيشاير أوكس بتقييم 4.5.',
       hours: 'الإثنين إلى الجمعة 09:00–20:00، والسبت 09:00–19:00، والأحد 11:30–17:30', go: 'نحو 31 دقيقة مشيًا من الفندق، داخل أرنديل', addr: 'Unit L32, Manchester Arndale', place: 'ChIJV2A2JKKxe0gRQEhIyE0_KZc', site: 'https://www.dunelondon.com/' },
     { id: 'acc', branch: 'https://manchesterarndale.com/stores/accessorize/', bsrc: 'موقع أرنديل', loc: 'أرنديل · الدور السفلي · وحدة L35', cmap: '', ll: [53.4838542,-2.2408916], hrs: [[690,1050],[540,1200],[540,1200],[540,1200],[540,1200],[540,1200],[540,1140]], short: 'شنط خفيفة بين £40 و£50', ar: 'أكسسورايز', en: 'Accessorize · Arndale', area: 'city', fit: 'in', ord: 6, img: 'arndale',
       rate: [4.5, 98],
-      price: 'أغلب الشنط بين <span class="num">£40</span> و<span class="num">£50</span> (نحو <span class="num">200</span> إلى <span class="num">250</span> ريال)، ومنها جلد طبيعي بـ<span class="num">£40</span> إلى <span class="num">£50</span>.', psrc: 'Very.co.uk', pv: 'مؤكد',
+      price: 'أغلب الشنط بين <span class="num">£40</span> و<span class="num">£50</span> (نحو <span class="num">199–249</span> ريال)، ومنها جلد طبيعي بـ<span class="num">£40</span> إلى <span class="num">£50</span>.', psrc: 'Very.co.uk', pv: 'مؤكد',
       pos: ['طاقم ودود وخدمة سريعة.', 'خصومات متكررة على الإكسسوارات.'], neg: ['الشنط ليست ماركة فاخرة؛ جودتها للاستعمال اليومي.'],
       tip: 'مناسب للهدايا الصغيرة والشنط الخفيفة بسعر قليل، ومعها الأوشحة والإكسسوارات.',
       hours: 'الإثنين إلى الجمعة 09:00–20:00، والسبت 09:00–19:00، والأحد 11:30–17:30', go: 'نحو 31 دقيقة مشيًا من الفندق، داخل أرنديل', addr: 'Unit L35, Manchester Arndale', place: 'ChIJ-d7UrMaxe0gRRicDxQzZTss', site: 'https://uk.accessorize.com/' },
     { id: 'karl', branch: 'https://www.mcarthurglen.com/en/outlets/uk/designer-outlet-cheshire-oaks/stores/karl-lagerfeld/', bsrc: 'موقع مركز شيشاير أوكس', loc: 'منافذ شيشاير أوكس · وحدة 142', cmap: 'https://www.mcarthurglen.com/en/outlets/uk/designer-outlet-cheshire-oaks/plan-your-visit/', tile: 'KARL LAGERFELD', unit: 142, ll: [53.2667751,-2.8811587], hrs: [[600,1080],[600,1200],[600,1200],[600,1200],[600,1200],[600,1200],[600,1200]], short: 'K/Ikonik مخفّضة من نحو £98', ar: 'كارل لاغرفيلد (منفذ)', en: 'Karl Lagerfeld Outlet · Cheshire Oaks', area: 'oaks', fit: 'in', ord: 7, img: 'oaks',
       rate: [4.3, 26],
-      price: 'مثال: شنطة <b>K/Ikonik</b> بسعر أصلي <span class="num">£179</span> ومخفّضة إلى <span class="num">£98</span> (نحو <span class="num">490</span> ريال). وأسعار المنفذ في هذا النطاق غالبًا (تقدير).', psrc: 'Wardow UK', pv: 'المثال مؤكد، والمنفذ تقدير',
+      price: 'مثال: شنطة <b>K/Ikonik</b> بسعر أصلي <span class="num">£179</span> ومخفّضة إلى <span class="num">£98</span> (نحو <span class="num">487</span> ريال). وأسعار المنفذ في هذا النطاق غالبًا (تقدير).', psrc: 'Wardow UK', pv: 'المثال مؤكد، والمنفذ تقدير',
       pos: ['موظفون يساعدون بصبر حتى في التسوق عبر واتساب.', 'زائرة طافت المنافذ كلها ووجدت شنطتها هنا.'], neg: ['زائر وجد المحل مغلقًا بلا لافتة في أحد الأيام.'],
       tip: 'آخر منفذ للماركة في بريطانيا بحسب أحد الزوار. اتصلوا قبل الذهاب للتأكد من فتحه (+44 151 440 2596).',
       hours: 'الإثنين إلى السبت 10:00–20:00، والأحد 10:00–18:00', go: 'نحو ساعة بالسيارة أو أوبر', addr: 'Unit 142, Cheshire Oaks Designer Outlet', place: 'ChIJdXF04vvdekgRaK_VnCZLV6Y', site: 'https://www.karl.com/' },
@@ -507,7 +508,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
       hours: 'الإثنين إلى الجمعة 09:00–20:00، والسبت 09:00–19:00، والأحد 11:30–17:30', go: 'نحو 31 دقيقة مشيًا من الفندق، داخل أرنديل', addr: 'Unit L8, Manchester Arndale', place: 'ChIJ0Wql2vixe0gRVV5KfaRUcIg', site: 'https://www.kurtgeiger.com/women/bags' },
     { id: 'kate', branch: 'https://www.mcarthurglen.com/en/outlets/uk/designer-outlet-cheshire-oaks/stores/kate-spade/', bsrc: 'موقع مركز شيشاير أوكس', loc: 'منافذ شيشاير أوكس · وحدة 168', cmap: 'https://www.mcarthurglen.com/en/outlets/uk/designer-outlet-cheshire-oaks/plan-your-visit/', tile: 'Kate Spade', unit: 168, ll: [53.2661249,-2.8818599], hrs: [[600,1080],[600,1200],[600,1200],[600,1200],[600,1200],[540,1260],[540,1260]], short: 'عروض المنفذ، ومثال منشور بـ£119', ar: 'كيت سبيد (منفذ)', en: 'Kate Spade Outlet · Cheshire Oaks', area: 'oaks', fit: 'part', ord: 10, img: 'oaks',
       rate: [4.2, 15],
-      price: 'مثال منشور: شنطة <b>Selene</b> من الجلد السويدي بعرض <span class="num">£119</span> (نحو <span class="num">592</span> ريال) بدل <span class="num">£229</span> في المنفذ و<span class="num">£339</span> سعرها الأصلي. وسعر الخط الأساسي في الموقع نحو <span class="num">£295</span>.', psrc: 'McArthurGlen (عرض منتهٍ) وموقع كيت سبيد', pv: 'الأمثلة مؤكدة، والمعروض اليوم تقدير',
+      price: 'مثال منشور: شنطة <b>Selene</b> من الجلد السويدي بعرض <span class="num">£119</span> (نحو <span class="num">591</span> ريال) بدل <span class="num">£229</span> في المنفذ و<span class="num">£339</span> سعرها الأصلي. وسعر الخط الأساسي في الموقع نحو <span class="num">£295</span>.', psrc: 'McArthurGlen (عرض منتهٍ) وموقع كيت سبيد', pv: 'الأمثلة مؤكدة، والمعروض اليوم تقدير',
       pos: ['موظفات لطيفات يعرفن المنتجات ويعرضن الخيارات دون ضغط.'], neg: ['بعض الزوار وجدوا المتابعة مُلحّة وهم يعرفون ما يريدون.'],
       tip: 'ألوان مبهجة وتصاميم أنيقة صغيرة. اسألوا عن العرض الإضافي على سعر المنفذ، فالخصم الأكبر يأتي منه.',
       hours: 'الإثنين إلى الخميس 10:00–20:00، والجمعة والسبت 09:00–21:00، والأحد 10:00–18:00', go: 'نحو ساعة بالسيارة أو أوبر', addr: 'Unit 168, Kinsey Road, Ellesmere Port', place: 'ChIJawJvCdvdekgRoFh5pqxwC58', site: 'https://www.katespade.co.uk/' },
@@ -554,7 +555,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   const saveFav = () => { try { localStorage.setItem('bags-fav', JSON.stringify([...FAV])); } catch (e) {} };
   const DIR = x => `https://www.google.com/maps/dir/?api=1&destination=${x.ll.join(',')}&destination_place_id=${x.place}&travelmode=${x.area === 'city' ? 'walking' : 'driving'}`;
   const LEG = (a, b, m) => `https://www.google.com/maps/dir/?api=1&origin=${a.ll.join(',')}&origin_place_id=${a.place}&destination=${b.ll.join(',')}&destination_place_id=${b.place}&travelmode=${m}`;
-  const WA = x => 'https://wa.me/?text=' + encodeURIComponent(`${x.ar}: ${x.short}\n${URL0}#${x.id}`);
+  const WA = x => 'https://wa.me/?text=' + encodeURIComponent(`${x.ar}: ${sarTxt(x.short)}\n${URL0}#${x.id}`);
   const fmt = m => `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
   function mcrNow(){
     const p = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date()).map(o => [o.type, o.value]));
@@ -580,7 +581,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
     const fb = $('#favbar'), ids = S.filter(x => FAV.has(x.id)).sort((a, b) => a.ord - b.ord);
     fb.hidden = !ids.length;
     if (ids.length) {
-      const msg = 'اختياراتي من شنط مانشستر:\n' + ids.map((x, i) => `${i + 1}. ${x.ar}: ${x.short}`).join('\n') + `\n${URL0}#fav=${ids.map(x => x.id).join(',')}`;
+      const msg = 'اختياراتي من شنط مانشستر:\n' + ids.map((x, i) => `${i + 1}. ${x.ar}: ${sarTxt(x.short)}`).join('\n') + `\n${URL0}#fav=${ids.map(x => x.id).join(',')}`;
       fb.innerHTML = `<span>في قائمتكم ${ids.length > 2 ? `<b class="num">${ids.length}</b> ` : ''}${ids.length === 1 ? 'محل واحد' : ids.length === 2 ? 'محلان' : ids.length < 11 ? 'محلات' : 'محلًا'}</span><a class="btn wa" href="https://wa.me/?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">أرسل قائمتي في واتساب</a>`;
     }
   }
@@ -599,13 +600,13 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
       { h: 'منافذ شيشاير أوكس', sub: 'نحو ساعة بالسيارة؛ والمحلات متقاربة داخل المركز.', img: 'oaks', ids: ['fossil', 'guess', 'coacho', 'kate', 'kgo', 'mko', 'karl'], notes: {}, mode: 'walking' },
       { h: 'ترافورد سنتر', sub: 'محلان في المول نفسه؛ أوبر نحو 20 دقيقة من الفندق أو الترام.', img: 'tdome', ids: ['selft', 'mkt'], notes: {}, mode: 'walking' }
     ];
-    $('#tours').innerHTML = T.map(t => {
+    $('#tours').innerHTML = withSar(T.map(t => {
       const xs = t.ids.map(i => S.find(x => x.id === i));
       const tot = xs.slice(1).reduce((a, x, i) => a + walk(xs[i], x), 0);
       const url = `https://www.google.com/maps/dir/?api=1&origin=${xs[0].ll.join(',')}&origin_place_id=${xs[0].place}&destination=${xs.at(-1).ll.join(',')}&destination_place_id=${xs.at(-1).place}&waypoints=${xs.slice(1, -1).map(x => x.ll.join(',')).join('|')}&waypoint_place_ids=${xs.slice(1, -1).map(x => x.place).join('|')}&travelmode=${t.mode}`;
       const im = IMG[t.img];
       return `<div class="box tour"><div class="tph"><img src="img/${im.f}.webp" alt="${esc(im.c)}" loading="lazy" style="object-position:${im.p}"><div class="cap">${esc(im.c)} · <a href="${im.u}" target="_blank" rel="noopener">${esc(im.a)}</a> · ${esc(im.l)}</div></div><h3>${t.h}</h3><p class="sub">${t.sub} المشي ${xs.length === 2 ? 'بينهما' : 'بينها'} نحو <span class="num">${tot}</span> ${tot >= 3 && tot <= 10 ? 'دقائق' : 'دقيقة'}.</p><ol class="stops">${xs.map((x, i) => `<li><span class="n num">${i + 1}</span><div><button class="lnk" data-go="${x.id}">${esc(x.ar)}</button><small>${numify(esc(t.notes[x.id] || x.short))}</small></div></li>${i < xs.length - 1 ? `<li><span></span><div class="leg">${ico('i-walk')}<span class="num">${walk(x, xs[i + 1])}</span> د مشيًا</div></li>` : ''}`).join('')}</ol><a class="btn primary" href="${url}" target="_blank" rel="noopener">${ico('i-route')}افتح المسار كاملًا في الخرائط</a></div>`;
-    }).join('');
+    }).join(''));
     document.querySelectorAll('#tours [data-go]').forEach(b => b.onclick = () => openShop(b.dataset.go));
   }
   function photo(x){
@@ -613,11 +614,16 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
     const im = IMG[x.img];
     return `<div class="ph"><img src="img/${im.f}.webp" alt="${esc(im.c)}" loading="lazy" style="object-position:${im.p}"><span class="area">${AREAS[x.area]}</span><div class="cap">${esc(im.c)} · <a href="${im.u}" target="_blank" rel="noopener">${esc(im.a)}</a> · ${esc(im.l)}</div></div>`;
   }
-  const sarRange = t => { const m = [...t.matchAll(/£(\d+)/g)].map(v => +v[1]); if (!m.length) return ''; const a = sar(Math.min(...m)), b = sar(Math.max(...m)); return a === b ? `نحو ${a} ريال` : `نحو ${a}–${b} ريال`; };
+  const withSar = h => { const T = '(?:<span class="num">)?£(\\d+)(?:</span>)?', re = new RegExp(`${T}(?:\\s*(?:إلى|و|–|-|حتى)\\s*(?:بـ)?${T})?`, 'g');
+    return h.replace(re, (m, a, b, off, all) => { const rest = all.slice(off + m.length, off + m.length + 60).replace(/<[^>]+>/g, '');
+      if (/^\s*=/.test(rest) || /^\s*\(?\s*نحو/.test(rest) || /^[^£]{0,25}ريال/.test(rest)) return m;
+      const A = sar(+a), B = b ? sar(+b) : 0; return `${m} <span class="sar">(نحو <span class="num">${B && B !== A ? `${A}–${B}` : A}</span> ريال)</span>`; }); };
+  const sarTxt = t => t.replace(/£(\d+)(?:\s*(?:إلى|و|–|-|حتى)\s*(?:بـ)?£(\d+))?/g, (m, a, b) => `${m} (نحو ${b ? `${sar(+a)}–${sar(+b)}` : sar(+a)} ريال)`);
   const say = x => `<div class="say"><h4>كلام الناس</h4><ul>${x.pos.map(t => `<li class="pos">${esc(t)}</li>`).join('')}${x.neg.map(t => `<li class="neg">${esc(t)}</li>`).join('')}</ul></div>`;
   const favBtn = x => `<button class="fav" data-fav="${x.id}" aria-pressed="${FAV.has(x.id)}">${ico('i-star')}<span>${FAV.has(x.id) ? 'في قائمتي' : 'أضف لقائمتي'}</span></button>`;
   const rateBox = x => `<div class="rate" title="${x.rate[2] ? esc(x.rate[2]) : 'تقييم Google'}"><b class="num">${x.rate[0].toFixed(1)} ★</b><small class="num">${x.rate[1].toLocaleString('en-US')} مراجعة</small></div>`;
-  function card(x){
+  function card(x){ return withSar(card0(x)); }
+  function card0(x){
     return `<article class="card" id="${x.id}"><div data-open="${x.id}">${photo(x)}</div>
       <div class="cb">
         <div class="ct"><button class="open" data-open="${x.id}"><h3>${esc(x.ar)}</h3></button>${rateBox(x)}</div>
@@ -629,7 +635,8 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
         <button type="button" class="btn more2" data-open="${x.id}">التفاصيل كاملة: كلام الناس والمواعيد والعنوان</button>
       </div></article>`;
   }
-  function detail(x){
+  function detail(x){ return withSar(detail0(x)); }
+  function detail0(x){
     return `${photo(x)}<div class="sd-in">
       <div class="ct"><div><h2 id="sdT">${esc(x.ar)}</h2><span class="en" style="direction:ltr;display:block;text-align:right;color:var(--muted);font-size:.9rem">${esc(x.en)}</span></div>${rateBox(x)}</div>
       <div class="tags"><span class="fit ${x.fit}">${FIT[x.fit]}</span>${nowTag(x)}${favBtn(x)}</div>
@@ -668,9 +675,10 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
     $('#sdPos').innerHTML = `<span class="num">${CUR + 1}</span> من <span class="num">${SEQ.length}</span> <small>بترتيب المشي</small>`;
     wire();
   }
-  function row(x){
+  function row(x){ return withSar(row0(x)); }
+  function row0(x){
     const n = nowTag(x).replace(/مغلق، يفتح غدًا [\d:]+/, 'مغلق').replace(/مغلق، يفتح ([\d:]+)/, 'يفتح $1').replace(/مفتوح حتى [\d:]+/, 'مفتوح');
-    return `<li id="r-${x.id}"><button class="sf" data-fav="${x.id}" aria-pressed="${FAV.has(x.id)}" aria-label="${FAV.has(x.id) ? 'في قائمتي' : 'أضف لقائمتي'}">${ico('i-star')}<span hidden></span></button><button class="nm" data-id="${x.id}"><b>${esc(x.ar)}</b><small>${numify(esc(x.short))}${sarRange(x.short) ? ` <span class="sar">(${sarRange(x.short)})</span>` : ''}</small></button><span class="rt"><b class="num">${x.rate[0].toFixed(1)} ★</b>${n}</span></li>`;
+    return `<li id="r-${x.id}"><button class="sf" data-fav="${x.id}" aria-pressed="${FAV.has(x.id)}" aria-label="${FAV.has(x.id) ? 'في قائمتي' : 'أضف لقائمتي'}">${ico('i-star')}<span hidden></span></button><button class="nm" data-id="${x.id}"><b>${esc(x.ar)}</b><small>${numify(esc(x.short))}</small></button><span class="rt"><b class="num">${x.rate[0].toFixed(1)} ★</b>${n}</span></li>`;
   }
   function render(){
     const xs = S.filter(x => (st.area === 'all' || x.area === st.area) && (st.fit === 'all' || (st.fit === 'fav' ? FAV.has(x.id) : st.fit === 'sent' ? SENT.has(x.id) : st.fit === 'ok' ? x.fit !== 'over' : x.fit === 'in'))).sort((a, b) => a.ord - b.ord);
