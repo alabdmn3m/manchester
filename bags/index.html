@@ -115,6 +115,10 @@ section{margin-block:0 30px}
 .shopl:hover span{text-decoration:underline}.shopl .ico{flex:none}
 .shopl small{display:block;font-weight:400;color:var(--muted);font-size:.8rem}
 .brl{color:var(--violet);font-weight:700}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.nextm{display:flex;align-items:center;gap:10px;justify-content:space-between;background:color-mix(in srgb,var(--ok) 10%,transparent);border:1px solid color-mix(in srgb,var(--ok) 35%,transparent);border-radius:12px;padding:8px 12px;font-size:.92rem}
+.nextm .btn{flex:none;min-height:38px;padding:6px 14px}
+.tour details{margin-top:10px}.tour summary{cursor:pointer;color:var(--violet);font-weight:700;padding:6px 0;min-height:40px;display:flex;align-items:center}
 .vis{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:6px 12px;font:inherit;font-size:.88rem;cursor:pointer;min-height:38px}
 .vis[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:#fff;font-weight:700}
 .card.done,.rows li.done{opacity:.62}.card.done:hover{opacity:1}
@@ -406,7 +410,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
       <div class="chips" id="fitChips"><span class="lbl">السعر:</span></div>
       <div class="chips"><button type="button" class="chip open" id="openChip" aria-pressed="false"><span class="dot"></span>مفتوح الآن</button><button type="button" class="chip near" id="nearBtn"><svg class="ico"><use href="#i-pin"/></svg>الأقرب إليّ</button><span class="count" id="count" aria-live="polite"></span><div class="vsw" role="group" aria-label="طريقة العرض"><button type="button" data-view="cards">بطاقات</button><button type="button" data-view="list">قائمة</button></div></div>
     </div>
-    <div class="hint1" id="hint1" hidden><div><b>كيف تستخدمون الصفحة؟</b><ol><li>اضغطوا اسم المحل أو صورته لتروا تفاصيله كاملة.</li><li>اضغطوا ☆ على ما يعجبكم ليُحفظ في «قائمتي».</li><li>أرسلوا «قائمتي» في واتساب من الشريط الذي يظهر فوق المحلات.</li></ol></div><button type="button" id="hint1x" aria-label="إغلاق التلميح">✕</button></div>
+    <div class="hint1" id="hint1" hidden><div><b>كيف تستخدمون الصفحة؟</b><ol><li>اضغطوا اسم المحل لتروا تفاصيله كاملة.</li><li>اضغطوا ☆ على ما يعجبكم ليُحفظ في «قائمتي»، ثم أرسلوها في واتساب من الشريط فوق المحلات.</li><li>في السوق: «الأقرب إليّ» يرتب المحلات من موقعكم، و«زرتُه» يحفظ ما مررتم به.</li></ol></div><button type="button" id="hint1x" aria-label="إغلاق التلميح">✕</button></div>
     <div class="idx" id="idx" aria-label="افتح تفاصيل محل"></div>
     <div class="favbar" id="sentbar" hidden></div>
     <div class="favbar" id="favbar" hidden></div>
@@ -658,6 +662,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
       const url = a === 'city' ? `https://www.google.com/maps/dir/?api=1&destination=${last.ll.join(',')}&destination_place_id=${last.place}${mid.length ? `&waypoints=${mid.map(x => x.ll.join(',')).join('|')}&waypoint_place_ids=${mid.map(x => x.place).join('|')}` : ''}&travelmode=walking` : DIR(g[0]);
       return `<div class="route"><b>${AREAS[a]}</b>${g.length > 1 ? `<span>المشي بينها ${mt(mins)}</span>` : ''}<span class="path">${g.map(x => esc(x.ar)).join(' ← ')}</span><a class="btn primary" href="${url}" target="_blank" rel="noopener">${ico('i-route')}${a === 'city' ? (g.length > 1 ? 'افتح المسار من موقعكم' : 'الاتجاهات من موقعكم') : 'الطريق بالسيارة إلى أول محل'}</a><button type="button" class="btn" data-rstart="${key}:${g[0].id}">ابدأوا بـ${esc(g[0].ar)}</button></div>`; }).join('')}</div>`;
   }
+  const tnum = t => t.replace(/\d{1,2}:\d\d\s*[–-]\s*\d{1,2}:\d\d/g, m => `<span class="num">${m}</span>`);
   const numify = t => t.replace(/£\d+|\d+%/g, m => `<span class="num">${m}</span>`);
   const hav = (a, b) => { const R = 6371, t = Math.PI / 180, dl = (b[0] - a[0]) * t, dn = (b[1] - a[1]) * t, q = Math.sin(dl / 2) ** 2 + Math.cos(a[0] * t) * Math.cos(b[0] * t) * Math.sin(dn / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(q)); };
   const walk = (a, b) => Math.max(1, Math.round(hav(a.ll, b.ll) * 1.3 / 4.8 * 60));
@@ -678,7 +683,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
       const tot = xs.slice(1).reduce((a, x, i) => a + walk(xs[i], x), 0);
       const url = `https://www.google.com/maps/dir/?api=1&origin=${xs[0].ll.join(',')}&origin_place_id=${xs[0].place}&destination=${xs.at(-1).ll.join(',')}&destination_place_id=${xs.at(-1).place}&waypoints=${xs.slice(1, -1).map(x => x.ll.join(',')).join('|')}&waypoint_place_ids=${xs.slice(1, -1).map(x => x.place).join('|')}&travelmode=${t.mode}`;
       const im = IMG[t.img];
-      return `<div class="box tour"><div class="tph"><img src="img/${im.f}.webp" alt="${esc(im.c)}" loading="lazy" style="object-position:${im.p}"><div class="cap">${esc(im.c)} · <a href="${im.u}" target="_blank" rel="noopener">${esc(im.a)}</a> · ${esc(im.l)}</div></div><h3>${t.h}</h3><p class="sub">${t.sub} المشي ${xs.length === 2 ? 'بينهما' : 'بينها'} نحو <span class="num">${tot}</span> ${tot >= 3 && tot <= 10 ? 'دقائق' : 'دقيقة'}.</p><ol class="stops">${xs.map((x, i) => `<li><span class="n num">${i + 1}</span><div><button class="lnk" data-go="${x.id}">${esc(x.ar)}</button><small>${numify(esc(t.notes[x.id] || x.short))}</small></div></li>${i < xs.length - 1 ? `<li><span></span><div class="leg">${ico('i-walk')}${mt(walk(x, xs[i + 1]))} مشيًا</div></li>` : ''}`).join('')}</ol><a class="btn primary" href="${url}" target="_blank" rel="noopener">${ico('i-route')}افتح المسار كاملًا في الخرائط</a></div>`;
+      return `<div class="box tour"><div class="tph"><img src="img/${im.f}.webp" alt="${esc(im.c)}" loading="lazy" style="object-position:${im.p}"><div class="cap">${esc(im.c)} · <a href="${im.u}" target="_blank" rel="noopener">${esc(im.a)}</a> · ${esc(im.l)}</div></div><h3>${t.h}</h3><p class="sub">${t.sub} المشي ${xs.length === 2 ? 'بينهما' : 'بينها'} نحو <span class="num">${tot}</span> ${tot >= 3 && tot <= 10 ? 'دقائق' : 'دقيقة'}.</p><a class="btn primary" href="${url}" target="_blank" rel="noopener">${ico('i-route')}افتح المسار كاملًا في الخرائط</a><details><summary>اعرض المحطات (${xs.length})</summary><ol class="stops">${xs.map((x, i) => `<li><span class="n num">${i + 1}</span><div><button class="lnk" data-go="${x.id}">${esc(x.ar)}</button><small>${numify(esc(t.notes[x.id] || x.short))}</small></div></li>${i < xs.length - 1 ? `<li><span></span><div class="leg">${ico('i-walk')}${mt(walk(x, xs[i + 1]))} مشيًا</div></li>` : ''}`).join('')}</ol></details></div>`;
     }).join(''));
     document.querySelectorAll('#tours [data-go]').forEach(b => b.onclick = () => openShop(b.dataset.go));
   }
@@ -714,27 +719,38 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
     return `${photo(x)}<div class="sd-in">
       <div class="ct"><div><h2 id="sdT">${esc(x.ar)}</h2><span class="en" style="direction:ltr;display:block;text-align:right;color:var(--muted);font-size:.9rem">${esc(x.en)}</span></div>${rateBox(x)}</div>
       <div class="tags"><span class="fit ${x.fit}">${FIT[x.fit]}</span>${nowTag(x)}${favBtn(x)}${visBtn(x)}</div>
+      ${VIS.has(x.id) ? nextMini(x) : ''}
       <div class="price">${x.price}</div>
       ${shopLink(x)}
       <div class="tip"><h4>رأي الخبير</h4><p>${esc(x.tip)}</p></div>
       ${say(x)}
-      <div class="meta"><div>${ico('i-clock')}<span>${esc(x.hours)}</span></div><div>${ico('i-route')}<span>${esc(x.go)}</span></div><div>${ico('i-pin')}<span><b>${esc(x.loc)}</b><br><span dir="auto">${esc(x.addr)}</span>${x.branch ? `<br><a class="brl" href="${x.branch}" target="_blank" rel="noopener">صفحة الفرع الرسمية: المواعيد والعنوان ↗</a> <small>(${esc(x.bsrc)})</small>` : ''}</span></div></div>
+      <div class="meta"><div>${ico('i-clock')}<span>${tnum(esc(x.hours))}</span></div><div>${ico('i-route')}<span>${esc(x.go)}</span></div><div>${ico('i-pin')}<span><b>${esc(x.loc)}</b><br><span dir="auto">${esc(x.addr)}</span>${x.branch ? `<br><a class="brl" href="${x.branch}" target="_blank" rel="noopener">صفحة الفرع الرسمية: المواعيد والعنوان ↗</a> <small>(${esc(x.bsrc)})</small>` : ''}</span></div></div>
       <p class="psrc">مصدر السعر: ${esc(x.psrc)}<span class="tag">${esc(x.pv)}</span></p>
       <div class="acts"><a class="btn primary" href="${DIR(x)}" target="_blank" rel="noopener">${ico('i-route')}الاتجاهات من موقعك</a><a class="btn wa" href="${WA(x)}" target="_blank" rel="noopener">أرسل في واتساب</a><a class="btn" href="${MAP(x.place)}" target="_blank" rel="noopener">${ico('i-pin')}الخريطة</a>${x.cmap ? `<a class="btn" href="${x.cmap}" target="_blank" rel="noopener">${ico('i-pin')}خريطة المركز</a>` : ''}</div>
       ${nextBox(x)}
     </div>`;
   }
   let SEQ = [], CUR = -1;
+  function pickNext(x){
+    const rest = SEQ.slice(CUR + 1).filter(y => !VIS.has(y.id));
+    const shopping = SEQ.some(y => y.area === x.area && VIS.has(y.id));
+    return rest.find(y => y.area === x.area) || (shopping && SEQ.find(y => y.area === x.area && y !== x && !VIS.has(y.id))) || rest[0] || (shopping && SEQ.find(y => y !== x && !VIS.has(y.id)));
+  }
+  function nextMini(x){
+    if (SEQ[CUR] !== x) return '';
+    const n = pickNext(x); if (!n) return '';
+    return `<div class="nextm"><span>التالي: <b>${esc(n.ar)}</b>${n.area === x.area ? ` · ${mt(walk(x, n))} مشيًا` : ` · في ${AREAS[n.area]}`}</span><button type="button" class="btn primary" data-step="${SEQ.indexOf(n)}">افتحه</button></div>`;
+  }
   function nextBox(x){
     if (SEQ[CUR] !== x) return '';
-    const rest = SEQ.slice(CUR + 1).filter(y => !VIS.has(y.id)), n = rest.find(y => y.area === x.area) || rest[0];
+    const n = pickNext(x);
     if (!n) return SEQ.length > 1 && SEQ.every(y => VIS.has(y.id) || y === x) ? `<div class="nextb"><h4>زرتم كل المحلات في هذه القائمة ✓</h4></div>` : '';
     const ni = SEQ.indexOf(n), skipped = SEQ.slice(CUR + 1, ni).filter(y => VIS.has(y.id)).length;
     if (n.area === x.area) {
       const m = walk(x, n), same = x.loc.split(' · ')[0] === n.loc.split(' · ')[0] && /أرنديل|شيشاير|ترافورد/.test(x.loc);
-      return `<div class="nextb"><h4>بعده في طريقكم${skipped ? ` <small>(تخطينا ما زرتموه)</small>` : ''}</h4><p><b>${esc(n.ar)}</b> · ${ico('i-walk')}${m === 1 ? 'دقيقة واحدة' : m === 2 ? 'دقيقتان' : `<span class="num">${m}</span> ${m <= 10 ? 'دقائق' : 'دقيقة'}`} مشيًا${same ? '، داخل المركز نفسه' : ''}${same && n.loc.split(' · ')[1] ? ` <small>(${esc(n.loc.split(' · ').slice(1).join(' · '))})</small>` : ''}</p><div class="acts"><a class="btn primary" href="${LEG(x, n, 'walking')}" target="_blank" rel="noopener">${ico('i-route')}امشِ إليه من هنا</a><button type="button" class="btn" data-step="${ni}">افتح تفاصيله</button></div></div>`;
+      return `<div class="nextb"><h4>${ni < CUR ? 'لم تزوروه بعد في هذه المنطقة' : 'بعده في طريقكم'}${skipped > 0 && ni > CUR ? ` <small>(تخطينا ما زرتموه)</small>` : ''}</h4><p><b>${esc(n.ar)}</b> · ${ico('i-walk')}${m === 1 ? 'دقيقة واحدة' : m === 2 ? 'دقيقتان' : `<span class="num">${m}</span> ${m <= 10 ? 'دقائق' : 'دقيقة'}`} مشيًا${same ? '، داخل المركز نفسه' : ''}${same && n.loc.split(' · ')[1] ? ` <small>(${esc(n.loc.split(' · ').slice(1).join(' · '))})</small>` : ''}</p><div class="acts"><a class="btn primary" href="${LEG(x, n, 'walking')}" target="_blank" rel="noopener">${ico('i-route')}امشِ إليه من هنا</a>${VIS.has(x.id) ? `<button type="button" class="btn" data-step="${ni}">افتح تفاصيله</button>` : `<button type="button" class="btn ok" data-visnext="${x.id}:${ni}">✓ زرتُه، افتح التالي</button><button type="button" class="btn" data-step="${ni}">افتح تفاصيله فقط</button>`}</div></div>`;
     }
-    return `<div class="nextb cross"><h4>انتهت محلات ${AREAS[x.area]} ✓</h4><p>المحل التالي في <b>${AREAS[n.area]}</b>: ${esc(n.ar)}. ${n.area === 'oaks' || x.area === 'oaks' ? 'المسافة نحو ساعة بالسيارة.' : 'المسافة نحو 20 دقيقة بالسيارة.'}</p><div class="acts"><button type="button" class="btn" data-step="${ni}">انتقل إلى ${AREAS[n.area]}</button><a class="btn" href="${LEG(x, n, 'driving')}" target="_blank" rel="noopener">${ico('i-route')}الطريق بالسيارة</a></div></div>`;
+    return `<div class="nextb cross"><h4>انتهت محلات ${AREAS[x.area]} ✓</h4><p>المحل التالي في <b>${AREAS[n.area]}</b>: ${esc(n.ar)}. ${n.area === 'oaks' || x.area === 'oaks' ? 'المسافة نحو ساعة بالسيارة.' : 'المسافة نحو 20 دقيقة بالسيارة.'}</p><div class="acts">${VIS.has(x.id) ? '' : `<button type="button" class="btn ok" data-visnext="${x.id}:${ni}">✓ زرتُه، انتقل إلى ${AREAS[n.area]}</button>`}<button type="button" class="btn" data-step="${ni}">انتقل إلى ${AREAS[n.area]}</button><a class="btn" href="${LEG(x, n, 'driving')}" target="_blank" rel="noopener">${ico('i-route')}الطريق بالسيارة</a></div></div>`;
   }
   const WALKO = ['hof', 'mkc', 'longchamp', 'kurt', 'dune', 'acc', 'tkmaxx', 'selft', 'mkt', 'fossil', 'guess', 'coacho', 'kate', 'kgo', 'mko', 'karl'];
   const wo = x => WALKO.indexOf(x.id);
@@ -806,7 +822,8 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   $('#sdPrev').onclick = () => { if (CUR > 0) { CUR--; showShop(); try { history.replaceState(null, '', '#' + SEQ[CUR].id); } catch (e) {} } };
   const stepNext = () => { if (CUR < SEQ.length - 1) { CUR++; showShop(); try { history.replaceState(null, '', '#' + SEQ[CUR].id); } catch (e) {} } };
   $('#sdNext').onclick = () => { const c = $('#sdBody .nextb.cross'); if (c && !c.classList.contains('seen')) { c.classList.add('seen', 'hl'); c.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => c.classList.remove('hl'), 1600); return; } stepNext(); };
-  $('#sdBody').addEventListener('click', e => { const t = e.target.closest('[data-step]'); if (t) { CUR = +t.dataset.step; showShop(); try { history.replaceState(null, '', '#' + SEQ[CUR].id); } catch (er) {} } });
+  $('#sdBody').addEventListener('click', e => { const v = e.target.closest('[data-visnext]'); if (v) { const [id, i] = v.dataset.visnext.split(':'); VIS.add(id); saveVis(); render(); CUR = +i; showShop(); try { history.replaceState(null, '', '#' + SEQ[CUR].id); } catch (er) {} return; }
+    const t = e.target.closest('[data-step]'); if (t) { CUR = +t.dataset.step; showShop(); try { history.replaceState(null, '', '#' + SEQ[CUR].id); } catch (er) {} } });
   sd.addEventListener('click', e => { if (e.target === sd) sd.close(); });
   sd.addEventListener('close', () => { try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} });
   let tx = null;
