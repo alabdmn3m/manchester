@@ -270,6 +270,8 @@ details.more[open] summary::after{content:"▴"}
 .favbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--surface);border:1.5px solid var(--gold);border-radius:12px;padding:10px 12px;margin-bottom:14px;font-size:.95rem}
 .dock{display:none}
 dialog.sheet{border:0;border-radius:18px 18px 0 0;margin:auto auto 0;width:100%;max-width:520px;padding:18px 16px calc(18px + env(safe-area-inset-bottom));background:var(--surface);color:var(--ink);box-shadow:0 -10px 30px rgba(0,0,0,.25)}
+html.locked{overflow:hidden}
+dialog.sheet,dialog.shop{overscroll-behavior:contain}
 dialog.sheet::backdrop{background:rgba(10,6,24,.5)}
 dialog.sheet h3{margin:0 0 10px;font-size:1.2rem}
 .sheet .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
@@ -589,6 +591,13 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
       hours: 'الإثنين إلى الجمعة 10:00–22:00، والسبت 10:00–21:00، والأحد 12:00–18:00', go: 'أوبر نحو 20 دقيقة من الفندق', addr: 'Unit 47, The Trafford Centre', place: 'ChIJp6WYt7yue0gRnX2j6fqKpq4', site: 'https://www.michaelkors.co.uk/' }
   ];
   const $ = s => document.querySelector(s);
+  /* lock the page behind any open dialog (iOS needs body fixed) and keep sheets above the keyboard */
+  let lockN = 0, lockY = 0;
+  const lock = () => { if (lockN++) return; lockY = scrollY; Object.assign(document.body.style, { position: 'fixed', top: `-${lockY}px`, left: '0', right: '0', width: '100%' }); document.documentElement.classList.add('locked'); };
+  const unlock = () => { if (!lockN || --lockN) return; Object.assign(document.body.style, { position: '', top: '', left: '', right: '', width: '' }); document.documentElement.classList.remove('locked'); scrollTo(0, lockY); };
+  document.querySelectorAll('dialog').forEach(d => { const o = d.showModal.bind(d); d.showModal = () => { if (d.open) return; o(); lock(); }; d.addEventListener('close', unlock); });
+  const vv = window.visualViewport;
+  if (vv) { const kb = () => { const k = Math.max(0, innerHeight - vv.height - vv.offsetTop); document.querySelectorAll('dialog.sheet[open]').forEach(d => { d.style.marginBottom = k > 60 ? `${k}px` : ''; }); }; vv.addEventListener('resize', kb); vv.addEventListener('scroll', kb); }
   const ico = n => `<svg class="ico"><use href="#${n}"/></svg>`;
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
   const st = { area: 'all', fit: 'all', open: false };
