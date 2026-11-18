@@ -9,7 +9,7 @@ self.addEventListener('activate', e => {
 });
 self.addEventListener('fetch', e => {
   const r = e.request; if (r.method !== 'GET') return;
-  const u = new URL(r.url); if (u.origin !== location.origin) return;
+  const u = new URL(r.url); if (u.origin !== location.origin || u.pathname.includes('/bags/')) return;
   if (r.mode === 'navigate' || u.pathname.endsWith('/') || u.pathname.endsWith('.html')) {
     e.respondWith(fetch(r).then(res => { if (res.ok) { const cp = res.clone(); caches.open(CORE).then(c => c.put('./index.html', cp)); } return res; })
       .catch(() => caches.match('./index.html')));
