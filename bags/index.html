@@ -86,6 +86,16 @@ h1,h2,h3{font-family:var(--f-display);font-weight:700}
 /* sections */
 main{padding-block:26px 40px}
 section{margin-block:0 30px}
+.hx{display:inline-grid;place-items:center;width:34px;height:38px;margin-inline-end:8px;vertical-align:-6px;color:var(--on-gold,#22104A);background:var(--gold);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+.hx .ico{width:18px;height:18px}
+.hcta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:#22104A;font-weight:700}
+.btn.ghost{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);color:var(--hero-ink)}
+.btn.ghost .ico{width:16px;height:16px}
+.rows .nm{display:flex;align-items:center;gap:10px}
+.mono{flex:none;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:.92rem;letter-spacing:.02em;color:#fff;direction:ltr}
+.mono.a-city{background:linear-gradient(135deg,#3B1C7A,#5B2DB0)}.mono.a-oaks{background:linear-gradient(135deg,#22104A,#3B1C7A);color:var(--gold)}.mono.a-trafford{background:linear-gradient(135deg,#1E3A8A,#2563EB)}
+.rows li.done .mono{opacity:.6}
 .sh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
 .sh h2{font-size:1.6rem;margin:0}
 .sh p{margin:0;color:var(--muted);font-size:.95rem}
@@ -320,7 +330,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
 .sign p{margin:4px 0 0;font-size:.9rem;color:var(--hero-muted);max-width:60ch}
 .sign a{color:var(--gold)}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-@media (max-width:820px){.tools{position:sticky;top:0;padding-block:8px;margin-inline:-16px;padding-inline:16px}.chips{flex-wrap:nowrap;gap:6px;overflow-x:auto;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}.chips + .chips{margin-top:6px}.chips .lbl{flex:none}.chip{flex:none;padding:5px 12px;min-height:36px}.verdict{grid-template-columns:1fr}.hero-top{grid-template-columns:1fr}.bagart{width:64px;order:-1}.grid{grid-template-columns:1fr}.count{margin-inline-start:6px}}
+@media (max-width:820px){.tools{position:sticky;top:0;padding-block:8px;margin-inline:-16px;padding-inline:16px}.chips{flex-wrap:nowrap;gap:6px;overflow-x:auto;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}.chips + .chips{margin-top:6px}.chips .lbl{flex:none}.chip{flex:none;padding:5px 12px;min-height:36px}.verdict{grid-template-columns:1fr}.hero-top{grid-template-columns:1fr}.bagart{position:absolute;top:-6px;inset-inline-end:0;width:58px}.hero-top{position:relative}.eyebrow{padding-inline-end:66px}.hero{padding-block:22px 18px}.facts{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.facts::-webkit-scrollbar{display:none}.facts>span{flex:none}.title{font-size:clamp(2.6rem,13vw,3.6rem)}.title small{margin-top:6px;font-size:1rem;line-height:1.6}.byline{margin-top:12px}.facts{margin-top:14px;gap:6px}.facts>span{font-size:.8rem;padding:4px 10px}.hcta .btn{flex:1;justify-content:center}.grid{grid-template-columns:1fr}.count{margin-inline-start:6px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -364,12 +374,14 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   <div class="wrap">
     <div class="hero-top">
       <div>
-        <div class="eyebrow"><b>دليل تسوّق للعائلة</b><span>مانشستر · نوفمبر <span class="num">2026</span></span></div>
+        <div class="eyebrow"><b>دليل تسوّق للعائلة</b><span>مانشستر · حُدِّث <span class="num">18</span> نوفمبر <span class="num">2026</span></span></div>
         <h1 class="title">شنط مانشستر<small>محلات موثوقة لشنط نسائية بجودة جيدة وأسعار مناسبة، في وسط المدينة وترافورد سنتر ومنافذ شيشاير أوكس.</small></h1>
+        <div class="hcta"><a class="btn gold" href="#s-h">ابدأوا بالمحلات<span aria-hidden="true">↓</span></a><button type="button" class="btn ghost" id="heroNear"><svg class="ico"><use href="#i-pin"/></svg>الأقرب إليّ</button></div>
         <a class="byline" href="#sign" aria-label="إعداد: عبدالرحمن العبدالمنعم"><span class="lgtile" aria-hidden="true"><svg viewBox="318 297 444 413"><use href="#lg-art"/></svg></span><span class="by-t"><small>إعداد</small><b>عبدالرحمن العبدالمنعم</b></span></a>
       </div>
       <svg class="bagart" viewBox="0 0 200 200" role="img" aria-label="شنطة">
         <path d="M100 8l78 45v94l-78 45-78-45V53z" fill="#F2B705" opacity=".14"/>
+        <path d="M100 30l58 33.5v67L100 164l-58-33.5v-67z" fill="none" stroke="#F2B705" stroke-width="2.5" opacity=".55"/>
         <path d="M74 78V64a26 26 0 0 1 52 0v14" fill="none" stroke="#FFF8E6" stroke-width="9" stroke-linecap="round"/>
         <path d="M48 78h104l-8 86a10 10 0 0 1-10 9H66a10 10 0 0 1-10-9z" fill="#F2B705"/>
         <path d="M48 78h104l-2 22H50z" fill="#22104A" opacity=".18"/>
@@ -379,14 +391,13 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
     <div class="facts">
       <span>الصرف: <b class="num">£1 = 4.97</b> ريال</span>
       <span><b class="num">16</b> محلًا في <b class="num">3</b> مناطق</span>
-      <span>آخر تحديث: <b class="num">18</b> نوفمبر <span class="num">2026</span></span>
     </div>
   </div>
 </header>
 
 <main class="wrap">
   <section aria-labelledby="v-h">
-    <div class="sh"><h2 id="v-h">الخلاصة</h2><p>إن كان وقتكم ضيقًا فهذه الثلاثة أولًا</p></div>
+    <div class="sh"><h2 id="v-h"><span class="hx" aria-hidden="true"><svg class="ico"><use href="#i-star"/></svg></span>الخلاصة</h2><p>إن كان وقتكم ضيقًا فهذه الثلاثة أولًا</p></div>
     <div class="verdict">
       <div class="box pick" role="button" tabindex="0" data-pk="longchamp"><span class="rk num">1</span><h3>لونشان «لو بلياج» في سيلفريدجز</h3><p class="why">أوضح قيمة في وسط المدينة: شنطة عملية خفيفة تُطوى، سعرها ثابت ومعلن، والمحل على بعد مشي.</p><div class="pr">من <span class="num">£85</span> إلى <span class="num">£145</span> (نحو <span class="num">422–721</span> ريال)</div><span class="pgo">التفاصيل ‹</span></div>
       <div class="box pick" role="button" tabindex="0" data-pk="tkmaxx"><span class="rk num">2</span><h3>تي كي ماكس في شارع Market</h3><p class="why">ماركات عالمية بخصم يصل إلى <span class="num">60%</span>، والمحل على بعد خطوات من أرنديل، ومعه دون وأكسسورايز للخيارات الأقل سعرًا.</p><div class="pr">أغلب الشنط تحت <span class="num">£100</span> (نحو <span class="num">497</span> ريال)</div><span class="pgo">التفاصيل ‹</span></div>
@@ -396,7 +407,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   </section>
 
   <section aria-labelledby="c-h" id="c-sec">
-    <div class="sh"><h2 id="c-h">محوّل العملة</h2><p>من الجنيه إلى الريال، أو العكس</p></div>
+    <div class="sh"><h2 id="c-h"><span class="hx" aria-hidden="true"><svg class="ico"><use href="#i-swap"/></svg></span>محوّل العملة</h2><p>من الجنيه إلى الريال، أو العكس</p></div>
     <div class="box conv">
       <button type="button" class="swap" id="sw1" aria-label="اعكس اتجاه التحويل"><svg class="ico"><use href="#i-swap"/></svg><span>اعكس: من الريال إلى الجنيه</span></button><label for="gbp" id="lb1">السعر £</label>
       <input id="gbp" type="number" inputmode="decimal" min="0" step="1" value="145">
@@ -406,7 +417,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   </section>
 
   <section aria-labelledby="s-h">
-    <div class="sh"><h2 id="s-h">المحلات</h2><p>مرتبة بترتيب المشي داخل كل منطقة</p></div>
+    <div class="sh"><h2 id="s-h"><span class="hx" aria-hidden="true"><svg class="ico"><use href="#i-bag"/></svg></span>المحلات</h2><p>مرتبة بترتيب المشي داخل كل منطقة</p></div>
     <div class="tools" role="group" aria-label="تصفية المحلات">
       <div class="tsumw"><button type="button" class="tsum" id="tsum" aria-expanded="false"><span id="tsumT"></span><b>تصفية ▾</b></button><button type="button" class="tnear" id="nearBtn2" aria-label="الأقرب إليّ"><svg class="ico"><use href="#i-pin"/></svg>الأقرب</button></div>
       <div class="chips" id="areaChips"><span class="lbl">المكان:</span></div>
@@ -421,12 +432,12 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   </section>
 
   <section aria-labelledby="r-h">
-    <div class="sh"><h2 id="r-h">جولة مقترحة</h2><p>بالترتيب الأوفر في المشي</p></div>
+    <div class="sh"><h2 id="r-h"><span class="hx" aria-hidden="true"><svg class="ico"><use href="#i-route"/></svg></span>جولة مقترحة</h2><p>بالترتيب الأوفر في المشي</p></div>
     <div class="tours" id="tours"></div>
   </section>
 
   <section aria-labelledby="t-h">
-    <div class="sh"><h2 id="t-h">نصائح قبل الشراء</h2><p>من خبرة التسوق في بريطانيا</p></div>
+    <div class="sh"><h2 id="t-h"><span class="hx" aria-hidden="true"><svg class="ico"><use href="#i-leaf"/></svg></span>نصائح قبل الشراء</h2><p>من خبرة التسوق في بريطانيا</p></div>
     <div class="tips">
       <div class="box"><h3>اشترِ من محل الماركة نفسه<span class="lvl">مؤكد</span></h3><p>أو من المتاجر الكبرى المعتمدة مثل سيلفريدجز. تجنّب البسطات والمحلات غير الرسمية، ففيها تقليد كثير.</p></div>
       <div class="box"><h3>لا استرداد للضريبة<span class="lvl">مؤكد حتى 2021 وما بعده</span></h3><p>ألغت بريطانيا استرداد ضريبة المشتريات للسائح منذ 1 يناير 2021، فالسعر على البطاقة هو ما تدفعه.</p></div>
@@ -615,6 +626,8 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   const FAV = new Set((() => { try { return JSON.parse(localStorage.getItem('bags-fav') || '[]'); } catch (e) { return []; } })());
   const VIS = new Set((() => { try { return JSON.parse(localStorage.getItem('bags-visited') || '[]'); } catch (e) { return []; } })());
   const saveVis = () => { try { localStorage.setItem('bags-visited', JSON.stringify([...VIS])); } catch (e) {} };
+  const MONO = { longchamp: 'LC', tkmaxx: 'TK', kgo: 'KG', guess: 'G', dune: 'D', acc: 'A', karl: 'KL', fossil: 'F', hof: 'HF', kurt: 'KG', kate: 'KS', mko: 'MK', coacho: 'C', selft: 'S', mkc: 'MK', mkt: 'MK' };
+  const mono = x => `<span class="mono a-${x.area}" aria-hidden="true">${MONO[x.id] || ''}</span>`;
   const shopLink = x => `<a class="shopl" href="${x.shop}" target="_blank" rel="noopener">${ico('i-ext')}<span>${x.deep ? `تصفّحوا الشنط في موقع ${esc(x.bn)}` : `تصفّحوا موقع ${esc(x.bn)}`}${x.area === 'oaks' ? '<small>أسعار الموقع أعلى عادة من المنفذ</small>' : ''}</span></a>`;
   const visBtn = x => `<button type="button" class="vis" data-vis="${x.id}" aria-pressed="${VIS.has(x.id)}">${VIS.has(x.id) ? '✓ زرتُه' : 'زرتُه؟'}</button>`;
   const saveFav = () => { try { localStorage.setItem('bags-fav', JSON.stringify([...FAV])); } catch (e) {} };
@@ -779,7 +792,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
   function row(x){ return withSar(row0(x)); }
   function row0(x){
     const n = nowTag(x).replace(/مغلق، يفتح غدًا [\d:]+/, 'مغلق').replace(/مغلق، يفتح ([\d:]+)/, 'يفتح $1').replace(/مفتوح حتى [\d:]+/, 'مفتوح');
-    return `<li id="r-${x.id}"${VIS.has(x.id) ? ' class="done"' : ''}><button class="sf" data-fav="${x.id}" aria-pressed="${FAV.has(x.id)}" aria-label="${FAV.has(x.id) ? 'في قائمتي' : 'أضف لقائمتي'}">${ico('i-star')}<span hidden></span></button><button class="nm" data-id="${x.id}"><b>${esc(x.ar)}${VIS.has(x.id) ? ' <span class="donetag">✓ زرتُه</span>' : ''}</b><small>${numify(esc(x.short))}</small></button><span class="rt"><b class="num">${x.rate[0].toFixed(1)} ★</b>${n}</span></li>`;
+    return `<li id="r-${x.id}"${VIS.has(x.id) ? ' class="done"' : ''}><button class="sf" data-fav="${x.id}" aria-pressed="${FAV.has(x.id)}" aria-label="${FAV.has(x.id) ? 'في قائمتي' : 'أضف لقائمتي'}">${ico('i-star')}<span hidden></span></button><button class="nm" data-id="${x.id}">${mono(x)}<span class="nmt"><b>${esc(x.ar)}${VIS.has(x.id) ? ' <span class="donetag">✓ زرتُه</span>' : ''}</b><small>${numify(esc(x.short))}</small></span></button><span class="rt"><b class="num">${x.rate[0].toFixed(1)} ★</b>${n}</span></li>`;
   }
   function render(){
     const xs = visible();
@@ -884,6 +897,7 @@ footer{background:var(--hero);color:var(--hero-ink);padding-block:26px}
     navigator.geolocation.getCurrentPosition(p => nearShow([p.coords.latitude, p.coords.longitude], 'من موقعكم الآن، والمفتوح أولًا'), () => { $('#nearBody').innerHTML = '<p class="nsub">لم نتمكن من تحديد موقعكم (ربما لم يُسمح بذلك). اختاروا مكانًا قريبًا منكم من القائمة أدناه.</p>'; }, { timeout: 10000, maximumAge: 60000 });
   };
   $('#nearBtn2').onclick = () => $('#nearBtn').onclick();
+  $('#heroNear').onclick = () => $('#nearBtn').onclick();
   $('#nearSel').onchange = e => { const v = e.target.value; if (!v) return; const o = v === 'hotel' ? HOTEL : S.find(x => x.id === v).ll; nearShow(o, `من ${e.target.selectedOptions[0].textContent}، والمفتوح أولًا`); };
   $('#nearX').onclick = () => nd.close();
   nd.addEventListener('click', e => { if (e.target === nd) nd.close(); });
