@@ -400,7 +400,8 @@ footer .credits li{margin-block:6px;font-size:.875rem}
 .steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;max-width:80ch}
 .steps li::before{content:counter(s);width:30px;height:30px;border-radius:9px;background:var(--gold);color:var(--on-gold);display:grid;place-items:center;font-weight:700;font-family:var(--f-body)}
 .lnk{all:unset;cursor:pointer;color:var(--violet);font-weight:700;border-bottom:1px dashed currentColor}
-.nearme{grid-column:1/-1;margin:0;scroll-margin-top:150px}.nearme .nmh{display:flex;align-items:center;justify-content:space-between;gap:8px}.nearme .nmh h5{margin:0}.nearme .nmx{padding:6px 10px}.nearme .nmp{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:10px;font-size:.9rem}.nearme .nmp select{max-width:100%;flex:1 1 200px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:7px 12px;font:inherit;font-size:1rem;min-height:40px}.nearme .nma{margin-top:10px}.nb .nbc{width:9px;height:9px;border-radius:50%;flex:none}.nb .nbs{font-size:.75rem;color:var(--bad);white-space:nowrap}.nb li.shut .lnk,.nb li.shut .nbm{opacity:.6}.nb .nbsep{margin-top:8px;padding-top:6px;border-top:1px dashed var(--line);font-size:.8rem;color:var(--muted)}
+.nearme{grid-column:1/-1;margin:0;scroll-margin-top:150px}.nearme .nmscope{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:8px 0 2px;padding:8px 10px;border-radius:10px;background:var(--surface-2);font-size:.9rem}.nearme .nmscope .btn{min-height:36px;padding:4px 12px;font-size:.85rem}
+.nearme .nmh{display:flex;align-items:center;justify-content:space-between;gap:8px}.nearme .nmh h5{margin:0}.nearme .nmx{padding:6px 10px}.nearme .nmp{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:10px;font-size:.9rem}.nearme .nmp select{max-width:100%;flex:1 1 200px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:7px 12px;font:inherit;font-size:1rem;min-height:40px}.nearme .nma{margin-top:10px}.nb .nbc{width:9px;height:9px;border-radius:50%;flex:none}.nb .nbs{font-size:.75rem;color:var(--bad);white-space:nowrap}.nb li.shut .lnk,.nb li.shut .nbm{opacity:.6}.nb .nbsep{margin-top:8px;padding-top:6px;border-top:1px dashed var(--line);font-size:.8rem;color:var(--muted)}
 .nb ul{list-style:none;margin:0;padding:0}.nb li{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--line)}.nb li:last-child{border-bottom:0}.nb li .lnk{flex:1;min-width:0}.nb .nbm{color:var(--muted);font-size:.85rem;white-space:nowrap}.nb .nbx{margin:8px 0 0;font-size:.9rem}.nb .nbx div{padding:2px 0}
 .lnk:focus-visible{outline:2px solid var(--gold)}
 .plans3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
@@ -2101,7 +2102,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     const counts = {}; PLACES.forEach(p => counts[p.cat] = (counts[p.cat]||0) + 1);
     const items = [['all','الكل',PLACES.length,'var(--ink)'], ...Object.entries(CATS).map(([k,v]) => [k, v.label, counts[k]||0, v.color])];
     $('#cats').innerHTML = items.map(([k,l,n,c]) => `<button class="cat" aria-pressed="${state.cat===k}" data-k="${k}"><span class="dot" style="background:${c}"></span>${l} <span class="n num">${n}</span></button>`).join('');
-    $('#cats').querySelectorAll('.cat').forEach(b => b.onclick = () => { state.cat = b.dataset.k; renderCats(); render(); });
+    $('#cats').querySelectorAll('.cat').forEach(b => b.onclick = () => { state.cat = b.dataset.k; renderCats(); render(); if (NM.from && !$('#nearMe').hidden) { NM.all = false; nmRender('list', ''); } });
   }
   function visible(){
     let list = PLACES.filter(p => (state.cat === 'all' || p.cat === state.cat)
@@ -2280,7 +2281,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     return `<div class="box nb"><h5>${icon('i-pin')}قريب من هنا</h5>${farOnly ? '<p class="muted" style="margin:0 0 4px">لا مكان من الدليل على مسافة مشي من هنا؛ هذه الأقرب:</p>' : ''}<ul>${top.map(o => row(o.x)).join('')}</ul>${ext ? `<div class="nbx">${ext}</div>` : ''}<p class="muted" style="margin:6px 0 0;font-size:.8rem">المسافة من هذا المكان لا من السكن، تقديرًا بالمشي.</p></div>`;
   }
   /* ── near me ── */
-  const NM = { from: null, label: '', gps: false };
+  const NM = { from: null, label: '', gps: false, all: false };
   function nmState(p){
     if (!p.hours || !['history','shop','food','sweet'].includes(p.cat)) return '';
     const N = mcrNow(), r = rangeOf(p.hours[new Date(Date.UTC(N.y, N.mo - 1, N.d)).getUTCDay()]);
@@ -2299,23 +2300,29 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     if (st === 'wait') body = '<p class="muted" style="margin:8px 0 0">جارٍ تحديد موقعك…</p>';
     else if (st === 'msg') body = `<p style="margin:8px 0 0">${msg}</p>`;
     else {
-      const o = NM.from, others = PLACES.filter(x => !x.far && x.id !== o.id).map(x => ({ x, d: hav(o, x) })).sort((a, b) => a.d - b.d);
+      const o = NM.from, scope = state.cat !== 'all' && !NM.all ? state.cat : null;
+      const others = PLACES.filter(x => !x.far && x.id !== o.id && (!scope || x.cat === scope)).map(x => ({ x, d: hav(o, x) })).sort((a, b) => a.d - b.d);
+      const allNear = scope ? PLACES.filter(x => !x.far && x.id !== o.id).map(x => ({ x, d: hav(o, x) })).sort((a, b) => a.d - b.d) : others;
       const cand = others.slice(0, 9).map(t => Object.assign(t, { st: nmState(t.x) }));
       const top = cand.filter(t => t.st !== 'c').slice(0, 6), shut = cand.filter(t => t.st === 'c').slice(0, Math.max(0, 6 - top.length) || 2);
       const inTop = x => top.concat(shut).some(t => t.x.id === x.id);
-      const near1 = f => (others.find(t => f(t.x)) || {}).x;
-      const food = near1(x => x.cat === 'food' && HALAL_OK.includes(x.hl)), mosque = near1(x => x.cat === 'mosque');
+      const near1 = f => (allNear.find(t => f(t.x)) || {}).x;
+      const food = scope === 'food' ? null : near1(x => x.cat === 'food' && HALAL_OK.includes(x.hl)), mosque = scope === 'mosque' ? null : near1(x => x.cat === 'mosque');
       const row = x => `<li${nmState(x) === 'c' ? ' class="shut"' : ''}><span class="nbc" style="background:${CATS[x.cat].color}" title="${esc(CATS[x.cat].label)}"></span><button class="lnk" data-open="${x.id}">${esc(x.ar)}</button>${hlTag(x)}${nmStatus(x)}<span class="nbm num">${nbDist(o, x)}</span></li>`;
       const ext = [food && !inTop(food) ? `<div>أقرب مطعم حلال: <button class="lnk" data-open="${food.id}">${esc(food.ar)}</button> <span class="nbm num">(${nbDist(o, food)})</span></div>` : '',
                    mosque && !inTop(mosque) ? `<div>أقرب مسجد: <button class="lnk" data-open="${mosque.id}">${esc(mosque.ar)}</button> <span class="nbm num">(${nbDist(o, mosque)})</span></div>` : ''].join('');
       const far = top.length && walkMin(o, top[0].x) > 30 ? 'لا مكان من الدليل على مسافة مشي من هنا؛ هذه الأقرب:' : '';
       const note = [msg, far].filter(Boolean).join(' ');
-      body = `${note ? `<p class="muted" style="margin:8px 0 4px">${note}</p>` : ''}<ul>${top.map(t => row(t.x)).join('')}</ul>${shut.length ? `<div class="nbsep">مغلق الآن</div><ul>${shut.map(t => row(t.x)).join('')}</ul>` : ''}${ext ? `<div class="nbx">${ext}</div>` : ''}`;
+      const scopeBar = state.cat === 'all' ? '' : `<div class="nmscope"><span>${scope ? `من فئة <b>${esc(CATS[scope].label)}</b> فقط` : 'من كل الفئات'}</span><button class="btn" id="nmAll">${scope ? 'اعرض كل الفئات' : `اعرض ${esc(CATS[state.cat].label)} فقط`}</button></div>`;
+      if (!others.length) { body = `${scopeBar}<p style="margin:8px 0 0">${scope === 'trip' ? 'رحلات اليوم خارج مانشستر، فلا معنى للقرب منها هنا. افتحها من قسم الرحلات.' : 'لا أماكن من هذه الفئة قريبة في الدليل.'}</p>`; }
+      else
+      body = `${scopeBar}${note ? `<p class="muted" style="margin:8px 0 4px">${note}</p>` : ''}<ul>${top.map(t => row(t.x)).join('')}</ul>${shut.length ? `<div class="nbsep">مغلق الآن</div><ul>${shut.map(t => row(t.x)).join('')}</ul>` : ''}${ext ? `<div class="nbx">${ext}</div>` : ''}`;
     }
     el.innerHTML = `<div class="nmh"><h5>${icon('i-pin')}${esc(st === 'list' ? NM.label : 'الأقرب إليّ')}</h5><button class="btn nmx" id="nmX" aria-label="إغلاق">${icon('i-x')}</button></div>${body}${st === 'list' && NM.gps ? `<div class="nma"><button class="btn" id="nmRe">${icon('i-pin')}حدّث موقعي</button></div>` : ''}${st !== 'wait' ? nmPick() : ''}<p class="muted" style="margin:8px 0 0;font-size:.8rem">موقعك يُحسب على جهازك ولا يُرسل لأي جهة، والأوقات تقدير بالمشي.</p>`;
     el.querySelectorAll('[data-open]').forEach(b => b.onclick = () => openPlace(b.dataset.open, NM.gps));
     $('#nmX').onclick = () => { el.hidden = true; el.innerHTML = ''; NM.from = null; NM.gps = false; if (NM.btn) NM.btn.focus(); };
     const re = $('#nmRe'); if (re) re.onclick = nmLocate;
+    const na = $('#nmAll'); if (na) na.onclick = () => { NM.all = !NM.all; nmRender('list', ''); };
     const s = $('#nmSel'); if (s) s.onchange = () => {
       if (!s.value) return;
       const home = s.value === '__home', p = home ? Object.assign({}, base(), { id: '__home' }) : PLACES.find(x => x.id === s.value);
@@ -3025,7 +3032,7 @@ const PICS = GAL.pics, BLOBS = GAL.blobs, PCRED = GAL.cred;
     $('#vList').onclick = () => { setV('list'); store.set('mcr-view', 'list'); };
     $('#vCards').onclick = () => { setV('cards'); store.set('mcr-view', 'cards'); }; }
   $('#favOnly').onclick = () => { state.favOnly = !state.favOnly; $('#favOnly').setAttribute('aria-pressed', state.favOnly); render(); };
-  document.querySelectorAll('[data-near]').forEach(b => b.onclick = () => { NM.btn = b; nmLocate(); $('#nearMe').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+  document.querySelectorAll('[data-near]').forEach(b => b.onclick = () => { NM.btn = b; NM.all = false; nmLocate(); $('#nearMe').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
   $('#mapBtn').onclick = () => { const ex = $('#explore'); const closed = ex.classList.toggle('map-closed'); $('#mapBtn').setAttribute('aria-expanded', !closed); $('#mapBtn span').textContent = closed ? 'اعرض الخريطة' : 'أخفِ الخريطة'; };
   $('#mvCenter').onclick = () => setView('center'); $('#mvWide').onclick = () => setView('wide');
   bidiFix(document.querySelector('.page'));
